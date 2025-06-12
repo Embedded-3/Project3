@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null">
+  <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Panel1">
+    <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xf11ead21eafc1e4a35e9b7ce1cf2c017f33b" ControlName="Switch / Indicator 1">
+      <Property Name="Name">Xf11ead21eafc1e4a35e9b7ce1cf2c017f33b</Property>
+      <Property Name="Size">197, 258</Property>
+      <Property Name="Location">92, 50</Property>
+      <Property Name="SymbolConfiguration">8;16;BB;;;BBB;1;;;-1;;;Value;;;0</Property>
+      <Property Name="ImageFile">steering_strip_color.png</Property>
+      <Property Name="TabIndex">1</Property>
+      <Property Name="Epsilon">0</Property>
+      <Property Name="Increment">1</Property>
+      <Property Name="StartValue">0</Property>
+      <Property Name="StateCnt">12</Property>
+      <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;12&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;&lt;RxValue&gt;2&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;2&lt;/TxValue&gt;&lt;RxValue&gt;3&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;3&lt;/TxValue&gt;&lt;RxValue&gt;4&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;4&lt;/TxValue&gt;&lt;RxValue&gt;5&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;5&lt;/TxValue&gt;&lt;RxValue&gt;6&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;6&lt;/TxValue&gt;&lt;RxValue&gt;7&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;7&lt;/TxValue&gt;&lt;RxValue&gt;8&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;8&lt;/TxValue&gt;&lt;RxValue&gt;9&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;9&lt;/TxValue&gt;&lt;RxValue&gt;10&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;10&lt;/TxValue&gt;&lt;RxValue&gt;11&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;11&lt;/TxValue&gt;</Property>
+      <Property Name="SwitchValuesVT">1;12;0/Lower/0;1/Lower/1;2/Lower/2;3/Lower/3;4/Lower/4;5/Lower/5;6/Lower/6;7/Lower/7;8/Lower/8;9/Lower/9;10/Lower/10;11/Lower/11</Property>
+      <Property Name="SwitchValues">1;12;0;1;2;3;4;5;6;7;8;9;10;11</Property>
+      <Property Name="SwitchValuesRx">1;12;0;1;2;3;4;5;6;7;8;9;10;11</Property>
+    </Object>
+    <Property Name="Name">Panel</Property>
+    <Property Name="Size">580, 355</Property>
+    <Property Name="Location">0, 0</Property>
+    <Property Name="BackColor">255, 255, 255, 255</Property>
+  </Object>
+</Panel>

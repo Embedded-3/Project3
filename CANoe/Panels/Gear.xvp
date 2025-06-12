@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=19.0.155.0, Culture=neutral, PublicKeyToken=null">
+  <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Gear">
+    <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X5a22f106ef134e454fe9e4eec5ebdafebd67" ControlName="Switch / Indicator 1">
+      <Property Name="Name">X5a22f106ef134e454fe9e4eec5ebdafebd67</Property>
+      <Property Name="Size">145, 189</Property>
+      <Property Name="Location">5, 0</Property>
+      <Property Name="SymbolConfiguration">8;16;Var;;;Gear_count;1;;;-1;;;Value;;;0</Property>
+      <Property Name="ImageFile">bmp\Gear.bmp</Property>
+      <Property Name="TabIndex">1</Property>
+      <Property Name="Activation">Left</Property>
+      <Property Name="Epsilon">0</Property>
+      <Property Name="Increment">1</Property>
+      <Property Name="StartValue">0</Property>
+      <Property Name="StateCnt">4</Property>
+      <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;4&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;&lt;RxValue&gt;2&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;2&lt;/TxValue&gt;&lt;RxValue&gt;3&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;3&lt;/TxValue&gt;</Property>
+      <Property Name="SwitchValuesVT">1;4;0/Lower/0;1/Lower/1;2/Lower/2;3/Lower/3</Property>
+      <Property Name="SwitchValues">1;4;0;1;2;3</Property>
+      <Property Name="SwitchValuesRx">1;4;0;1;2;3</Property>
+    </Object>
+    <Property Name="Name">Panel</Property>
+    <Property Name="Size">150, 190</Property>
+    <Property Name="Location">0, 0</Property>
+    <Property Name="BackColor">White</Property>
+  </Object>
+</Panel>
