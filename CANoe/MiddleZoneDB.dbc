@@ -1,0 +1,247 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: HVAC HU CLU MZCU MBCU
+VAL_TABLE_ vtbSensorReqCause 15 "SNA" 2 "by Request 2" 1 "by Request 1" 0 "normal cycle" ;
+VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
+
+
+BO_ 864 HVAC_OTAResult_STATUS_MSG: 1 HVAC
+ SG_ HVAC_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 608 HU_OTAResult_STATUS_MSG: 1 HU
+ SG_ HU_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 1120 CLU_OTAResult_STATUS_MSG: 1 CLU
+ SG_ CLU_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 352 MBCU_OTAResult_STATUS_MSG: 1 MBCU
+ SG_ MBCU_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 1044 MZCU_ADAS_Status_20MSG: 1 MZCU
+ SG_ LKAS_Active : 2|1@1+ (1,0) [0|0] ""  CLU
+ SG_ ESA_Active : 1|1@1+ (1,0) [0|0] ""  CLU
+ SG_ ADB_Active : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 628 HU_Alive_INFO_20MSG: 1 HU
+ SG_ HU_Alive : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 884 HVAC_Alive_INFO_20MSG: 1 HVAC
+ SG_ HVAC_Alive : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 1140 CLU_Alive_INFO_20MSG: 1 CLU
+ SG_ CLU_Alive : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 372 MBCU_Alive_INFO_20MSG: 1 MBCU
+ SG_ MBCU_Alive : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 64 MZCU_OTA_HVAC_MSG: 8 MZCU
+ SG_ HVAC_OTA : 0|64@1+ (1,0) [0|0] ""  HVAC
+
+BO_ 48 MZCU_OTA_HU_MSG: 8 MZCU
+ SG_ HU_OTA : 0|64@1+ (1,0) [0|0] ""  HU
+
+BO_ 32 MZCU_OTA_CLU_MSG: 8 MZCU
+ SG_ CLU_OTA : 0|64@1+ (1,0) [0|0] ""  CLU
+
+BO_ 16 MZCU_OTA_MBCU_MSG: 8 MZCU
+ SG_ MBCU_OTA : 0|64@1+ (1,0) [0|0] ""  MBCU
+
+BO_ 1027 MZCU_AlertSpeaker_CTL_MSG: 1 MZCU
+ SG_ AlertSpeaker : 0|1@1+ (1,0) [0|0] ""  MBCU
+
+BO_ 1025 MZCU_WakeUp_CTL_MSG: 1 MZCU
+ SG_ WakeUpSignal : 0|1@1+ (1,0) [0|0] ""  HU,MBCU
+
+BO_ 1137 MZCU_HLamp_CTL_MSG: 4 MZCU
+ SG_ RightTurn_Active : 3|1@1+ (1,0) [0|0] ""  MBCU
+ SG_ LowBeam_Active : 2|1@1+ (1,0) [0|0] ""  MBCU
+ SG_ LeftTurn_Active : 1|1@1+ (1,0) [0|0] ""  MBCU
+ SG_ HighBeam_Active : 0|1@1+ (1,0) [0|0] ""  MBCU
+
+BO_ 1106 MZCU_DoorOpenClose_CTL_MSG: 1 MZCU
+ SG_ DoorOpenClose_INFO : 0|1@1+ (1,0) [0|0] ""  MBCU
+
+BO_ 1092 MZCU_Battery_STATUS_100MSG: 1 MZCU
+ SG_ Battery_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 1076 MZCU_Transmission_STATUS_20MSG: 1 MZCU
+ SG_ Transmission_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 1058 MZCU_MotorRPM_INFO_20MSG: 8 MZCU
+ SG_ Right_Motor_RPM : 32|32@1- (1,0) [0|0] ""  CLU
+ SG_ Left_Motor_RPM : 0|32@1- (1,0) [0|0] ""  CLU
+
+BO_ 1026 MZCU_UpdateAlarm_INFO_MSG: 1 MZCU
+ SG_ Update_ID : 0|8@1+ (1,0) [0|0] ""  HU
+
+BO_ 850 HVAC_IntHumi_INFO_100MSG: 4 HVAC
+ SG_ Internal_Humidity : 0|32@1+ (1,0) [0|0] ""  CLU
+
+BO_ 834 HVAC_IntTemp_INFO_100MSG: 4 HVAC
+ SG_ Internal_Temperature : 0|32@1+ (1,0) [0|0] ""  CLU
+
+BO_ 820 HVAC_Mode_STATUS_100MSG: 1 HVAC
+ SG_ Hvac_Mode_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 788 HVAC_Heating_STATUS_100MSG: 1 HVAC
+ SG_ Heating_Output_Status : 1|7@1+ (1,0) [0|0] ""  CLU
+ SG_ Heating_OnOff_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 772 HVAC_AirCon_STATUS_100MSG: 1 HVAC
+ SG_ Aircon_Output_Status : 1|7@1+ (1,0) [0|0] ""  CLU
+ SG_ Aircon_OnOff_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 609 HU_ModeConvert_CTL_MSG: 2 HU
+ SG_ Internal_Mode : 1|1@1+ (1,0) [0|0] ""  HVAC
+ SG_ External_Mode : 0|1@1+ (1,0) [0|0] ""  HVAC
+
+BO_ 593 HU_Heating_CTL_MSG: 1 HU
+ SG_ Heating_Output : 1|7@1+ (1,0) [0|0] ""  HVAC
+ SG_ Heating_OnOff : 0|1@1+ (1,0) [0|0] ""  HVAC
+
+BO_ 577 HU_AirCon_CTL_MSG: 1 HU
+ SG_ AirCon_Output : 1|7@1+ (1,0) [0|0] ""  HVAC
+ SG_ AirCon_OnOff : 0|1@1+ (1,0) [0|0] ""  HVAC
+
+BO_ 561 HU_UpdateAcceptDecline_CTL_MSG: 1 HU
+ SG_ UpdateAcceptDecline_Signal : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 546 HU_ObsDetectDist_INFO_MSG: 1 HU
+ SG_ ObstacleDetectDistance_Signal : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 513 HU_SoundAlertOnOff_CTL_MSG: 1 HU
+ SG_ SoundAlertOnOff_Signal : 0|1@1+ (1,0) [0|0] ""  MZCU
+
+BO_ 356 MBCU_AlertSpeaker_STATUS_100MSG: 1 MBCU
+ SG_ AlertSpeaker_Output_Status : 0|1@1+ (1,0) [0|0] ""  HU
+
+BO_ 340 MBCU_HighBeam_STATUS_100MSG: 3 MBCU
+ SG_ HighBeam_OnOff : 0|1@1- (1,0) [0|0] ""  CLU
+ SG_ Right_HighBeam_Status : 16|8@1+ (1,0) [0|0] ""  CLU
+ SG_ Left_HighBeam_Status : 8|8@1+ (1,0) [0|0] ""  CLU
+
+BO_ 324 MBCU_LowBeam_STATUS_100MSG: 1 MBCU
+ SG_ LowBeam_OnOff : 0|1@1- (1,0) [0|0] ""  CLU
+
+BO_ 308 MBCU_BrakeLight_STATUS_100MSG: 1 MBCU
+ SG_ Brake_Light : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 292 MBCU_TurnLight_STATUS_100MSG: 1 MBCU
+ SG_ RightFront_Light : 1|1@1+ (1,0) [0|0] ""  CLU
+ SG_ LeftFront_Light : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 276 MBCU_Window_STATUS_100MSG: 1 MBCU
+ SG_ Window_RR_Status : 3|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Window_RL_Status : 2|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Window_FR_Status : 1|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Window_FL_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+BO_ 260 MBCU_Door_STATUS_100MSG: 1 MBCU
+ SG_ Door_RR_Status : 3|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Door_RL_Status : 2|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Door_FR_Status : 1|1@1+ (1,0) [0|0] ""  CLU
+ SG_ Door_FL_Status : 0|1@1+ (1,0) [0|0] ""  CLU
+
+
+
+BA_DEF_  "DatabaseVersion" STRING ;
+BA_DEF_ BO_  "DiagState" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagResponse" ENUM  "No","Yes","vector_leerstring";
+BA_DEF_ BO_  "DiagRequest" ENUM  "No","Yes","vector_leerstring";
+BA_DEF_  "Manufacturer" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ SG_  "GenSigStartValue" FLOAT 0 1215752192;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 100000;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","NotUsed","NotUsed","NotUsed","NotUsed","Cyclic","NotUsed","IfActive","NoMsgSendType","NotUsed","vector_leerstring";
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 999999;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 1000;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 50000;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 50000;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgFastOnStart" INT 0 100000;
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 100000;
+BA_DEF_DEF_  "DatabaseVersion" "";
+BA_DEF_DEF_  "DiagState" "No";
+BA_DEF_DEF_  "DiagResponse" "No";
+BA_DEF_DEF_  "DiagRequest" "No";
+BA_DEF_DEF_  "Manufacturer" "Vector";
+BA_DEF_DEF_  "NodeLayerModules" "CANoeILNLVector.dll";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 100;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
+BA_DEF_DEF_  "GenMsgILSupport" "Yes";
+BA_DEF_DEF_  "GenMsgFastOnStart" 0;
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
+BA_ "GenMsgCycleTime" BO_ 628 20;
+BA_ "GenMsgCycleTime" BO_ 884 20;
+BA_ "GenMsgCycleTime" BO_ 1140 20;
+BA_ "GenMsgCycleTime" BO_ 372 20;
+BA_ "GenMsgCycleTime" BO_ 1076 20;
+BA_ "GenMsgCycleTime" BO_ 1058 20;
+BA_ "GenMsgCycleTime" BO_ 356 100;
+BA_ "GenMsgCycleTime" BO_ 308 100;
+BA_ "GenSigSendType" SG_ 64 HVAC_OTA 7;
+BA_ "GenSigSendType" SG_ 48 HU_OTA 7;
+BA_ "GenSigSendType" SG_ 32 CLU_OTA 7;
+BA_ "GenSigSendType" SG_ 16 MBCU_OTA 7;
+BA_ "GenSigSendType" SG_ 1027 AlertSpeaker 7;
+BA_ "GenSigSendType" SG_ 1025 WakeUpSignal 7;
+BA_ "GenSigSendType" SG_ 1137 RightTurn_Active 7;
+BA_ "GenSigSendType" SG_ 1137 LowBeam_Active 7;
+BA_ "GenSigSendType" SG_ 1137 LeftTurn_Active 7;
+BA_ "GenSigSendType" SG_ 1137 HighBeam_Active 7;
+BA_ "GenSigSendType" SG_ 1106 DoorOpenClose_INFO 7;
+BA_ "GenSigSendType" SG_ 1026 Update_ID 7;
+BA_ "GenSigSendType" SG_ 609 Internal_Mode 7;
+BA_ "GenSigSendType" SG_ 609 External_Mode 7;
+BA_ "GenSigSendType" SG_ 593 Heating_Output 7;
+BA_ "GenSigSendType" SG_ 593 Heating_OnOff 7;
+BA_ "GenSigSendType" SG_ 577 AirCon_Output 7;
+BA_ "GenSigSendType" SG_ 577 AirCon_OnOff 7;
+BA_ "GenSigSendType" SG_ 561 UpdateAcceptDecline_Signal 7;
+BA_ "GenSigSendType" SG_ 546 ObstacleDetectDistance_Signal 7;
+BA_ "GenSigSendType" SG_ 513 SoundAlertOnOff_Signal 7;
+

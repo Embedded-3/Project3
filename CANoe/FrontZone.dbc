@@ -1,0 +1,188 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: MFS MDPS VCU ABS FZCU
+VAL_TABLE_ vtbSensorReqCause 15 "SNA" 2 "by Request 2" 1 "by Request 1" 0 "normal cycle" ;
+VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ Brake_Pedal_Pos : 0|7@1- (1,0) [0|100] "" Vector__XXX
+
+BO_ 372 VCU_Alive_INFO_20MSG: 1 VCU
+ SG_ VCU_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 884 MDPS_Alive_INFO_20MSG: 1 MDPS
+ SG_ MDPS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 628 ABS_Alive_INFO_20MSG: 1 ABS
+ SG_ ABS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 1140 MFS_Alive_INFO_20MSG: 1 MFS
+ SG_ MFS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 817 MDPS_RLTurnSignal_CTL_MSG: 8 MDPS
+ SG_ RightTurnSignal : 1|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ LeftTurnSignal : 0|1@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 801 MDPS_HLBeam_CTL_MSG: 1 MDPS
+ SG_ LowBeam : 1|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ HighBeam : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 788 MDPS_Switch_STATUS_10MSG: 1 MDPS
+ SG_ Mode_Button : 0|1@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 770 MDPS_Steering_INFO_10MSG: 2 MDPS
+ SG_ Steering_Torque : 8|8@1- (1,0) [0|255] "" Vector__XXX
+ SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] "" Vector__XXX
+
+BO_ 532 ABS_BrakeOutput_STATUS_10MSG: 1 ABS
+ SG_ Brake_Output : 0|7@1- (1,0) [0|100] "" Vector__XXX
+
+BO_ 289 VCU_AccPedal_CTL_10MSG: 2 VCU
+ SG_ Accel_Pedal_Pos : 0|7@1- (1,0) [0|100] "" Vector__XXX
+
+BO_ 308 VCU_Transmission_STATUS_1000MSG: 1 VCU
+ SG_ Gear_Position : 2|3@1- (1,0) [0|5] "" Vector__XXX
+ SG_ Drive_Mode : 0|2@1- (1,0) [0|2] "" Vector__XXX
+
+BO_ 324 VCU_VehicleStart_STATUS_100MSG: 1 VCU
+ SG_ Ignition_Status : 0|2@1- (1,0) [0|3] ""  FZCU
+
+BO_ 68 FZCU_OTA_MFS_MSG: 8 FZCU
+ SG_ MFS_OTA : 0|8@1+ (1,0) [0|0] ""  MFS
+
+BO_ 48 FZCU_OTA_MDPS_MSG: 8 FZCU
+ SG_ MDPS_OTA : 0|8@1+ (1,0) [0|0] ""  MDPS
+
+BO_ 32 FZCU_OTA_ABS_MSG: 8 FZCU
+ SG_ ABS_OTA : 0|8@1+ (1,0) [0|0] ""  ABS
+
+BO_ 16 FZCU_OTA_VCU_MSG: 8 FZCU
+ SG_ VCU_OTA : 0|8@1+ (1,0) [0|0] ""  VCU
+
+BO_ 1057 FZCU_Brake_CTL_10MSG: 1 FZCU
+ SG_ Brake_Control : 0|7@1- (1,0) [0|100] ""  ABS
+
+BO_ 1073 FZCU_WakeUp_CTL_MSG: 1 FZCU
+ SG_ FZCU_Wakeup : 0|1@1- (1,0) [0|0] ""  VCU,MFS,MDPS,ABS
+
+BO_ 1041 FZCU_Steering_CTL_MSG: 2 FZCU
+ SG_ Steering_Torque : 8|8@1- (1,0) [0|255] ""  MDPS
+ SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] ""  MDPS
+
+
+
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+BA_DEF_  "DatabaseVersion" STRING ;
+BA_DEF_ BO_  "DiagState" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagResponse" ENUM  "No","Yes","vector_leerstring";
+BA_DEF_ BO_  "DiagRequest" ENUM  "No","Yes","vector_leerstring";
+BA_DEF_  "Manufacturer" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ SG_  "GenSigStartValue" FLOAT 0 1215752192;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 100000;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","NotUsed","NotUsed","NotUsed","NotUsed","Cyclic","NotUsed","IfActive","NoMsgSendType","NotUsed","vector_leerstring";
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 999999;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 1000;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 50000;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 50000;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgFastOnStart" INT 0 100000;
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 100000;
+BA_DEF_DEF_  "DatabaseVersion" "";
+BA_DEF_DEF_  "DiagState" "No";
+BA_DEF_DEF_  "DiagResponse" "No";
+BA_DEF_DEF_  "DiagRequest" "No";
+BA_DEF_DEF_  "Manufacturer" "Vector";
+BA_DEF_DEF_  "NodeLayerModules" "CANoeILNLVector.dll";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 200;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
+BA_DEF_DEF_  "GenMsgILSupport" "Yes";
+BA_DEF_DEF_  "GenMsgFastOnStart" 0;
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_ "DatabaseVersion" "1.1";
+BA_ "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 372 20;
+BA_ "GenMsgSendType" BO_ 372 0;
+BA_ "GenMsgCycleTime" BO_ 884 20;
+BA_ "GenMsgSendType" BO_ 884 0;
+BA_ "GenMsgCycleTime" BO_ 628 20;
+BA_ "GenMsgSendType" BO_ 628 0;
+BA_ "GenMsgCycleTime" BO_ 1140 20;
+BA_ "GenMsgSendType" BO_ 1140 0;
+BA_ "GenMsgSendType" BO_ 788 0;
+BA_ "GenMsgCycleTime" BO_ 788 10;
+BA_ "GenMsgSendType" BO_ 770 0;
+BA_ "GenMsgCycleTime" BO_ 770 10;
+BA_ "GenMsgSendType" BO_ 532 0;
+BA_ "GenMsgCycleTime" BO_ 532 10;
+BA_ "GenMsgCycleTime" BO_ 289 10;
+BA_ "GenMsgSendType" BO_ 289 0;
+BA_ "GenMsgCycleTime" BO_ 308 1000;
+BA_ "GenMsgSendType" BO_ 308 0;
+BA_ "GenMsgCycleTime" BO_ 324 100;
+BA_ "GenMsgSendType" BO_ 324 0;
+BA_ "GenMsgCycleTime" BO_ 48 0;
+BA_ "GenMsgCycleTime" BO_ 32 0;
+BA_ "GenMsgCycleTime" BO_ 1057 10;
+BA_ "GenMsgSendType" BO_ 1057 0;
+BA_ "GenSigSendType" SG_ 3221225472 Brake_Pedal_Pos 7;
+BA_ "GenSigSendType" SG_ 372 VCU_Alive 7;
+BA_ "GenSigSendType" SG_ 817 RightTurnSignal 7;
+BA_ "GenSigSendType" SG_ 817 LeftTurnSignal 7;
+BA_ "GenSigSendType" SG_ 801 LowBeam 7;
+BA_ "GenSigSendType" SG_ 801 HighBeam 7;
+BA_ "GenSigSendType" SG_ 770 Steering_Torque 7;
+BA_ "GenSigSendType" SG_ 770 Steering_Angle 7;
+BA_ "GenSigSendType" SG_ 289 Accel_Pedal_Pos 0;
+BA_ "GenSigSendType" SG_ 308 Drive_Mode 7;
+BA_ "GenSigSendType" SG_ 68 MFS_OTA 7;
+BA_ "GenSigSendType" SG_ 48 MDPS_OTA 7;
+BA_ "GenSigSendType" SG_ 32 ABS_OTA 7;
+BA_ "GenSigSendType" SG_ 16 VCU_OTA 7;
+BA_ "GenSigSendType" SG_ 1073 FZCU_Wakeup 7;
+BA_ "GenSigSendType" SG_ 1041 Steering_Torque 7;
+BA_ "GenSigSendType" SG_ 1041 Steering_Angle 7;
+
