@@ -18,9 +18,9 @@
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X0d643424e430be45d4e8558e67cdeda5fb35" ControlName="Gear_LED">
       <Property Name="Name">X0d643424e430be45d4e8558e67cdeda5fb35</Property>
       <Property Name="Size">68, 89</Property>
-      <Property Name="Location">364, -6</Property>
+      <Property Name="Location">365, -6</Property>
       <Property Name="SymbolConfiguration">8;16;TEST;;;gear;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">gear_led.bmp</Property>
+      <Property Name="ImageFile">bmp\gear_led.bmp</Property>
       <Property Name="TabIndex">4</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -37,7 +37,7 @@
       <Property Name="Size">46, 60</Property>
       <Property Name="Location">461, 5</Property>
       <Property Name="SymbolConfiguration">8;16;TEST;;;right;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">right.bmp</Property>
+      <Property Name="ImageFile">bmp\right.bmp</Property>
       <Property Name="TabIndex">3</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -53,7 +53,7 @@
       <Property Name="Size">46, 60</Property>
       <Property Name="Location">290, 5</Property>
       <Property Name="SymbolConfiguration">8;16;TEST;;;left;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">left.bmp</Property>
+      <Property Name="ImageFile">bmp\left.bmp</Property>
       <Property Name="TabIndex">2</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -69,7 +69,7 @@
       <Property Name="Size">21, 27</Property>
       <Property Name="Location">386, 101</Property>
       <Property Name="SymbolConfiguration">8;16;TEST;;;low;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">low_power.bmp</Property>
+      <Property Name="ImageFile">bmp\low_power.bmp</Property>
       <Property Name="TabIndex">1</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -85,7 +85,7 @@
       <Property Name="Size">21, 27</Property>
       <Property Name="Location">386, 76</Property>
       <Property Name="SymbolConfiguration">8;16;TEST;;;LKA;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">LKA.bmp</Property>
+      <Property Name="ImageFile">bmp\LKA.bmp</Property>
       <Property Name="TabIndex">0</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -184,7 +184,7 @@
     <Property Name="Size">800, 332</Property>
     <Property Name="Location">0, 0</Property>
     <Property Name="BackColor">White</Property>
-    <Property Name="ImageFileName">Dashboard_background.png</Property>
+    <Property Name="ImageFileName">bmp\Dashboard_background.png</Property>
     <Property Name="IsProportional">True</Property>
   </Object>
 </Panel>
