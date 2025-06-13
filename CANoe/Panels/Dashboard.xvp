@@ -19,7 +19,7 @@
       <Property Name="Name">X0d643424e430be45d4e8558e67cdeda5fb35</Property>
       <Property Name="Size">68, 89</Property>
       <Property Name="Location">365, -6</Property>
-      <Property Name="SymbolConfiguration">8;16;TEST;;;gear;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;TEST;;;Gear_dash;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\gear_led.bmp</Property>
       <Property Name="TabIndex">4</Property>
       <Property Name="Activation">Left</Property>
@@ -36,7 +36,7 @@
       <Property Name="Name">Xb863d92be26b7e4362ebac3ed157e189b4da</Property>
       <Property Name="Size">46, 60</Property>
       <Property Name="Location">461, 5</Property>
-      <Property Name="SymbolConfiguration">8;16;TEST;;;right;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;TEST;;;Right;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\right.bmp</Property>
       <Property Name="TabIndex">3</Property>
       <Property Name="Activation">Left</Property>
@@ -52,7 +52,7 @@
       <Property Name="Name">Xefa8f1e9e6719e4aaaead2be9ac82461c533</Property>
       <Property Name="Size">46, 60</Property>
       <Property Name="Location">290, 5</Property>
-      <Property Name="SymbolConfiguration">8;16;TEST;;;left;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;TEST;;;Left;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\left.bmp</Property>
       <Property Name="TabIndex">2</Property>
       <Property Name="Activation">Left</Property>
@@ -68,7 +68,7 @@
       <Property Name="Name">Xea726fe1e166ce49d1ea373e8aa156e8de6f</Property>
       <Property Name="Size">21, 27</Property>
       <Property Name="Location">386, 101</Property>
-      <Property Name="SymbolConfiguration">8;16;TEST;;;low;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;TEST;;;Lowpower;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\low_power.bmp</Property>
       <Property Name="TabIndex">1</Property>
       <Property Name="Activation">Left</Property>
