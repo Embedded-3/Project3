@@ -1,0 +1,171 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("CLU: Sleep mode entered.");
+}
+
+// 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 CLU 깨움
+on message MZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("CLU: Wake-up triggered by CAN message.");
+    // CLU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $CLU_Alive = 1;
+    
+  }
+}
+
+// 2. OTA 메세지 대응
+on message MZCU_OTA_CLU_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
+// 3. Status
+on message MBCU_Door_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::DOOR::Door_FL_Status = this.Door_FL_Status;
+    @sysvar::MIDDLE::CLU::DOOR::Door_FR_Status = this.Door_FR_Status;
+    @sysvar::MIDDLE::CLU::DOOR::Door_RL_Status = this.Door_RL_Status;
+    @sysvar::MIDDLE::CLU::DOOR::Door_RR_Status = this.Door_RR_Status;
+  }    
+}
+
+on message MBCU_Window_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::WINDOW::Window_FL_Status = this.Window_FL_Status;
+    @sysvar::MIDDLE::CLU::WINDOW::Window_FR_Status = this.Window_FR_Status;
+    @sysvar::MIDDLE::CLU::WINDOW::Window_RL_Status = this.Window_RL_Status;
+    @sysvar::MIDDLE::CLU::WINDOW::Window_RR_Status = this.Window_RR_Status;
+  }
+}
+
+on message MBCU_TurnLight_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::LIGHT::LeftFront_Light = this.LeftFront_Light;
+    @sysvar::MIDDLE::CLU::LIGHT::RightFront_Light = this.RightFront_Light;
+  }
+}
+
+on message MBCU_BrakeLight_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::LIGHT::BrakeLight = this.Brake_Light;
+  }
+}
+
+on message MBCU_LowBeam_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::LIGHT::LowBeam_ONOFF = this.LowBeam_OnOff;
+  }
+}
+
+on message MBCU_HighBeam_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::LIGHT::HighBeam_ONOFF = this.HighBeam_OnOff;
+  }
+}
+
+on message MZCU_ADAS_Status_20MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::ADAS::LKAS_Status = this.LKAS_Active;
+    @sysvar::MIDDLE::CLU::ADAS::ESA_Status = this.ESA_Active;
+    @sysvar::MIDDLE::CLU::ADAS::ADB_Status = this.ADB_Active;
+  }
+}
+on message MZCU_MotorRPM_INFO_20MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::MOTORRPM::LeftMotor_RPM= this.Left_Motor_RPM;
+    @sysvar::MIDDLE::CLU::MOTORRPM::LeftMotor_RPM= this.Right_Motor_RPM;
+  }
+}
+on message MZCU_Transmission_STATUS_20MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::Transmission_Status = this.Transmission_Status;
+  }
+}
+
+on message MZCU_Battery_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::Battery_Status = this.Battery_Status;
+  }
+}
+
+on message HVAC_AirCon_STATUS_100MSG
+{
+   if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::HVAC::Aircon_ONOFF_Status = this.Aircon_OnOff_Status;
+  }
+}
+
+on message HVAC_Heating_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::HVAC::Heating_ONOFF_Status = this.Heating_OnOff_Status;
+  }
+}
+
+on message HVAC_Mode_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::HVAC::HVAC_Mode_Status = this.Hvac_Mode_Status;
+  }
+}
+
+on message HVAC_IntTemp_INFO_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::HVAC::Temperature_Status = this.Internal_Temperature;
+  }
+}
+
+on message HVAC_IntHumi_INFO_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::CLU::HVAC::Humidity_Status = this.Internal_Humidity;
+  }
+  
+}

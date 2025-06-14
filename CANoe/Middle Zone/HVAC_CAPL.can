@@ -1,0 +1,68 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+  int detectLine = 255;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("HVAC: Sleep mode entered.");
+  setTimerCyclic(loop, 50);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message HVAC_Mode_STATUS_100MSG mode_msg;
+    message HVAC_AirCon_STATUS_100MSG aircon_msg;
+    message HVAC_Heating_STATUS_100MSG heat_msg;
+    message HVAC_IntHumi_INFO_100MSG humi_msg;
+    message HVAC_IntTemp_INFO_100MSG temp_msg;
+    
+    mode_msg.Hvac_Mode_Status = @sysvar::MIDDLE::HVAC::HVAC_Mode;
+    aircon_msg.Aircon_OnOff_Status = @sysvar::MIDDLE::HVAC::Aircon_ONOFF;
+    heat_msg.Heating_OnOff_Status = @sysvar::MIDDLE::HVAC::Heating_ONOFF;
+    humi_msg.Internal_Humidity = @sysvar::MIDDLE::HVAC::Humidity;
+    temp_msg.Internal_Temperature = @sysvar::MIDDLE::HVAC::Temperature;
+    
+    output(mode_msg);
+    output(aircon_msg);
+    output(heat_msg);
+    output(humi_msg);
+    output(temp_msg);
+  }
+}
+
+// 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 HVAC 깨움
+on message MZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("HVAC: Wake-up triggered by CAN message.");
+    // HVAC_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $HVAC_Alive = 1;
+    
+  }
+}
+
+// 2. OTA 메세지 대응
+on message MZCU_OTA_HVAC_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  

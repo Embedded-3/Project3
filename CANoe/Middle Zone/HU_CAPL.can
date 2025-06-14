@@ -1,0 +1,111 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("HU: Sleep mode entered.");
+}
+
+// 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 HU 깨움
+on message MZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("HU: Wake-up triggered by CAN message.");
+    // HU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $HU_Alive = 1;
+    
+  }
+}
+
+// 2. OTA 메세지 대응
+on message MZCU_OTA_HU_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
+// 3. Run상태에서 SystemValue가 변경 될 때 CTL 메세지 전송
+on sysvar sysvar::MIDDLE::HU::Aircon_ONOFF_CTL
+{
+  if(isSleeping == 0)
+  {
+    message HU_AirCon_CTL_MSG aircon_msg;
+    aircon_msg.AirCon_OnOff = @sysvar::MIDDLE::HU::Aircon_ONOFF_CTL;
+    output(aircon_msg);
+  }
+}
+
+on sysvar sysvar::MIDDLE::HU::Heating_ONOFF_CTL
+{
+  if(isSleeping == 0)
+  {
+    message HU_Heating_CTL_MSG heat_msg;
+    heat_msg.Heating_OnOff = @sysvar::MIDDLE::HU::Heating_ONOFF_CTL;
+    output(heat_msg);
+  }
+}
+
+on sysvar sysvar::MIDDLE::HU::Mode_CTL
+{
+  if(isSleeping == 0)
+  {
+    message HU_ModeConvert_CTL_MSG mode_msg;
+    if(@MIDDLE::HU::Mode_CTL)
+    {
+      mode_msg.External_Mode = 0;
+      mode_msg.Internal_Mode = 1;
+    }
+    else
+    {
+      mode_msg.External_Mode = 0;
+      mode_msg.Internal_Mode = 1;
+    }
+    output(mode_msg);
+  }
+}
+
+
+on sysvar sysvar::MIDDLE::HU::ObstacleDetectionDistance
+{
+  if(isSleeping == 0)
+  {
+    message HU_ObsDetectDist_INFO_MSG dist_msg;
+    dist_msg.ObstacleDetectDistance_Signal = @MIDDLE::HU::ObstacleDetectionDistance;
+    output(dist_msg);
+  }
+}
+
+on sysvar sysvar::MIDDLE::HU::SoundAlert_ONOFF_CTL
+{
+  if(isSleeping == 0)
+  {
+    message HU_SoundAlertOnOff_CTL_MSG alert_msg;    
+    alert_msg.SoundAlertOnOff_Signal = @MIDDLE::HU::SoundAlert_ONOFF_CTL;
+    output(alert_msg);
+  }
+}
+
+on sysvar sysvar::MIDDLE::HU::UpdateAcceptanceDecline
+{
+  if(isSleeping == 0)
+  {
+    message HU_UpdateAcceptDecline_CTL_MSG update_msg;
+    update_msg.UpdateAcceptDecline_Signal = @MIDDLE::HU::UpdateAcceptanceDecline;
+    output(update_msg);
+  }
+}

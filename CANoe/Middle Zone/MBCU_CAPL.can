@@ -1,0 +1,106 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("MBCU: Sleep mode entered.");
+  setTimerCyclic(loop, 100);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message MBCU_AlertSpeaker_STATUS_100MSG alert_msg;
+    message MBCU_BrakeLight_STATUS_100MSG brake_msg;
+    message MBCU_Door_STATUS_100MSG door_msg;
+    message MBCU_HighBeam_STATUS_100MSG highBeam_msg;
+    message MBCU_LowBeam_STATUS_100MSG lowBeam_msg;
+    message MBCU_TurnLight_STATUS_100MSG turnLight_msg;
+    message MBCU_Window_STATUS_100MSG window_msg;
+    
+    alert_msg.AlertSpeaker_Output_Status = @sysvar::MIDDLE::MBCU::Alert_Status;
+    brake_msg.Brake_Light = @sysvar::MIDDLE::MBCU::HLAMP::BrakeLight_Status;
+    door_msg.Door_FL_Status = @sysvar::MIDDLE::MBCU::DOOR::Door_FL_Status;
+    door_msg.Door_FR_Status = @sysvar::MIDDLE::MBCU::DOOR::Door_FR_Status;
+    door_msg.Door_RL_Status = @sysvar::MIDDLE::MBCU::DOOR::Door_RL_Status;
+    door_msg.Door_RR_Status = @sysvar::MIDDLE::MBCU::DOOR::Door_RR_Status;
+    highBeam_msg.HighBeam_OnOff= @sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status;
+    highBeam_msg.Left_HighBeam_Status= @sysvar::MIDDLE::MBCU::HLAMP::LeftHighBeam_Status;
+    highBeam_msg.Right_HighBeam_Status= @sysvar::MIDDLE::MBCU::HLAMP::RightHighBeam_Status;
+    lowBeam_msg.LowBeam_OnOff = @sysvar::MIDDLE::MBCU::HLAMP::LowBeam_Status;
+    turnLight_msg.LeftFront_Light = @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status;
+    turnLight_msg.RightFront_Light = @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status;
+    window_msg.Window_FL_Status = @sysvar::MIDDLE::MBCU::WINDOW::Window_FL_Status;
+    window_msg.Window_FR_Status = @sysvar::MIDDLE::MBCU::WINDOW::Window_FR_Status;
+    window_msg.Window_RL_Status = @sysvar::MIDDLE::MBCU::WINDOW::Window_RL_Status;
+    window_msg.Window_RR_Status = @sysvar::MIDDLE::MBCU::WINDOW::Window_RR_Status;    
+    
+    output(alert_msg);
+    output(brake_msg);
+    output(door_msg);
+    output(highBeam_msg);
+    output(lowBeam_msg);
+    output(turnLight_msg);
+    output(window_msg);
+  }
+}
+
+// 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 MBCU 깨움
+on message MZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("MBCU: Wake-up triggered by CAN message.");
+    // MBCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $MBCU_Alive = 1;
+    
+  }
+}
+
+// 2. OTA 메세지 대응
+on message MZCU_OTA_MBCU_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
+on message MZCU_AlertSpeaker_CTL_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
+on message MZCU_DoorOpenClose_CTL_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
+on message MZCU_HLamp_CTL_MSG
+{
+  if(isSleeping == 0)
+  {
+    //OTA어디다 저장해?
+  }
+}  
+
