@@ -38,6 +38,10 @@ VAL_TABLE_ vtbSensorReqCause 15 "SNA" 2 "by Request 2" 1 "by Request 1" 0 "norma
 VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
 
 
+BO_ 35 MZCU_ADB_Lamp_CTL_MSG: 2 MZCU
+ SG_ RightHighBeam_CTL : 8|8@1- (1,0) [0|255] "" Vector__XXX
+ SG_ LeftHighBeam_CTL : 0|8@1- (1,0) [0|255] "" Vector__XXX
+
 BO_ 864 HVAC_OTAResult_STATUS_MSG: 1 HVAC
  SG_ HVAC_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
 
@@ -50,7 +54,7 @@ BO_ 1120 CLU_OTAResult_STATUS_MSG: 1 CLU
 BO_ 352 MBCU_OTAResult_STATUS_MSG: 1 MBCU
  SG_ MBCU_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
 
-BO_ 1044 MZCU_ADAS_Status_20MSG: 1 MZCU
+BO_ 20 MZCU_ADAS_Status_20MSG: 1 MZCU
  SG_ LKAS_Active : 2|1@1+ (1,0) [0|0] ""  CLU
  SG_ ESA_Active : 1|1@1+ (1,0) [0|0] ""  CLU
  SG_ ADB_Active : 0|1@1+ (1,0) [0|0] ""  CLU
@@ -79,28 +83,29 @@ BO_ 32 MZCU_OTA_CLU_MSG: 8 MZCU
 BO_ 16 MZCU_OTA_MBCU_MSG: 8 MZCU
  SG_ MBCU_OTA : 0|64@1+ (1,0) [0|0] ""  MBCU
 
-BO_ 1027 MZCU_AlertSpeaker_CTL_MSG: 1 MZCU
+BO_ 3 MZCU_AlertSpeaker_CTL_MSG: 1 MZCU
  SG_ AlertSpeaker : 0|1@1+ (1,0) [0|0] ""  MBCU
 
 BO_ 1025 MZCU_WakeUp_CTL_MSG: 1 MZCU
  SG_ WakeUpSignal : 0|1@1+ (1,0) [0|0] ""  HU,MBCU
 
-BO_ 1137 MZCU_HLamp_CTL_MSG: 4 MZCU
+BO_ 113 MZCU_HLamp_CTL_MSG: 4 MZCU
+ SG_ BrakeLight_Active : 8|1@1- (1,0) [0|1] "" Vector__XXX
  SG_ RightTurn_Active : 3|1@1+ (1,0) [0|0] ""  MBCU
  SG_ LowBeam_Active : 2|1@1+ (1,0) [0|0] ""  MBCU
  SG_ LeftTurn_Active : 1|1@1+ (1,0) [0|0] ""  MBCU
  SG_ HighBeam_Active : 0|1@1+ (1,0) [0|0] ""  MBCU
 
-BO_ 1106 MZCU_DoorOpenClose_CTL_MSG: 1 MZCU
+BO_ 82 MZCU_DoorOpenClose_CTL_MSG: 1 MZCU
  SG_ DoorOpenClose_INFO : 0|1@1+ (1,0) [0|0] ""  MBCU
 
-BO_ 1092 MZCU_Battery_STATUS_100MSG: 1 MZCU
+BO_ 68 MZCU_Battery_STATUS_100MSG: 1 MZCU
  SG_ Battery_Status : 0|1@1+ (1,0) [0|0] ""  CLU
 
 BO_ 1076 MZCU_Transmission_STATUS_20MSG: 1 MZCU
  SG_ Transmission_Status : 0|1@1+ (1,0) [0|0] ""  CLU
 
-BO_ 1058 MZCU_MotorRPM_INFO_20MSG: 8 MZCU
+BO_ 34 MZCU_MotorRPM_INFO_20MSG: 8 MZCU
  SG_ Right_Motor_RPM : 32|32@1- (1,0) [0|0] ""  CLU
  SG_ Left_Motor_RPM : 0|32@1- (1,0) [0|0] ""  CLU
 
@@ -213,27 +218,30 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "BusType" "CAN";
 BA_ "DatabaseVersion" "1.1";
+BA_ "BusType" "CAN";
 BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
 BA_ "GenMsgCycleTime" BO_ 372 20;
 BA_ "GenMsgCycleTime" BO_ 1076 20;
-BA_ "GenMsgCycleTime" BO_ 1058 20;
+BA_ "GenMsgCycleTime" BO_ 34 20;
 BA_ "GenMsgCycleTime" BO_ 356 100;
 BA_ "GenMsgCycleTime" BO_ 308 100;
+BA_ "GenSigSendType" SG_ 35 RightHighBeam_CTL 7;
+BA_ "GenSigSendType" SG_ 35 LeftHighBeam_CTL 7;
 BA_ "GenSigSendType" SG_ 64 HVAC_OTA 7;
 BA_ "GenSigSendType" SG_ 48 HU_OTA 7;
 BA_ "GenSigSendType" SG_ 32 CLU_OTA 7;
 BA_ "GenSigSendType" SG_ 16 MBCU_OTA 7;
-BA_ "GenSigSendType" SG_ 1027 AlertSpeaker 7;
+BA_ "GenSigSendType" SG_ 3 AlertSpeaker 7;
 BA_ "GenSigSendType" SG_ 1025 WakeUpSignal 7;
-BA_ "GenSigSendType" SG_ 1137 RightTurn_Active 7;
-BA_ "GenSigSendType" SG_ 1137 LowBeam_Active 7;
-BA_ "GenSigSendType" SG_ 1137 LeftTurn_Active 7;
-BA_ "GenSigSendType" SG_ 1137 HighBeam_Active 7;
-BA_ "GenSigSendType" SG_ 1106 DoorOpenClose_INFO 7;
+BA_ "GenSigSendType" SG_ 113 BrakeLight_Active 7;
+BA_ "GenSigSendType" SG_ 113 RightTurn_Active 7;
+BA_ "GenSigSendType" SG_ 113 LowBeam_Active 7;
+BA_ "GenSigSendType" SG_ 113 LeftTurn_Active 7;
+BA_ "GenSigSendType" SG_ 113 HighBeam_Active 7;
+BA_ "GenSigSendType" SG_ 82 DoorOpenClose_INFO 7;
 BA_ "GenSigSendType" SG_ 1026 Update_ID 7;
 BA_ "GenSigSendType" SG_ 609 Internal_Mode 7;
 BA_ "GenSigSendType" SG_ 609 External_Mode 7;

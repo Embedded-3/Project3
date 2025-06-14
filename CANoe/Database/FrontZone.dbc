@@ -41,42 +41,57 @@ VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ Brake_Pedal_Pos : 0|7@1- (1,0) [0|100] "" Vector__XXX
 
+BO_ 1124 MFS_OTAResult_STATUS_MSG: 1 MFS
+ SG_ MFS_OTAResult : 0|1@1- (1,0) [0|1] ""  FZCU
+
+BO_ 868 MDPS_OTAResult_STATUS_MSG: 1 MDPS
+ SG_ MDPS_OTAResult : 0|1@1- (1,0) [0|1] ""  FZCU
+
+BO_ 612 ABS_OTAResult_STATUS_MSG: 1 ABS
+ SG_ ABS_OTAResult : 0|1@1- (1,0) [0|1] ""  FZCU
+
+BO_ 356 VCU_OTAResult_STATUS_MSG: 1 VCU
+ SG_ VCU_OTAResult : 0|1@1- (1,0) [0|1] ""  FZCU
+
+BO_ 273 VCU_BrakePedal_CTL_10MSG: 1 VCU
+ SG_ Brake_Pedal_Pos : 0|7@1- (1,0) [0|100] ""  FZCU
+
 BO_ 372 VCU_Alive_INFO_20MSG: 1 VCU
- SG_ VCU_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ VCU_Alive : 0|1@1- (1,0) [0|1] ""  FZCU
 
 BO_ 884 MDPS_Alive_INFO_20MSG: 1 MDPS
- SG_ MDPS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ MDPS_Alive : 0|1@1- (1,0) [0|1] ""  FZCU
 
 BO_ 628 ABS_Alive_INFO_20MSG: 1 ABS
- SG_ ABS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ ABS_Alive : 0|1@1- (1,0) [0|1] ""  FZCU
 
 BO_ 1140 MFS_Alive_INFO_20MSG: 1 MFS
- SG_ MFS_Alive : 0|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ MFS_Alive : 0|1@1- (1,0) [0|1] ""  FZCU
 
 BO_ 817 MDPS_RLTurnSignal_CTL_MSG: 8 MDPS
- SG_ RightTurnSignal : 1|1@1- (1,0) [0|1] "" Vector__XXX
- SG_ LeftTurnSignal : 0|1@1- (1,0) [0|0] "" Vector__XXX
+ SG_ RightTurnSignal : 1|1@1- (1,0) [0|1] ""  FZCU
+ SG_ LeftTurnSignal : 0|1@1- (1,0) [0|0] ""  FZCU
 
 BO_ 801 MDPS_HLBeam_CTL_MSG: 1 MDPS
- SG_ LowBeam : 1|1@1- (1,0) [0|1] "" Vector__XXX
- SG_ HighBeam : 0|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ LowBeam : 1|1@1- (1,0) [0|1] ""  FZCU
+ SG_ HighBeam : 0|1@1- (1,0) [0|1] ""  FZCU
 
 BO_ 788 MDPS_Switch_STATUS_10MSG: 1 MDPS
- SG_ Mode_Button : 0|1@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Mode_Button : 0|1@1- (1,0) [0|0] ""  FZCU
 
 BO_ 770 MDPS_Steering_INFO_10MSG: 2 MDPS
- SG_ Steering_Torque : 8|8@1- (1,0) [0|255] "" Vector__XXX
- SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] "" Vector__XXX
+ SG_ Steering_Torque : 8|8@1- (1,0) [0|255] ""  FZCU
+ SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] ""  FZCU
 
 BO_ 532 ABS_BrakeOutput_STATUS_10MSG: 1 ABS
- SG_ Brake_Output : 0|7@1- (1,0) [0|100] "" Vector__XXX
+ SG_ Brake_Output : 0|7@1- (1,0) [0|100] ""  FZCU
 
 BO_ 289 VCU_AccPedal_CTL_10MSG: 2 VCU
- SG_ Accel_Pedal_Pos : 0|7@1- (1,0) [0|100] "" Vector__XXX
+ SG_ Accel_Pedal_Pos : 0|7@1- (1,0) [0|100] ""  FZCU
 
 BO_ 308 VCU_Transmission_STATUS_1000MSG: 1 VCU
- SG_ Gear_Position : 2|3@1- (1,0) [0|5] "" Vector__XXX
- SG_ Drive_Mode : 0|2@1- (1,0) [0|2] "" Vector__XXX
+ SG_ Gear_Position : 2|3@1- (1,0) [0|5] ""  FZCU
+ SG_ Drive_Mode : 0|2@1- (1,0) [0|2] ""  FZCU
 
 BO_ 324 VCU_VehicleStart_STATUS_100MSG: 1 VCU
  SG_ Ignition_Status : 0|2@1- (1,0) [0|3] ""  FZCU
@@ -93,13 +108,13 @@ BO_ 32 FZCU_OTA_ABS_MSG: 8 FZCU
 BO_ 16 FZCU_OTA_VCU_MSG: 8 FZCU
  SG_ VCU_OTA : 0|8@1+ (1,0) [0|0] ""  VCU
 
-BO_ 1057 FZCU_Brake_CTL_10MSG: 1 FZCU
+BO_ 33 FZCU_Brake_CTL_10MSG: 1 FZCU
  SG_ Brake_Control : 0|7@1- (1,0) [0|100] ""  ABS
 
-BO_ 1073 FZCU_WakeUp_CTL_MSG: 1 FZCU
+BO_ 49 FZCU_WakeUp_CTL_MSG: 1 FZCU
  SG_ FZCU_Wakeup : 0|1@1- (1,0) [0|0] ""  VCU,MFS,MDPS,ABS
 
-BO_ 1041 FZCU_Steering_CTL_MSG: 2 FZCU
+BO_ 17 FZCU_Steering_CTL_MSG: 2 FZCU
  SG_ Steering_Torque : 8|8@1- (1,0) [0|255] ""  MDPS
  SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] ""  MDPS
 
@@ -166,9 +181,14 @@ BA_ "GenMsgCycleTime" BO_ 324 100;
 BA_ "GenMsgSendType" BO_ 324 0;
 BA_ "GenMsgCycleTime" BO_ 48 0;
 BA_ "GenMsgCycleTime" BO_ 32 0;
-BA_ "GenMsgCycleTime" BO_ 1057 10;
-BA_ "GenMsgSendType" BO_ 1057 0;
+BA_ "GenMsgCycleTime" BO_ 33 10;
+BA_ "GenMsgSendType" BO_ 33 0;
 BA_ "GenSigSendType" SG_ 3221225472 Brake_Pedal_Pos 7;
+BA_ "GenSigSendType" SG_ 1124 MFS_OTAResult 7;
+BA_ "GenSigSendType" SG_ 868 MDPS_OTAResult 7;
+BA_ "GenSigSendType" SG_ 612 ABS_OTAResult 7;
+BA_ "GenSigSendType" SG_ 356 VCU_OTAResult 7;
+BA_ "GenSigSendType" SG_ 273 Brake_Pedal_Pos 7;
 BA_ "GenSigSendType" SG_ 372 VCU_Alive 7;
 BA_ "GenSigSendType" SG_ 817 RightTurnSignal 7;
 BA_ "GenSigSendType" SG_ 817 LeftTurnSignal 7;
@@ -182,7 +202,7 @@ BA_ "GenSigSendType" SG_ 68 MFS_OTA 7;
 BA_ "GenSigSendType" SG_ 48 MDPS_OTA 7;
 BA_ "GenSigSendType" SG_ 32 ABS_OTA 7;
 BA_ "GenSigSendType" SG_ 16 VCU_OTA 7;
-BA_ "GenSigSendType" SG_ 1073 FZCU_Wakeup 7;
-BA_ "GenSigSendType" SG_ 1041 Steering_Torque 7;
-BA_ "GenSigSendType" SG_ 1041 Steering_Angle 7;
+BA_ "GenSigSendType" SG_ 49 FZCU_Wakeup 7;
+BA_ "GenSigSendType" SG_ 17 Steering_Torque 7;
+BA_ "GenSigSendType" SG_ 17 Steering_Angle 7;
 

@@ -60,14 +60,14 @@ BO_ 274 USS_UltraSoundVal_INFO_50MSG: 2 USS
  SG_ RightRear_UltraSoundVal : 8|8@1+ (1,0) [0|255] ""  RZCU
  SG_ LeftRear_UltraSoundVal : 0|8@1+ (1,0) [0|255] ""  RZCU
 
-BO_ 785 RZCU_Wheel_CTL_MSG: 4 RZCU
+BO_ 17 RZCU_Wheel_CTL_MSG: 4 RZCU
  SG_ RightRear_RPM : 16|16@1- (1,0) [-32768|32767] ""  MCU
  SG_ LeftRear_RPM : 0|16@1- (1,0) [-32768|32767] ""  MCU
 
-BO_ 801 RZCU_WakeUp_CTL_MSG: 1 RZCU
+BO_ 33 RZCU_WakeUp_CTL_MSG: 1 RZCU
  SG_ RearZone_WakeUp : 0|1@1+ (1,0) [0|1] ""  MCU,RBCU,RZCU,USS
 
-BO_ 817 RZCU_TurnLight_CTL_MSG: 1 RZCU
+BO_ 49 RZCU_TurnLight_CTL_MSG: 1 RZCU
  SG_ RightRear_Light : 1|1@1+ (1,0) [0|1] ""  RBCU
  SG_ LeftRear_Light : 0|1@1+ (1,0) [0|1] ""  RBCU
 
@@ -80,10 +80,10 @@ BO_ 16 RZCU_OTA_RBCU_MSG: 8 RZCU
 BO_ 48 RZCU_OTA_MCU_MSG: 8 RZCU
  SG_ MCU_OTA : 0|64@1+ (1,0) [0|1.84467440737096E+19] ""  MCU
 
-BO_ 865 RZCU_ObsDetectDist_CTL_MSG: 1 RZCU
+BO_ 97 RZCU_ObsDetectDist_CTL_MSG: 1 RZCU
  SG_ ObstacleDetection_Distance : 0|8@1+ (1,0) [0|255] ""  USS
 
-BO_ 833 RZCU_BrakeLight_CTL_MSG: 1 RZCU
+BO_ 65 RZCU_BrakeLight_CTL_MSG: 1 RZCU
  SG_ Rear_BrakeLight : 0|1@1+ (1,0) [0|0] ""  RBCU
 
 BO_ 516 MCU_RearMotor_STATUS_20MSG: 6 MCU
@@ -135,32 +135,32 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "BusType" "CAN";
 BA_ "DatabaseVersion" "1.1";
-BA_ "GenMsgSendType" BO_ 628 0;
+BA_ "BusType" "CAN";
 BA_ "GenMsgCycleTime" BO_ 628 20;
-BA_ "GenMsgSendType" BO_ 376 0;
+BA_ "GenMsgSendType" BO_ 628 0;
 BA_ "GenMsgCycleTime" BO_ 376 20;
-BA_ "GenMsgSendType" BO_ 884 0;
+BA_ "GenMsgSendType" BO_ 376 0;
 BA_ "GenMsgCycleTime" BO_ 884 20;
-BA_ "GenMsgSendType" BO_ 274 0;
-BA_ "GenMsgCycleTime" BO_ 274 50;
+BA_ "GenMsgSendType" BO_ 884 0;
 BA_ "GenMsgCycleTimeFast" BO_ 274 50;
-BA_ "GenMsgCycleTime" BO_ 516 20;
+BA_ "GenMsgCycleTime" BO_ 274 50;
+BA_ "GenMsgSendType" BO_ 274 0;
 BA_ "GenMsgSendType" BO_ 516 0;
-BA_ "GenMsgCycleTimeFast" BO_ 804 100;
-BA_ "GenMsgCycleTime" BO_ 804 100;
+BA_ "GenMsgCycleTime" BO_ 516 20;
 BA_ "GenMsgSendType" BO_ 804 0;
+BA_ "GenMsgCycleTime" BO_ 804 100;
+BA_ "GenMsgCycleTimeFast" BO_ 804 100;
 BA_ "GenSigSendType" SG_ 608 MCU_OTAResult 7;
 BA_ "GenSigSendType" SG_ 352 USS_OTAResult 7;
 BA_ "GenSigSendType" SG_ 864 RBCU_OTAResult 7;
-BA_ "GenSigSendType" SG_ 785 RightRear_RPM 7;
-BA_ "GenSigSendType" SG_ 801 RearZone_WakeUp 7;
-BA_ "GenSigSendType" SG_ 817 RightRear_Light 7;
-BA_ "GenSigSendType" SG_ 817 LeftRear_Light 7;
+BA_ "GenSigSendType" SG_ 17 RightRear_RPM 7;
+BA_ "GenSigSendType" SG_ 33 RearZone_WakeUp 7;
+BA_ "GenSigSendType" SG_ 49 RightRear_Light 7;
+BA_ "GenSigSendType" SG_ 49 LeftRear_Light 7;
 BA_ "GenSigSendType" SG_ 32 USS_OTA 7;
 BA_ "GenSigSendType" SG_ 16 RBCU_OTA 7;
 BA_ "GenSigSendType" SG_ 48 MCU_OTA 7;
-BA_ "GenSigSendType" SG_ 865 ObstacleDetection_Distance 7;
-BA_ "GenSigSendType" SG_ 833 Rear_BrakeLight 7;
+BA_ "GenSigSendType" SG_ 97 ObstacleDetection_Distance 7;
+BA_ "GenSigSendType" SG_ 65 Rear_BrakeLight 7;
 
