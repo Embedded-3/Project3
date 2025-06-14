@@ -1,0 +1,32 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("MFS: Sleep mode entered.");
+}
+
+// 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 MDPS 깨움
+on message FZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("MFS: Wake-up triggered by CAN message.");
+    // MFS_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $MFS_Alive = 1;
+    
+  }
+}
+
+

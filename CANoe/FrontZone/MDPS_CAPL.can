@@ -1,0 +1,92 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("MDPS: Sleep mode entered.");
+  setTimerCyclic(loop, 10);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message MDPS_Steering_INFO_10MSG steering_msg;
+    message MDPS_Switch_STATUS_10MSG switch_msg;
+    steering_msg.Steering_Angle = @sysvar::FRONT::MDPS::SteeringAngle;
+    switch_msg.Mode_Button = @sysvar::FRONT::MDPS::ADAS_Button;
+    
+    output(steering_msg);
+    output(switch_msg); 
+  }
+}
+
+// 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 MDPS 깨움
+on message FZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("MDPS: Wake-up triggered by CAN message.");
+    // MDPS_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $MDPS_Alive = 1;
+    
+  }
+}
+
+// 2. 메세지로 패널의 스티어링 휠 각도 변경
+on message FZCU_Steering_CTL_MSG
+{
+  @sysvar::FRONT::MDPS::SteeringAngle = this.Steering_Angle;
+}
+
+
+// 3. 방향 지시등 버튼 클릭 시 메세지 전송
+on sysvar sysvar::FRONT::MDPS::LeftLight
+{
+  message MDPS_RLTurnSignal_CTL_MSG myMsg;
+  myMsg.LeftTurnSignal = @this;
+  myMsg.RightTurnSignal =@FRONT::MDPS::RightLight;
+  output(myMsg);
+}
+
+on sysvar sysvar::FRONT::MDPS::RightLight
+{
+  message MDPS_RLTurnSignal_CTL_MSG myMsg;
+  myMsg.LeftTurnSignal = @sysvar::FRONT::MDPS::LeftLight;
+  myMsg.RightTurnSignal = @this;
+  output(myMsg);
+}
+
+// 4. 헤드램프 버튼 클릭 시 메세지 전송
+on sysvar sysvar::FRONT::MDPS::HighBeem
+{
+  message MDPS_HLBeam_CTL_MSG myMsg;
+  myMsg.HighBeam = @this;
+  myMsg.LowBeam =@sysvar::FRONT::MDPS::LowBeem;
+  output(myMsg);
+}
+
+on sysvar sysvar::FRONT::MDPS::LowBeem
+{
+  message MDPS_HLBeam_CTL_MSG myMsg;
+  myMsg.HighBeam = @sysvar::FRONT::MDPS::HighBeem;
+  myMsg.LowBeam = @this;
+  output(myMsg);
+}
+
+
+
+

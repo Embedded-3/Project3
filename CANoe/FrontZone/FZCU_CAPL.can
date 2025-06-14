@@ -1,0 +1,14 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+//OTA 메세지를 받은 경우 -> OTA 메세지 전송
+
+//wake up 
