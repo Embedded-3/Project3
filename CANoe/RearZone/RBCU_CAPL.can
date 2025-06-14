@@ -1,0 +1,64 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+  int timerCnt = 0;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("RBCU: Sleep mode entered.");
+  setTimerCyclic(loop, 100);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message RBCU_TailLamp_STATUS_100MSG lampStatus_msg;
+    lampStatus_msg.LeftRear_TurnSignal_Status = @sysvar::REAR::RBCU::LR_TurnSignalLight;
+    lampStatus_msg.RightRear_TurnSignal_Status = @sysvar::REAR::RBCU::RR_TurnSignalLight;
+    lampStatus_msg.Brake_Light_Status = @sysvar::REAR::RBCU::BrakeLight;
+    output(lampStatus_msg);
+  }
+}
+
+// 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 RBCU 깨움
+on message RZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("RBCU: Wake-up triggered by CAN message.");
+    // RBCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $RBCU_Alive = 1;
+  }
+}
+
+// 2. RZCU_TurnLight_CTL_MSG 메시지 수신 시 시스템 변수 변경 - 방향 지시등
+on message RZCU_TurnLight_CTL_MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::REAR::RBCU::LR_TurnSignalLight = this.LeftRear_Light;
+    @sysvar::REAR::RBCU::RR_TurnSignalLight = this.LeftRear_Light;
+  }
+}
+
+// 3. RZCU_BrakeLight_CTL_MSG 메시지 수신 시 시스템 변수 변경 - 방향 지시등
+on message RZCU_BrakeLight_CTL_MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::REAR::RBCU::BrakeLight = this.Rear_BrakeLight;
+  }
+}

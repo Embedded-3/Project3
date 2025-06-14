@@ -1,0 +1,55 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+  int timerCnt = 0;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("MCU: Sleep mode entered.");
+  setTimerCyclic(loop, 20);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message MCU_RearMotor_STATUS_20MSG motor_msg;
+    motor_msg.LeftRear_MotorRPM = @sysvar::REAR::MCU::LRM_RPM;
+    motor_msg.RightRear_MotorRPM = @sysvar::REAR::MCU::RRM_RPM;
+    output(motor_msg);
+  }
+}
+
+// 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 MCU 깨움
+on message RZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("MCU: Wake-up triggered by CAN message.");
+    // MCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $MCU_Alive = 1;
+    
+  }
+}
+
+// 2. RZCU_Wheel_CTL_10MSG 메세지 수신 시 RPM 시스템 변수 변경
+on message RZCU_Wheel_CTL_MSG
+{
+  if(isSleeping)
+  {
+    @sysvar::REAR::MCU::LRM_RPM =  this.LeftRear_RPM;
+    @sysvar::REAR::MCU::RRM_RPM =  this.RightRear_RPM;
+  }
+}

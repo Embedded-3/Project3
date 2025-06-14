@@ -1,0 +1,48 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int isSleeping = 1; // 초기 상태는 절전
+  msTimer loop;
+  int detectLine = 255;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  isSleeping = 1;
+  write("USS: Sleep mode entered.");
+  setTimerCyclic(loop, 50);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(isSleeping == 0)
+  {
+    message USS_UltraSoundVal_INFO_50MSG us_msg;
+    us_msg.LeftRear_UltraSoundVal = @sysvar::REAR::USS::LR_US;
+    us_msg.RightRear_UltraSoundVal = @sysvar::REAR::USS::RR_US;
+    output(us_msg);
+  }
+}
+
+// 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 USS 깨움
+on message RZCU_WakeUp_CTL_MSG
+{
+  if (isSleeping)
+  {
+    isSleeping = 0;
+    write("USS: Wake-up triggered by CAN message.");
+    // USS_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $USS_Alive = 1;
+    
+  }
+}
+
+// 2. 감지 거리 설정 -> HPC에서 저장하면 되는거 아닌가.../?
+//on message RZCU_ObsDetectDist_CTL_MSG
