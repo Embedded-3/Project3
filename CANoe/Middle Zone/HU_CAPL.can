@@ -40,22 +40,22 @@ on message MZCU_OTA_HU_MSG
 }  
 
 // 3. Run상태에서 SystemValue가 변경 될 때 CTL 메세지 전송
-on sysvar sysvar::MIDDLE::HU::Aircon_ONOFF_CTL
+on sysvar sysvar::MIDDLE::HU::HVAC::Aircon_ONOFF_CTL
 {
   if(isSleeping == 0)
   {
     message HU_AirCon_CTL_MSG aircon_msg;
-    aircon_msg.AirCon_OnOff = @sysvar::MIDDLE::HU::Aircon_ONOFF_CTL;
+    aircon_msg.AirCon_OnOff = @sysvar::MIDDLE::HU::HVAC::Aircon_ONOFF_CTL;
     output(aircon_msg);
   }
 }
 
-on sysvar sysvar::MIDDLE::HU::Heating_ONOFF_CTL
+on sysvar sysvar::MIDDLE::HU::HVAC::Heating_ONOFF_CTL
 {
   if(isSleeping == 0)
   {
     message HU_Heating_CTL_MSG heat_msg;
-    heat_msg.Heating_OnOff = @sysvar::MIDDLE::HU::Heating_ONOFF_CTL;
+    heat_msg.Heating_OnOff = @sysvar::MIDDLE::HU::HVAC::Heating_ONOFF_CTL;
     output(heat_msg);
   }
 }
@@ -108,4 +108,46 @@ on sysvar sysvar::MIDDLE::HU::UpdateAcceptanceDecline
     update_msg.UpdateAcceptDecline_Signal = @MIDDLE::HU::UpdateAcceptanceDecline;
     output(update_msg);
   }
+}
+
+
+on message HVAC_AirCon_STATUS_100MSG
+{
+   if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::HU::HVAC::Aircon_ONOFF_Status = this.Aircon_OnOff_Status;
+  }
+}
+
+on message HVAC_Heating_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::HU::HVAC::Heating_ONOFF_Status = this.Heating_OnOff_Status;
+  }
+}
+
+on message HVAC_Mode_STATUS_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::HU::HVAC::HVAC_Mode_Status = this.Hvac_Mode_Status;
+  }
+}
+
+on message HVAC_IntTemp_INFO_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::HU::HVAC::Temperature_Status = this.Internal_Temperature;
+  }
+}
+
+on message HVAC_IntHumi_INFO_100MSG
+{
+  if(isSleeping == 0)
+  {
+    @sysvar::MIDDLE::HU::HVAC::Humidity_Status = this.Internal_Humidity;
+  }
+  
 }

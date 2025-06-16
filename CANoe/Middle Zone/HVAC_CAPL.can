@@ -17,7 +17,7 @@ on start
 {
   isSleeping = 1;
   write("HVAC: Sleep mode entered.");
-  setTimerCyclic(loop, 50);
+  setTimerCyclic(loop, 100);
 }
 
 // 0. Run 상태에서 보낼 주기 메세지
