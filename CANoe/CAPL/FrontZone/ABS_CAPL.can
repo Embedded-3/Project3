@@ -32,13 +32,20 @@ on timer loop
 // 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 ABS 깨움
 on message FZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping&& this.FZCU_Wakeup)
   {
     isSleeping = 0;
     write("ABS: Wake-up triggered by CAN message.");
     // ABS_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $ABS_Alive = 1;
-    
+  }
+  
+  if( !isSleeping && !this.FZCU_Wakeup)
+  {
+    isSleeping = 1;
+    write("ABS: Sleep triggered by CAN message.");
+    // ABS_Alive 시그널 -> 0 : IL 메시지 전송 멈춤
+    $ABS_Alive = 0;
   }
 }
 

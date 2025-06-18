@@ -38,6 +38,9 @@ VAL_TABLE_ vtbSensorReqCause 15 "SNA" 2 "by Request 2" 1 "by Request 1" 0 "norma
 VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
 
 
+BO_ 68 RZCU_VehicleStart_CTL_MSG: 1 RZCU
+ SG_ Ignition_Status : 0|2@1- (1,0) [0|3] ""  MCU
+
 BO_ 608 MCU_OTAResult_STATUS_MSG: 1 MCU
  SG_ MCU_OTAResult : 0|1@1+ (1,0) [0|1] ""  RZCU
 
@@ -135,22 +138,23 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
-BA_ "GenMsgCycleTime" BO_ 628 20;
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgSendType" BO_ 628 0;
-BA_ "GenMsgCycleTime" BO_ 376 20;
+BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgSendType" BO_ 376 0;
-BA_ "GenMsgCycleTime" BO_ 884 20;
+BA_ "GenMsgCycleTime" BO_ 376 20;
 BA_ "GenMsgSendType" BO_ 884 0;
-BA_ "GenMsgCycleTimeFast" BO_ 274 50;
-BA_ "GenMsgCycleTime" BO_ 274 50;
+BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgSendType" BO_ 274 0;
-BA_ "GenMsgSendType" BO_ 516 0;
+BA_ "GenMsgCycleTime" BO_ 274 50;
+BA_ "GenMsgCycleTimeFast" BO_ 274 50;
 BA_ "GenMsgCycleTime" BO_ 516 20;
-BA_ "GenMsgSendType" BO_ 804 0;
-BA_ "GenMsgCycleTime" BO_ 804 100;
+BA_ "GenMsgSendType" BO_ 516 0;
 BA_ "GenMsgCycleTimeFast" BO_ 804 100;
+BA_ "GenMsgCycleTime" BO_ 804 100;
+BA_ "GenMsgSendType" BO_ 804 0;
+BA_ "GenSigSendType" SG_ 68 Ignition_Status 7;
 BA_ "GenSigSendType" SG_ 608 MCU_OTAResult 7;
 BA_ "GenSigSendType" SG_ 352 USS_OTAResult 7;
 BA_ "GenSigSendType" SG_ 864 RBCU_OTAResult 7;

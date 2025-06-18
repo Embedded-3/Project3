@@ -36,7 +36,7 @@ on timer loop
 // 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 MDPS 깨움
 on message FZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping && this.FZCU_Wakeup)
   {
     isSleeping = 0;
     write("MDPS: Wake-up triggered by CAN message.");
@@ -44,12 +44,21 @@ on message FZCU_WakeUp_CTL_MSG
     $MDPS_Alive = 1;
     
   }
+  if( !isSleeping && !this.FZCU_Wakeup)
+  {
+    isSleeping = 1;
+    write("MDPS: Sleep triggered by CAN message.");
+    // MDPS_Alive 시그널 -> 0 : IL 메시지 전송 멈춤
+    $MDPS_Alive = 0;
+  }
+    
 }
 
 // 2. 메세지로 패널의 스티어링 휠 각도 변경
 on message FZCU_Steering_CTL_MSG
 {
   @sysvar::FRONT::MDPS::SteeringAngle = this.Steering_Angle;
+  write("Control Steering Wheel with HPC : %d", @FRONT::MDPS::SteeringAngle);
 }
 
 
@@ -88,5 +97,8 @@ on sysvar sysvar::FRONT::MDPS::LowBeem
 }
 
 
-
+on sysvar FRONT::MDPS::SteeringAngle
+{
+  write("Control Steering Wheel with Pannel : %d", @FRONT::MDPS::SteeringAngle);
+}
 

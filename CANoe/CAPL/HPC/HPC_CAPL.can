@@ -1,0 +1,334 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  #include "../includes/eth_frame.can"
+}
+
+variables
+{
+  msTimer loopFlagInit5ms;
+  msTimer loop20ms;
+  
+  int counter_20ms;
+  
+  byte wakeupFlag; // 0 : sleep 1 : wakeup
+  byte otaFlag; // 1: ota processing
+  
+  ethernetPacket globalEthPkt;
+
+  ethernetPacket LkasUdpMsg;
+  ethernetPacket EsaUdpMsg;
+  ethernetPacket AdbUdpMsg;
+  ethernetPacket OtaFrontMsg;
+  ethernetPacket OtaMiddleMsg;
+  ethernetPacket OtaRearMsg;
+  // ethernetPacket AliveUdpMsg;
+  ethernetPacket WakeUpMsg;
+  ethernetPacket MotorInfoMsg;
+
+  // TX FRAME
+  struct HpcFrontLkasFrame hpcFrontLkas20msFrame;
+  struct HpcAllEsaFrame hpcAllEsa20msFrame;
+  struct HpcMiddleAdbFrame hpcMiddleAdb20msFrame;
+  struct HpcFrontOtaFrontFrame hpcFrontOtaFrontFrame;
+  struct HpcMiddleOtaMiddleFrame hpcMiddleOtaMiddleFrame;
+  struct HpcRearOtaRearFrame hpcRearOtaRearFrame;
+  struct HpcAllWakeUpFrame hpcAllWakeUpFrame;
+  struct HpcMiddleRpmInfoFrame hpcMiddleRpmInfo20msFrame;
+  
+  int port_id;
+  // RX FRAME
+  struct RearHpcUssFrame rxUssFrame;
+  struct FrontHpcCarControlFrame rxCarControlFrame;
+  struct FrontHpcOtaResultFrame rxOtaFrontResultFrame;
+  struct MiddleHpcOtaResultFrame rxOtaMiddleResultFrame;
+  struct RearHpcOtaResultFrame rxOtaRearResultFrame;
+  struct FrontHpcAdasOnOffFrame rxAdasOnOffFrame;
+  struct MiddleHpcOtaAssignRejectFrame rxOtaAssignRejectFrame;
+  struct MiddleHpcHeadLampStatusFrame rxHeadLampStatusFrame;
+  struct MiddleHpcCanBusAliveFrame rxCanBusAliveFrame;
+  struct RearHpcWheelInfoFrame rxWheelInfoFrame;
+  struct FrontHpcWakeUpCallFrame rxWakeUpCallFrame;
+  
+  byte UssFrameReceived20ms;
+  byte CarControlFrameReceived10ms;
+  byte OtaFrontResultFrameReceived10ms;
+  byte OtaMiddleResultFrameReceived10ms;
+  byte OtaRearResultFrameReceived10ms;
+  byte AdasOnOffFrameReceived10ms;
+  byte OtaAssignRejectFrameReceived10ms;
+  byte HeadLampStatusFrameReceived20ms;
+  byte CanBusAliveFrameReceived20ms;
+  byte WheelInfoFrameReceived20ms;
+  byte WakeUpCallFrameReceived;
+  
+  int i;
+}
+
+on start
+{
+  i = 0;
+  counter_20ms = 0;
+  wakeupFlag = 0;
+
+  setTimerCyclic(loop20ms, 20);
+  setTimerCyclic(loopFlagInit5ms, 5);
+  
+  OtaFrontResultFrameReceived10ms = 0;
+  OtaMiddleResultFrameReceived10ms = 0;
+  OtaRearResultFrameReceived10ms = 0;
+  AdasOnOffFrameReceived10ms = 0;
+  OtaAssignRejectFrameReceived10ms = 0;
+  UssFrameReceived20ms = 0;
+  HeadLampStatusFrameReceived20ms = 0;
+  CanBusAliveFrameReceived20ms = 0;
+  WheelInfoFrameReceived20ms = 0;
+  WakeUpCallFrameReceived = 0;
+  
+  initUdpPacket(HPC_MAC_ADDR, FZCU_MAC_ADDR, HPC_IP_ADDR, FZCU_IP_ADDR, 
+                HPC_TX_PORT_BASE, FRONT_RX_PORT_BASE, HPC_LKAS_TX_PORT_ID, FRONT_LKAS_RX_PORT_ID);
+  LkasUdpMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, BROADCAST_MAC_ADDR, HPC_IP_ADDR, BROADCAST_IP_ADDR,
+                HPC_TX_PORT_BASE, ALLCAN_RX_PORT_BASE, HPC_ESA_TX_PORT_ID, ALLCAN_ESA_RX_PORT_ID);
+  EsaUdpMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, MZCU_MAC_ADDR, HPC_IP_ADDR, MZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, HPC_ADB_TX_PORT_ID, MIDDLE_ADB_RX_PORT_ID);
+  AdbUdpMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, FZCU_MAC_ADDR, HPC_IP_ADDR, FZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, FRONT_RX_PORT_BASE, HPC_OTAFRONT_TX_PORT_ID, FRONT_OTAFRONT_RX_PORT_ID);
+  globalEthPkt.Length = 1500;
+  globalEthPkt.udp.length = 1472;
+  OtaFrontMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, MZCU_MAC_ADDR, HPC_IP_ADDR, MZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, HPC_OTAMIDDLE_TX_PORT_ID, MIDDLE_OTAMIDDLE_RX_PORT_ID);
+  globalEthPkt.Length = 1500;
+  globalEthPkt.udp.length = 1472;
+  OtaMiddleMsg = globalEthPkt;
+
+  initUdpPacket(HPC_MAC_ADDR, RZCU_MAC_ADDR, HPC_IP_ADDR, RZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, REAR_RX_PORT_BASE, HPC_OTAREAR_TX_PORT_ID, REAR_OTAREAR_RX_PORT_ID);
+  globalEthPkt.Length = 1500;
+  globalEthPkt.udp.length = 1472;
+  OtaRearMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, BROADCAST_MAC_ADDR, HPC_IP_ADDR, BROADCAST_IP_ADDR, 
+                HPC_TX_PORT_BASE, ALLCAN_RX_PORT_BASE, HPC_WAKEUP_TX_PORT_ID, ALLCAN_WAKEUP_RX_PORT_ID);
+  WakeUpMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, MZCU_MAC_ADDR, HPC_IP_ADDR, MZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, HPC_RPMINFO_TX_PORT_ID, MIDDLE_RPMINFO_RX_PORT_ID);
+  MotorInfoMsg = globalEthPkt;
+}
+
+// front zone 에서 LED 키게 하는 ota 명령
+// 실제로는 ota_assign_reject 메시지 받고 해야함(아래에 적음)
+on key 'f'
+{
+  sendLEDOtaMessage();
+}
+
+on timer loopFlagInit5ms
+{
+  if(wakeupFlag == 0) return;
+  
+  UssFrameReceived20ms = 0;
+  CarControlFrameReceived10ms = 0;
+  OtaFrontResultFrameReceived10ms = 0;
+  OtaMiddleResultFrameReceived10ms = 0;
+  OtaRearResultFrameReceived10ms = 0;
+  AdasOnOffFrameReceived10ms = 0;
+  OtaAssignRejectFrameReceived10ms = 0;
+  HeadLampStatusFrameReceived20ms = 0;
+  CanBusAliveFrameReceived20ms = 0;
+  WheelInfoFrameReceived20ms = 0;
+  WakeUpCallFrameReceived = 0;
+}
+
+on timer loop20ms
+{
+  if(wakeupFlag == 0) return;
+  
+  counter_20ms++;
+  
+  hpcFrontLkas20msFrame.LKAS_Steering_Angle = 10; // need to connect
+  LkasUdpMsg.udp.setData(0, hpcFrontLkas20msFrame);
+  LkasUdpMsg.CompletePacket();
+  output(LkasUdpMsg);
+  write("[TX] [hpc->front] Lkas packet sent at %d ms", 20 * counter_20ms);
+  
+  hpcAllEsa20msFrame.ESA_Steering_Angle  = 10; // need to connect
+  hpcAllEsa20msFrame.AlertSpeaker_Output = 0; // need to connect
+  hpcAllEsa20msFrame.BrakeLight_CTL      = 0; // need to connect
+  EsaUdpMsg.udp.setData(0, hpcAllEsa20msFrame);
+  EsaUdpMsg.CompletePacket();
+  output(EsaUdpMsg);
+  write("[TX] [hpc->All] Esa packet sent at %d ms", 20 * counter_20ms);
+  
+  hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = 1; // need to connect
+  hpcMiddleAdb20msFrame.Right_HighBeam_CTL = 1; // need to connect
+  hpcMiddleAdb20msFrame.LowBeam_CTL        = 0; // need to connect
+  AdbUdpMsg.udp.setData(0, hpcMiddleAdb20msFrame);
+  AdbUdpMsg.CompletePacket();
+  output(AdbUdpMsg);
+  write("[TX] [hpc->mid] Adb packet sent at %d ms", 20 * counter_20ms);
+  
+  hpcMiddleRpmInfo20msFrame.LeftRear_MotorRPM = rxWheelInfoFrame.LeftRear_MotorRPM;
+  hpcMiddleRpmInfo20msFrame.LeftRear_MotorDirection = rxWheelInfoFrame.LeftRear_MotorDirection;
+  hpcMiddleRpmInfo20msFrame.RightRear_MotorRPM = rxWheelInfoFrame.RightRear_MotorRPM;
+  hpcMiddleRpmInfo20msFrame.RightRear_MotorDirection = rxWheelInfoFrame.RightRear_MotorDirection;
+  MotorInfoMsg.udp.setData(0, hpcMiddleRpmInfo20msFrame);
+  MotorInfoMsg.CompletePacket();
+  output(MotorInfoMsg);
+  write("[TX] [hpc->mid] MotorLeftRpm: %d, MotorRightRpm: %d", hpcMiddleRpmInfo20msFrame.LeftRear_MotorRPM, hpcMiddleRpmInfo20msFrame.RightRear_MotorRPM);
+}
+
+on ethernetPacket *
+{
+  ip_Endpoint endPointDst;
+
+  this.GetDestinationIPEndpoint(endPointDst);
+  
+  port_id = (int)(endPointDst.PortNumber - HPC_RX_PORT_BASE);
+  switch (port_id) 
+  {
+    case HPC_USS_RX_PORT_ID:
+      if (UssFrameReceived20ms) break;
+      UssFrameReceived20ms = 1;
+      this.udp.GetData(0, rxUssFrame);
+      write("[RX] [rear->hpc] USS : %d / %d", rxUssFrame.LeftRear_UltraSoundVal, rxUssFrame.RightRear_UltraSoundVal);
+      break;
+    case HPC_CARCONTROL_RX_PORT_ID:
+      if (CarControlFrameReceived10ms) break;
+      CarControlFrameReceived10ms = 1;
+      this.udp.GetData(0, rxCarControlFrame);
+      write("[RX] [front->hpc] SteeringAngle : %u, AccelPedalPos : %u, BrakePedal : %u, GearPosition: %u, Ignition : %u",
+            rxCarControlFrame.User_Steering_Angle, rxCarControlFrame.Accel_Pedal_Pos, rxCarControlFrame.Brake_Pedal_Pos,
+            rxCarControlFrame.Gear_Position, rxCarControlFrame.Ignition_Status);
+      break;
+    case HPC_OTARESULT_FRONT_RX_PORT_ID:
+      if (OtaFrontResultFrameReceived10ms) break;
+      OtaFrontResultFrameReceived10ms = 1;
+      this.udp.GetData(0, rxOtaFrontResultFrame);
+      write("[RX] [front->hpc] Front OTA Result : %d", rxOtaFrontResultFrame.ECU_OTA_Result);
+      break;
+    case HPC_OTARESULT_MIDDLE_RX_PORT_ID:
+      if (OtaMiddleResultFrameReceived10ms) break;
+      OtaMiddleResultFrameReceived10ms = 1;
+      this.udp.GetData(0, rxOtaMiddleResultFrame);
+      write("[RX] [middle->hpc] Middle OTA Result : %d", rxOtaMiddleResultFrame.ECU_OTA_Result);
+      break;
+    case HPC_OTARESULT_REAR_RX_PORT_ID:
+      if (OtaRearResultFrameReceived10ms) break;
+      OtaRearResultFrameReceived10ms = 1;
+      this.udp.GetData(0, rxOtaRearResultFrame);
+      write("[RX] [rear->hpc] Rear OTA Result : %d", rxOtaRearResultFrame.ECU_OTA_Result);
+      break;
+    case HPC_ADAS_ONOFF_RX_PORT_ID:
+      if (AdasOnOffFrameReceived10ms) break;
+      AdasOnOffFrameReceived10ms = 1;
+      this.udp.GetData(0, rxAdasOnOffFrame);
+      write("[RX] [front->hpc] ADAS state : %d", rxAdasOnOffFrame.ADAS_On_Off_Status);
+      break;
+    case HPC_OTA_ASSIGN_REJECT_RX_PORT_ID:
+      if (OtaAssignRejectFrameReceived10ms) break;
+      OtaAssignRejectFrameReceived10ms = 1;
+      this.udp.GetData(0, rxOtaAssignRejectFrame);
+      write("[RX] [middle->hpc] OTA assign : %d", rxOtaAssignRejectFrame.UpdateAcceptDecline_Signal);
+      
+      // ota assign 했으므로 ota 실시
+      if (rxOtaAssignRejectFrame.UpdateAcceptDecline_Signal)
+      {
+        sendLEDOtaMessage();
+      }
+      break;
+    case HPC_HEADLAMP_STATUS_RX_PORT_ID:
+      if (HeadLampStatusFrameReceived20ms) break;
+      HeadLampStatusFrameReceived20ms = 1;
+      this.udp.GetData(0, rxHeadLampStatusFrame);
+      write("[RX] [middle->hpc] CarState : %d, LeftHighBeam : %d, RightHighBeam : %d", 
+            rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status,
+            rxHeadLampStatusFrame.LeftHighBeamStatus,
+            rxHeadLampStatusFrame.RightHighBeamStatus);
+      break;
+    case HPC_CANBUS_ALIVE_RX_PORT_ID:
+      if (CanBusAliveFrameReceived20ms) break;
+      CanBusAliveFrameReceived20ms = 1;
+      this.udp.GetData(0, rxCanBusAliveFrame);
+      write("[RX] [middle->hpc] CAN alive.. Front:%d, Middle:%d, Rear:%d",
+            rxCanBusAliveFrame.FrontZoneCanBus_Alive,
+            rxCanBusAliveFrame.MiddleZoneCanBus_Alive,
+            rxCanBusAliveFrame.RearZoneCanBus_Alive);
+      break;
+    case HPC_WHEEL_INFO_RX_PORT_ID:
+      if (WheelInfoFrameReceived20ms) break;
+      WheelInfoFrameReceived20ms = 1;
+      this.udp.GetData(0, rxWheelInfoFrame);
+      write("[RX] [rear->hpc] left wheel : %d rpm & direction : %d, right wheel : %d rpm & direction : %d",
+            rxWheelInfoFrame.LeftRear_MotorRPM, rxWheelInfoFrame.LeftRear_MotorDirection,
+            rxWheelInfoFrame.RightRear_MotorRPM, rxWheelInfoFrame.RightRear_MotorDirection);    
+      break;
+    case HPC_WAKEUPCALL_RX_PORT_ID:
+      if (WakeUpCallFrameReceived) break;
+      WakeUpCallFrameReceived = 1;
+      this.udp.GetData(0, rxWakeUpCallFrame);
+      wakeupFlag = 1;
+      write("[RX] [front->hpc] wakeup call frame received");
+      hpcAllWakeUpFrame.WakeUp_ALL_ECU = 1;
+      WakeUpMsg.udp.SetData(0, hpcAllWakeUpFrame);
+      WakeUpMsg.CompletePacket();
+      output(WakeUpMsg);
+      write("[TX] [hpc->ALL] wakeup msg sent at beginning");
+      break;
+    default:
+      break;
+  }
+  
+}
+
+
+void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
+                  char TX_IP_ADDR[], char RX_IP_ADDR[],
+                  long TX_PORT_BASE, long RX_PORT_BASE,
+                  long TX_PORT_ID, long RX_PORT_ID)
+{
+  globalEthPkt.source = ethGetMacAddressAsNumber(TX_MAC_ADDR);
+  globalEthPkt.destination = ethGetMacAddressAsNumber(RX_MAC_ADDR);
+  globalEthPkt.udp.init();
+  globalEthPkt.type = 0x0800;
+  globalEthPkt.Length = 104;
+  globalEthPkt.udp.length = 64;
+  globalEthPkt.ipv4.source.ParseAddress(TX_IP_ADDR);
+  globalEthPkt.ipv4.destination.ParseAddress(RX_IP_ADDR);
+  globalEthPkt.udp.source = TX_PORT_BASE + TX_PORT_ID;
+  globalEthPkt.udp.destination = RX_PORT_BASE + RX_PORT_ID;
+
+  /*
+  이후 해야할 일
+  struct myFrame 초기화
+  ethpkt->setData(0, myFrame);
+  ethpkt->Length = (length); (OTA는 길게 해야함)
+  ethpkt->CompletePacket();
+  output(*ethpkt)
+  */
+}
+
+void sendLEDOtaMessage()
+{
+  hpcFrontOtaFrontFrame.ECU_Select = 0x10;
+  hpcFrontOtaFrontFrame.Total_Byte = 1400;
+  hpcFrontOtaFrontFrame.Start_Byte_Offset = 0;
+  hpcFrontOtaFrontFrame.End_Byte_Offset = 1399;
+  for (i = 0; i < 1400; i++)
+  {
+    hpcFrontOtaFrontFrame.Data[i] = i;
+  }
+  i = 0;
+  OtaFrontMsg.udp.setData(0, hpcFrontOtaFrontFrame);
+  OtaFrontMsg.CompletePacket();
+  output(OtaFrontMsg);
+  write("OtaFrontMsg sent at %d ms", 20 * counter_20ms); 
+}

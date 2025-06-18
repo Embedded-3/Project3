@@ -1,0 +1,220 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  #include "../includes/eth_frame.can"
+}
+
+variables
+{
+  msTimer loop10ms;
+  msTimer loop20ms;
+  msTimer loopFlagInit5ms;
+  
+  int counter_10ms;
+  int counter_20ms;
+  
+  byte wakeupFlag; // 0 : sleep 1 : wakeup
+  
+  int port_id;
+  int allcan_port_id;
+  
+  ethernetPacket globalEthPkt;
+  
+  ethernetPacket UssUdpMsg;
+  ethernetPacket WheelInfoUdpMsg;
+  ethernetPacket OtaResultUdpMsg;
+  ethernetPacket AliveUdpMsg;
+  ethernetPacket TailLampUdpMsg;
+  
+  // TX FRAME
+  struct RearHpcUssFrame rearHpcUss10msFrame;
+  struct RearHpcWheelInfoFrame rearHpcWheelInfo10msFrame;
+  struct RearHpcOtaResultFrame rearHpcOtaResultFrame;
+  struct RearMiddleAliveFrame rearMiddleAlive20msFrame;
+  struct RearMiddleTailLampStatusFrame rearMiddleTailLampStatus20msFrame;
+  
+  // RX FRAME
+  struct HpcRearOtaRearFrame rxOtaRearFrame;
+  struct FrontRearHeadLampRearFrame rxHeadLampRearFrame;
+  struct FrontRearMcuControlFrame rxMcuControlFrame;
+  
+  // RX FRAME(ALL)
+  struct HpcAllEsaFrame rxEsaFrame;
+  struct HpcAllWakeUpFrame rxWakeUpFrame;
+  
+  byte OtaRearFrameReceived10ms;
+  byte HeadLampRearFrameReceived20ms;
+  byte McuControlFrameReceived20ms;
+  
+  byte EsaFrameReceived20ms;
+  byte WakeUpReceived;
+}
+
+on start
+{
+  counter_10ms = 0;
+  counter_20ms = 0;
+  wakeupFlag = 0;
+  
+  OtaRearFrameReceived10ms = 0;
+  HeadLampRearFrameReceived20ms = 0;
+  McuControlFrameReceived20ms = 0;
+  EsaFrameReceived20ms = 0;
+  WakeUpReceived = 0;
+  
+  setTimerCyclic(loop10ms, 10); // 10ms
+  setTimerCyclic(loop20ms, 20); // 20ms
+  setTimerCyclic(loopFlagInit5ms, 5);
+  
+  initUdpPacket(RZCU_MAC_ADDR, HPC_MAC_ADDR, RZCU_IP_ADDR, HPC_IP_ADDR,
+            REAR_TX_PORT_BASE, HPC_RX_PORT_BASE, REAR_USS_TX_PORT_ID, HPC_USS_RX_PORT_ID);
+  UssUdpMsg = globalEthPkt;
+  
+  initUdpPacket(RZCU_MAC_ADDR, HPC_MAC_ADDR, RZCU_IP_ADDR, HPC_IP_ADDR,
+            REAR_TX_PORT_BASE, HPC_RX_PORT_BASE, REAR_WHEEL_INFO_TX_PORT_ID, HPC_WHEEL_INFO_RX_PORT_ID);
+  WheelInfoUdpMsg = globalEthPkt;
+  
+  initUdpPacket(RZCU_MAC_ADDR, HPC_MAC_ADDR, RZCU_IP_ADDR, HPC_IP_ADDR,
+            REAR_TX_PORT_BASE, HPC_RX_PORT_BASE, REAR_OTARESULT_TX_PORT_ID, HPC_OTARESULT_REAR_RX_PORT_ID);
+  OtaResultUdpMsg = globalEthPkt;
+  
+  initUdpPacket(RZCU_MAC_ADDR, MZCU_MAC_ADDR, RZCU_IP_ADDR, MZCU_IP_ADDR,
+            REAR_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, REAR_ALIVE_TX_PORT_ID, MIDDLE_ALIVE_REAR_RX_PORT_ID);
+  AliveUdpMsg = globalEthPkt;
+  
+  initUdpPacket(RZCU_MAC_ADDR, MZCU_MAC_ADDR, RZCU_IP_ADDR, MZCU_IP_ADDR,
+            REAR_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, REAR_TAILLAMP_TX_PORT_ID, MIDDLE_TAILLAMP_RX_PORT_ID);
+  TailLampUdpMsg = globalEthPkt;
+}
+
+on timer loopFlagInit5ms
+{
+  if(wakeupFlag == 0) return;
+  OtaRearFrameReceived10ms = 0;
+  HeadLampRearFrameReceived20ms = 0;
+  McuControlFrameReceived20ms = 0;
+  EsaFrameReceived20ms = 0;
+  WakeUpReceived = 0;
+}
+
+on timer loop10ms
+{  
+  if(wakeupFlag == 0) return;
+  counter_10ms++;
+  
+  rearHpcUss10msFrame.LeftRear_UltraSoundVal = 10; // need to connect
+  rearHpcUss10msFrame.RightRear_UltraSoundVal = 20; // need to connect
+  UssUdpMsg.udp.SetData(0, rearHpcUss10msFrame);
+  UssUdpMsg.CompletePacket();
+  output(UssUdpMsg);
+  write("[TX] [rear->hpc] uss msg sent at %d ms", 10 * counter_10ms);
+  
+  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = 10; // need to connect
+  rearHpcWheelInfo10msFrame.LeftRear_MotorDirection = 1; // need to connect
+  rearHpcWheelInfo10msFrame.RightRear_MotorRPM = 10; // need to connect
+  rearHpcWheelInfo10msFrame.RightRear_MotorDirection = 1; // need to connect
+  WheelInfoUdpMsg.udp.SetData(0, rearHpcWheelInfo10msFrame);
+  WheelInfoUdpMsg.CompletePacket();
+  output(WheelInfoUdpMsg);
+  write("[TX] [rear->hpc] wheel info msg sent at %d ms", 10 * counter_10ms);
+}
+
+on timer loop20ms
+{
+  if(wakeupFlag == 0) return;
+  counter_20ms++;
+  
+  rearMiddleAlive20msFrame.ECU_Alive_Status = 1;
+  AliveUdpMsg.udp.SetData(0, rearMiddleAlive20msFrame);
+  AliveUdpMsg.CompletePacket();
+  output(AliveUdpMsg);
+  write("[TX] [rear->middle] can alive msg sent at %d ms", 20 * counter_20ms);
+  
+  rearMiddleTailLampStatus20msFrame.Brake_Light_Status = 1; // need to connect
+  rearMiddleTailLampStatus20msFrame.LeftRear_TurnSignal_Status = 0; // need to connect
+  rearMiddleTailLampStatus20msFrame.RightRear_TurnSignal_Status = 0; // need to connect
+  TailLampUdpMsg.udp.SetData(0, rearMiddleTailLampStatus20msFrame);
+  TailLampUdpMsg.CompletePacket();
+  output(TailLampUdpMsg);
+  write("[TX] [rear->middle] tail lamp msg sent at %d ms", 20 * counter_20ms);
+}
+
+on ethernetPacket *
+{
+  ip_Endpoint endPointDst;
+
+  this.GetDestinationIPEndpoint(endPointDst);
+  
+  port_id = (int)(endPointDst.PortNumber - REAR_RX_PORT_BASE);
+  allcan_port_id = (int)(endPointDst.PortNumber - ALLCAN_RX_PORT_BASE);
+  
+  switch(allcan_port_id)
+  {
+    case ALLCAN_ESA_RX_PORT_ID:
+      if(EsaFrameReceived20ms) return;
+      EsaFrameReceived20ms = 1;
+      this.udp.getData(0, rxEsaFrame);
+      write("[RX] [hpc->rear] ESA BrakeLight_CTL : %d", rxEsaFrame.BrakeLight_CTL);
+      break;
+    case ALLCAN_WAKEUP_RX_PORT_ID:
+      if(WakeUpReceived) return;
+      WakeUpReceived = 1;
+      this.udp.getData(0, rxWakeUpFrame);
+      wakeupFlag = 1;
+      write("[RX] [hpc->rear] Wake up message called");
+      break;
+    default:
+      break;
+  }
+  
+  switch(port_id)
+  {
+    case REAR_OTAREAR_RX_PORT_ID:
+      if (OtaRearFrameReceived10ms) break;
+      OtaRearFrameReceived10ms = 1;
+      this.udp.GetData(0, rxOtaRearFrame);
+      write("[RX] [hpc->rear] OTA rear gogo");
+      break;
+    case REAR_HEADLAMP_REAR_RX_PORT_ID:
+      if (HeadLampRearFrameReceived20ms) break;
+      HeadLampRearFrameReceived20ms = 1;
+      this.udp.GetData(0, rxHeadLampRearFrame);
+      write("[RX] [front->rear] headlamp rear status : %d", rxHeadLampRearFrame.HeadLamp_Rear_Status);
+      break;
+    case REAR_MCUCONTROL_RX_PORT_ID:
+      if (McuControlFrameReceived20ms) break;
+      McuControlFrameReceived20ms = 1;
+      this.udp.GetData(0, rxMcuControlFrame);
+      write("[RX] [hpc->rear] left : %d, right : %d", rxMcuControlFrame.LeftRear_RPM, rxMcuControlFrame.RightRear_RPM);
+      break;
+    default:
+      break;
+  }
+}
+
+
+void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
+                  char TX_IP_ADDR[], char RX_IP_ADDR[],
+                  long TX_PORT_BASE, long RX_PORT_BASE,
+                  long TX_PORT_ID, long RX_PORT_ID)
+{
+  globalEthPkt.source = ethGetMacAddressAsNumber(TX_MAC_ADDR);
+  globalEthPkt.destination = ethGetMacAddressAsNumber(RX_MAC_ADDR);
+  globalEthPkt.udp.init();
+  globalEthPkt.type = 0x0800;
+  globalEthPkt.Length = 104;
+  globalEthPkt.udp.length = 64;
+  globalEthPkt.ipv4.source.ParseAddress(TX_IP_ADDR);
+  globalEthPkt.ipv4.destination.ParseAddress(RX_IP_ADDR);
+  globalEthPkt.udp.source = TX_PORT_BASE + TX_PORT_ID;
+  globalEthPkt.udp.destination = RX_PORT_BASE + RX_PORT_ID;
+
+  /*
+  이후 해야할 일
+  struct myFrame 초기화
+  ethpkt->setData(0, myFrame);
+  ethpkt->Length = (length); (OTA는 길게 해야함)
+  ethpkt->CompletePacket();
+  output(*ethpkt)
+  */
+}

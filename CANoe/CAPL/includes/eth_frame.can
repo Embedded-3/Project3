@@ -1,0 +1,269 @@
+﻿/*@!Encoding:65001*/
+// eth_frame.can
+
+variables
+{
+  // MAC ADDR
+  char BROADCAST_MAC_ADDR[30] = "FF:FF:FF:FF:FF:FF";
+  char HPC_MAC_ADDR[30] = "02:15:22:B0:24:21";
+  char FZCU_MAC_ADDR[30] = "02:46:54:F7:B2:EE";
+  char MZCU_MAC_ADDR[30] = "02:91:0B:63:3F:9A";
+  char RZCU_MAC_ADDR[30] = "02:2C:3C:3C:CE:34";
+  
+  // IP ADDR
+  char BROADCAST_IP_ADDR[30] = "255.255.255.0";
+  char HPC_IP_ADDR[30] = "192.168.1.3";
+  char FZCU_IP_ADDR[30] = "192.168.1.4";
+  char MZCU_IP_ADDR[30] = "192.168.1.5";
+  char RZCU_IP_ADDR[30] = "192.168.1.2";
+  
+  // UDP Port Base 정의
+  const long HPC_TX_PORT_BASE    = 30000;
+  const long HPC_RX_PORT_BASE    = 40000;
+  
+  const long FRONT_TX_PORT_BASE  = 30100;
+  const long FRONT_RX_PORT_BASE  = 40100;
+
+  const long MIDDLE_TX_PORT_BASE = 30200;
+  const long MIDDLE_RX_PORT_BASE = 40200;
+
+  const long REAR_TX_PORT_BASE   = 30300;
+  const long REAR_RX_PORT_BASE   = 40300;
+  
+  const long ALLCAN_RX_PORT_BASE    = 50000;
+  
+// ========================== HPC TX ===========================
+  const long HPC_LKAS_TX_PORT_ID        = 1;
+  const long HPC_ESA_TX_PORT_ID         = 2;
+  const long HPC_ADB_TX_PORT_ID         = 3;
+  const long HPC_OTAFRONT_TX_PORT_ID    = 4;
+  const long HPC_OTAMIDDLE_TX_PORT_ID   = 5;
+  const long HPC_OTAREAR_TX_PORT_ID     = 6;
+  const long HPC_ALIVE_TX_PORT_ID       = 7;
+  const long HPC_WAKEUP_TX_PORT_ID      = 8;
+  const long HPC_RPMINFO_TX_PORT_ID     = 9;
+
+// ========================== HPC RX ===========================
+  const long HPC_USS_RX_PORT_ID 		           = 1;
+  const long HPC_CARCONTROL_RX_PORT_ID         = 2;
+  const long HPC_OTARESULT_FRONT_RX_PORT_ID    = 3;
+  const long HPC_OTARESULT_MIDDLE_RX_PORT_ID   = 4;
+  const long HPC_OTARESULT_REAR_RX_PORT_ID     = 5;
+  const long HPC_ADAS_ONOFF_RX_PORT_ID         = 6;
+  const long HPC_OTA_ASSIGN_REJECT_RX_PORT_ID  = 7;
+  const long HPC_HEADLAMP_STATUS_RX_PORT_ID    = 8;
+  const long HPC_CANBUS_ALIVE_RX_PORT_ID       = 9;
+  const long HPC_WHEEL_INFO_RX_PORT_ID         = 10;
+  const long HPC_WAKEUPCALL_RX_PORT_ID         = 11;
+
+// ========================= FRONT TX ==========================
+  const long FRONT_CARCONTROL_TX_PORT_ID       = 1;
+  // long FRONT_CAMERA_TX_PORT_ID        = 2;
+  const long FRONT_OTARESULT_TX_PORT_ID        = 3;
+  const long FRONT_ADAS_ONOFF_TX_PORT_ID       = 4;
+  const long FRONT_HEADLAMP_MIDDLE_TX_PORT_ID  = 5;
+  const long FRONT_ALIVE_TX_PORT_ID            = 6;
+  const long FRONT_HEADLAMP_REAR_TX_PORT_ID    = 7;
+  const long FRONT_MCUCONTROL_TX_PORT_ID       = 8;
+  const long FRONT_WAKEUPCALL_TX_PORT_ID       = 9;
+  
+
+// ========================= FRONT RX ==========================
+  const long FRONT_LKAS_RX_PORT_ID             = 1;
+  const long FRONT_OTAFRONT_RX_PORT_ID         = 2;
+
+// ========================= MIDDLE TX =========================
+  const long MIDDLE_OTA_ASSIGN_REJECT_TX_PORT_ID = 1;
+  const long MIDDLE_OTARESULT_TX_PORT_ID         = 2;
+  const long MIDDLE_HEADLAMP_STATUS_TX_PORT_ID   = 3;
+  const long MIDDLE_CANBUS_ALIVE_TX_PORT_ID      = 4;
+
+// ========================= MIDDLE RX =========================
+  const long MIDDLE_ADB_RX_PORT_ID               = 1;
+  const long MIDDLE_OTAMIDDLE_RX_PORT_ID         = 2;
+  const long MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID   = 3;
+  const long MIDDLE_ALIVE_FRONT_RX_PORT_ID       = 4;
+  const long MIDDLE_ALIVE_REAR_RX_PORT_ID        = 5;
+  const long MIDDLE_TAILLAMP_RX_PORT_ID          = 6;
+  const long MIDDLE_RPMINFO_RX_PORT_ID           = 7;
+
+// ========================== REAR TX ==========================
+  const long REAR_USS_TX_PORT_ID              = 1;
+  const long REAR_WHEEL_INFO_TX_PORT_ID       = 2;
+  const long REAR_OTARESULT_TX_PORT_ID        = 3;
+  const long REAR_ALIVE_TX_PORT_ID            = 4;
+  const long REAR_TAILLAMP_TX_PORT_ID         = 5;
+
+// ========================== REAR RX ==========================
+  const long REAR_OTAREAR_RX_PORT_ID          = 1;
+  // const long REAR_ALIVE_RX_PORT_ID            = 2;
+  const long REAR_HEADLAMP_REAR_RX_PORT_ID    = 3;
+  const long REAR_MCUCONTROL_RX_PORT_ID       = 4;
+  
+// ========================== ALLCAN RX ==========================
+  const long ALLCAN_ESA_RX_PORT_ID            = 1;
+  const long ALLCAN_WAKEUP_RX_PORT_ID             = 2;
+  
+  struct myFrame {
+    int a;
+    char b;
+    char c[10];
+    int d;
+  };
+  
+  // 생성 규칙: (Tx Node) (Rx Node) (Info) Frame
+  struct HpcFrontLkasFrame {
+    char LKAS_Steering_Angle; // -30~30
+  };
+  
+  struct HpcAllEsaFrame {
+    char ESA_Steering_Angle; // -30~30
+    byte AlertSpeaker_Output;
+    byte BrakeLight_CTL;
+  };
+  
+  struct HpcMiddleAdbFrame {
+    byte Left_HighBeam_CTL;
+    byte Right_HighBeam_CTL;
+    byte LowBeam_CTL;
+  };
+  
+  // Ethernet MTU : 1500 byte
+  // IP Header : 20 Byte
+  // UDP Header : 8 byte
+  // MAX UDP DATA FRAME : 1472 Byte
+  // -> 1400byte씩 보내도록 하자.
+  
+  /*
+  globalEthPkt.Length = 1500;
+  globalEthPkt.udp.length = 1472;
+  */
+  
+  struct HpcFrontOtaFrontFrame { 
+    byte ECU_Select; // FZCU VCU ABS MDPS MFS
+    word Total_Byte;
+    word Start_Byte_Offset;
+    word End_Byte_Offset;
+    byte Data[1400];
+  };
+  
+  struct HpcMiddleOtaMiddleFrame { 
+    byte ECU_Select; // MZCU MBCU CLU HU HVAC
+    word Total_Byte;
+    word Start_Byte_Offset;
+    word End_Byte_Offset;
+    byte Data[1400];
+  };
+  
+  struct HpcRearOtaRearFrame { 
+    byte ECU_Select; // RZCU RBCU USS MCU
+    word Total_Byte;
+    word Start_Byte_Offset;
+    word End_Byte_Offset;
+    byte Data[1400];
+  };
+  
+  struct HpcAllWakeUpFrame {
+    byte WakeUp_ALL_ECU;
+  };
+  
+  struct HpcMiddleRpmInfoFrame {
+    int LeftRear_MotorRPM;
+    byte LeftRear_MotorDirection;
+    int RightRear_MotorRPM;
+    byte RightRear_MotorDirection;   
+  };
+  
+  struct FrontHpcCarControlFrame {
+    char User_Steering_Angle;
+    byte Accel_Pedal_Pos;
+    byte Brake_Pedal_Pos;
+    byte Gear_Position;
+    byte Ignition_Status;
+  };
+  
+  struct FrontHpcOtaResultFrame {
+    byte ECU_OTA_Result; // FZCU VCU ABS MDPS MFS
+  };
+  
+  struct FrontHpcAdasOnOffFrame {
+    byte ADAS_On_Off_Status; // LKAS ESA ADB
+  };
+  
+  struct FrontMiddleHeadLampMiddleFrame {
+    // bit 7: HighBeam
+    // bit 6: LowBeam
+    // bit 5: LeftTurnSignal
+    // bit 4: RightTurnSignal;
+    byte HeadLamp_Middle_Status;
+  };
+  
+  struct FrontMiddleAliveFrame {
+    byte ECU_Alive_Status; // FZCU VCU ABS MDPS MFS
+  };
+  
+  struct FrontRearHeadLampRearFrame {
+    byte HeadLamp_Rear_Status; // LeftTurnSignal, RightTurnSignal, BrakePedalPosition
+  };
+  
+  struct FrontRearMcuControlFrame {
+    int LeftRear_RPM;
+    int RightRear_RPM;
+  };
+  
+  struct FrontHpcWakeUpCallFrame {
+    byte WakeUp_Call;
+  };
+  
+  struct MiddleHpcOtaAssignRejectFrame {
+    byte UpdateAcceptDecline_Signal; // 0 : reject 1 : assign
+  };
+  
+  struct MiddleHpcOtaResultFrame {
+    byte ECU_OTA_Result; // MZCU MBCU CLU HU HVAC
+  };
+  
+  struct MiddleHpcHeadLampStatusFrame {
+    // bit 7: LeftFront_Light
+    // bit 6: RightFront_Light
+    // bit 5: Brake_Light
+    // bit 4: LowBeam_OnOff
+    // bit 3: HighBeam_OnOff
+    byte LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status;
+    byte LeftHighBeamStatus;
+    byte RightHighBeamStatus;
+  };
+  
+  struct MiddleHpcCanBusAliveFrame {
+    byte FrontZoneCanBus_Alive; // FZCU VCU ABS MDPS MFS
+    byte MiddleZoneCanBus_Alive; // MZCU MBCU CLU HU HVAC
+    byte RearZoneCanBus_Alive; // RZCU RBCU USS MCU
+  };
+  
+  struct RearHpcUssFrame {
+    byte LeftRear_UltraSoundVal;
+    byte RightRear_UltraSoundVal;
+  };
+  
+  struct RearHpcWheelInfoFrame {
+    int LeftRear_MotorRPM;
+    byte LeftRear_MotorDirection;
+    int RightRear_MotorRPM;
+    byte RightRear_MotorDirection;
+  };
+  
+  struct RearHpcOtaResultFrame {
+    byte ECU_OTA_Result; // RZCU RBCU USS MCU
+  };
+  
+  struct RearMiddleTailLampStatusFrame {
+    byte Brake_Light_Status;
+    byte LeftRear_TurnSignal_Status;
+    byte RightRear_TurnSignal_Status;
+  };
+  
+  struct RearMiddleAliveFrame {
+    byte ECU_Alive_Status; // RZCU RBCU USS MCU
+  };
+
+}

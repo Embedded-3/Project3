@@ -1,0 +1,172 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  msTimer loop;
+  int timerCnt = 0;
+  
+  int motorRpm = 0;
+  int targetIdleRpm = 800;
+  int maxStartupRpm = 1500;
+  int maxRpm = 6000;
+  int state = 0; // 0: OFF, 1: STARTING, 2: READY
+  int gearPos = 0; // 0:P, 1:R, 2:N, 3:D
+  int prevGearPos = 0;
+  int throttle = 0; // 0~100
+  int brake = 0;    // 0~100
+  msTimer rpmTimer;
+}
+
+// 0. 시뮬레이션 시작 시 절전 진입
+on start
+{
+  state = 0;
+  write("VCU: Sleep mode entered.");
+  //setTimerCyclic(loop, 10);
+  setTimerCyclic(rpmTimer, 50);
+}
+
+// 0. Run 상태에서 보낼 주기 메세지
+on timer loop
+{
+  if(state)
+  {
+    message VCU_AccPedal_CTL_10MSG acc_msg;
+    message VCU_BrakePedal_CTL_10MSG brk_msg;
+    message VCU_VehicleStart_STATUS_100MSG ign_msg;
+    message VCU_Transmission_STATUS_1000MSG trans_msg;
+    
+    timerCnt++;
+    
+    acc_msg.Accel_Pedal_Pos = @sysvar::FRONT::VCU::Accel_Pedal;
+    brk_msg.Brake_Pedal_Pos = @sysvar::FRONT::VCU::Brake_Pedal;
+    output(acc_msg);
+    output(brk_msg);
+    
+    if(timerCnt % 10 == 0){
+      ign_msg.Ignition_Status = @sysvar::FRONT::VCU::Ignition;
+      output(ign_msg);
+    }
+    
+    if(timerCnt % 100 == 0){
+      trans_msg.Drive_Mode = @sysvar::FRONT::VCU::Drive_Mode;
+      trans_msg.Gear_Position = @sysvar::FRONT::VCU::Gear;
+      output(trans_msg);
+      timerCnt = 0;
+    }
+
+  }
+}
+
+// 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 VCU 깨움
+on message FZCU_WakeUp_CTL_MSG
+{
+  if (!state && this.FZCU_Wakeup)
+  {
+    state = 1;
+    write("VCU: Wake-up triggered by CAN message.");
+    // VCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
+    $VCU_Alive = 1;
+  }
+  else if(!this.FZCU_Wakeup)
+  {
+    state = 0;
+    write("VCU: Sleep triggered by CAN message.");
+    // VCU_Alive 시그널 -> 0 : IL 메시지 전송 멈춤
+    $VCU_Alive = 0;
+  }
+}
+
+// 2. 시동 ON/OFF
+on sysvar sysvar::FRONT::VCU::Ignition
+{
+
+  message VCU_VehicleStart_STATUS_100MSG ign_msg;
+  ign_msg.Ignition_Status = @this;
+  output(ign_msg);
+
+}
+
+// 3. 기어 변경
+on sysvar FRONT::VCU::Gear
+{
+  prevGearPos = gearPos;
+  gearPos = @this;
+  if(state == 2 && prevGearPos != gearPos)
+  {
+    motorRpm += 300;
+    if (motorRpm > maxRpm) motorRpm = maxRpm;
+  }
+  
+}
+
+on sysvar FRONT::VCU::Accel_Pedal
+{
+  write("Accel : %d", @this);
+  throttle = @this;
+}
+
+on sysvar FRONT::VCU::Brake_Pedal
+{
+  write("Brake : %d", @this);
+  brake = @this;
+}
+
+
+
+// RPM 계산 타이머
+on timer rpmTimer {
+  int targetRpm;
+  switch (state) {
+    case 0:
+      if (motorRpm > 0) motorRpm -= 200;
+      if (motorRpm < 0) motorRpm = 0;
+      break;
+
+    case 1:
+      if (motorRpm < maxStartupRpm) {
+        motorRpm += 300;
+      } else {
+        state = 2;
+        write("VCU: READY state reached");
+      }
+      break;
+
+    case 2:
+      
+      if ((gearPos == 1 || gearPos == 3) && throttle > 0) {
+        // 주행 또는 후진 + 액셀 입력
+        targetRpm = targetIdleRpm + (throttle * 40); // 예: 100 입력 → 4800 rpm
+      } else {
+        // 기어가 P/N이거나 throttle=0
+        targetRpm = targetIdleRpm;
+      }
+
+      // 브레이크에 따라 RPM 감소 (비율 감속)
+      if (brake > 0) {
+        targetRpm -=  brake * 100; // 10 입력 → 1000 rpm 감속
+        if (targetRpm < targetIdleRpm) targetRpm = targetIdleRpm;
+      }
+
+      // 실제 RPM 조정
+      if (motorRpm < targetRpm)
+        motorRpm += 150;
+      else if (motorRpm > targetRpm)
+        motorRpm -= 100;
+      
+      break;
+  }
+
+  // READY 상태일 때만 전송
+  if (state != 0) {
+    message VCU_MCU_CTL_10MSG m;
+    m.MCU_RPM_CTL = motorRpm;
+    output(m);
+    write("VCU: RPM_CTL = %d", motorRpm);
+  }
+
+}

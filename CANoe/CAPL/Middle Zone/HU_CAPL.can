@@ -26,8 +26,8 @@ on message MZCU_WakeUp_CTL_MSG
     write("HU: Wake-up triggered by CAN message.");
     // HU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $HU_Alive = 1;
-    
   }
+  
 }
 
 // 2. OTA 메세지 대응
