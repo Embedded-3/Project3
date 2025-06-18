@@ -2,12 +2,18 @@
 <Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=19.0.155.0, Culture=neutral, PublicKeyToken=null">
   <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Control">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xac597f26ec143e44c9eb13cef372eafa704d" ControlName="Switch / Indicator 6">
       <Property Name="Name">Xac597f26ec143e44c9eb13cef372eafa704d</Property>
@@ -22,11 +28,17 @@
       <Property Name="StartValue">0</Property>
     </Object>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X516d776de6fbbe4278eba4ae9f26a40a5877" ControlName="Group Box 4">
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X68dd07efee79fe4f3ee82cfedfb2c814a81d" ControlName="Switch / Indicator 1">
@@ -48,8 +60,11 @@
       <Property Name="Name">X516d776de6fbbe4278eba4ae9f26a40a5877</Property>
       <Property Name="Size">95, 106</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <Property Name="Location">429, 9</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
       <Property Name="Location">560, 9</Property>
@@ -59,6 +74,9 @@
 =======
       <Property Name="Location">429, 9</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       <Property Name="Text">Start up</Property>
       <Property Name="TabIndex">15</Property>
@@ -85,8 +103,11 @@
       <Property Name="Name">Xa1e7a3f2e29d9e4a65e82d4e4d4560e0c42c</Property>
       <Property Name="Size">145, 168</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <Property Name="Location">544, 9</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
       <Property Name="Location">663, 9</Property>
@@ -96,6 +117,9 @@
 =======
       <Property Name="Location">544, 9</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       <Property Name="Text">Geer</Property>
       <Property Name="TabIndex">14</Property>
@@ -103,7 +127,10 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xde6a6056e7231e4f34ebae4e2d2f2467c0ed" ControlName="Group Box 2">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xc154b3f8eefdae4341e8db6e68fce0919abb" ControlName="Switch / Indicator 10">
@@ -176,17 +203,26 @@
 =======
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X7571298de0a37e4833ea914eede7bf08797f" ControlName="Switch / Indicator 2">
         <Property Name="Name">X7571298de0a37e4833ea914eede7bf08797f</Property>
         <Property Name="Size">319, 324</Property>
         <Property Name="Location">24, 34</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;SteeringAngle;1;;;-1;;;Value;;;0</Property>
         <Property Name="ImageFile">bmp\steering_strip_color.png</Property>
@@ -205,8 +241,11 @@
         <Property Name="Name">X01c406b0ebd2de47b9eaf2de07fd31b66add</Property>
         <Property Name="Size">348, 30</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <Property Name="Location">15, 364</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
         <Property Name="Location">164, 351</Property>
@@ -216,6 +255,9 @@
 =======
         <Property Name="Location">15, 364</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="TabIndex">3</Property>
         <Property Name="MaximumDouble">13</Property>
@@ -229,8 +271,11 @@
       </Object>
       <Property Name="Name">Xde6a6056e7231e4f34ebae4e2d2f2467c0ed</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <Property Name="Size">391, 397</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
       <Property Name="Size">527, 397</Property>
@@ -240,6 +285,9 @@
 =======
       <Property Name="Size">391, 397</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       <Property Name="Location">18, 9</Property>
       <Property Name="Text">Steering Wheel</Property>
@@ -253,7 +301,10 @@
         <Property Name="Location">16, 169</Property>
         <Property Name="TabIndex">4</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
         <Property Name="LargeChangeDouble">6</Property>
@@ -261,17 +312,26 @@
 =======
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="MaximumDouble">6</Property>
         <Property Name="LargeChangeDouble">6</Property>
         <Property Name="MaximumSize">100000, 30</Property>
         <Property Name="Maximum">6</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="LargeChange">6</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Brake_Pedal;1;;;-1;;;Value;;;0</Property>
@@ -280,7 +340,10 @@
         <Property Name="Name">X3a4e5515efa38e4f4aeba07ee8dc8eba3d95</Property>
         <Property Name="Size">106, 30</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
         <Property Name="Location">147, 169</Property>
@@ -290,6 +353,9 @@
 =======
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="Location">145, 169</Property>
         <Property Name="TabIndex">3</Property>
@@ -298,11 +364,17 @@
         <Property Name="MaximumSize">100000, 30</Property>
         <Property Name="Maximum">6</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
 =======
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <Property Name="LargeChange">6</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Accel_Pedal;1;;;-1;;;Value;;;0</Property>
@@ -344,8 +416,11 @@
       <Property Name="Name">Xa40e7395ec7d6e4238e8ad7ea987669ac982</Property>
       <Property Name="Size">260, 193</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <Property Name="Location">429, 210</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
       <Property Name="Location">551, 197</Property>
@@ -355,6 +430,9 @@
 =======
       <Property Name="Location">429, 210</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       <Property Name="Text">Brake / Accel</Property>
       <Property Name="TabIndex">8</Property>
@@ -362,8 +440,11 @@
     </Object>
     <Property Name="Name">Panel</Property>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Property Name="Size">894, 424</Property>
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 <<<<<<< HEAD
     <Property Name="Size">832, 414</Property>
@@ -373,6 +454,9 @@
 =======
     <Property Name="Size">894, 424</Property>
 >>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <Property Name="Location">0, 0</Property>
     <Property Name="BackColor">White</Property>
