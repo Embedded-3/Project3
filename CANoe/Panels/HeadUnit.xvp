@@ -5,7 +5,7 @@
       <Property Name="Name">Xf0495d26eddf2e4fd2ea5b9e03566e672b36</Property>
       <Property Name="Size">32, 41</Property>
       <Property Name="Location">343, 50</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::USS;;;SoundAlert_ONOFF_CTL;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU;;;SoundAlert_ONOFF_CTL;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\alert_sound.png</Property>
       <Property Name="TabIndex">43</Property>
       <Property Name="Activation">Left</Property>
@@ -88,7 +88,7 @@
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X0dae4ea2ef26be4be9e9bc3e0f84cc6e720f" ControlName="Switch / Indicator 2">
       <Property Name="Name">X0dae4ea2ef26be4be9e9bc3e0f84cc6e720f</Property>
       <Property Name="Size">44, 57</Property>
-      <Property Name="Location">137, 169</Property>
+      <Property Name="Location">140, 169</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::USS;;;UP;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="TabIndex">38</Property>
@@ -148,8 +148,8 @@
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xd820d6a3e6a08e41c0e9e5de7ee6af2c049b" ControlName="Switch / Indicator 7">
       <Property Name="Name">Xd820d6a3e6a08e41c0e9e5de7ee6af2c049b</Property>
       <Property Name="Size">38, 49</Property>
-      <Property Name="Location">580, 350</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::HVAC_CTL::Heating;;;ONOFF;1;;;-1;;;Value;;;0</Property>
+      <Property Name="Location">582, 351</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU;;;Heating_ONOFF_CTL;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="TabIndex">25</Property>
       <Property Name="Activation">Left</Property>
@@ -165,7 +165,7 @@
       <Property Name="Name">Xf6281d7de39a0e42cdea111ed918f96ad29f</Property>
       <Property Name="Size">38, 49</Property>
       <Property Name="Location">170, 357</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::HVAC_CTL::Aircon;;;ONOFF;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU;;;Aircon_ONOFF_CTL;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="TabIndex">31</Property>
       <Property Name="Activation">Left</Property>
@@ -197,10 +197,11 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X355f93ecebe88e42eaea7e3e02cdf38cabd3" ControlName="Switch / Indicator 14">
       <Property Name="Name">X355f93ecebe88e42eaea7e3e02cdf38cabd3</Property>
-      <Property Name="Size">58, 75</Property>
-      <Property Name="Location">365, 268</Property>
+      <Property Name="Size">80, 69</Property>
+      <Property Name="Location">354, 268</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::HU;;;AlertLight;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\Warning_Lights.png</Property>
+      <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">36</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -247,12 +248,12 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xc4c228d7e0db3e4cf6ea247eb82847e52a7d" ControlName="Static Text 4">
       <Property Name="Name">Xc4c228d7e0db3e4cf6ea247eb82847e52a7d</Property>
-      <Property Name="Size">278, 27</Property>
-      <Property Name="Location">97, 136</Property>
+      <Property Name="Size">178, 27</Property>
+      <Property Name="Location">140, 136</Property>
       <Property Name="TextAlign">TopCenter</Property>
       <Property Name="ForeColor">White</Property>
       <Property Name="Font">Microsoft Sans Serif, 16pt</Property>
-      <Property Name="Text">Obstacle Detection Distance</Property>
+      <Property Name="Text">Set ESA Distance</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xea2f00a2e11cae4866e8e51e1ef642cbb7a7" ControlName="Static Text 3">
       <Property Name="Name">Xea2f00a2e11cae4866e8e51e1ef642cbb7a7</Property>
@@ -301,7 +302,7 @@
       <Property Name="Name">Xad6ed122e310fe4fdbe9821e92222dfeb8d7</Property>
       <Property Name="Size">38, 49</Property>
       <Property Name="Location">580, 406</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::HVAC_CTL;;;Mode_CONVERT_CTL;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HVAC;;;HVAC_Mode;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="TabIndex">26</Property>
       <Property Name="Activation">Left</Property>
@@ -333,7 +334,7 @@
       <Property Name="SegmentStrength">2</Property>
       <Property Name="DecimalPlaces">0</Property>
       <Property Name="NumberIntDigits">2</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::Display;;;Humidity;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HVAC;;;Humidity;1;;;-1;;;Value;;;0</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.LCDControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X5ecde3a5e1374e408aeba7bec23e95618f65" ControlName="LCD Control 4">
       <Property Name="Name">X5ecde3a5e1374e408aeba7bec23e95618f65</Property>
@@ -368,7 +369,7 @@
       <Property Name="SegmentStrength">2</Property>
       <Property Name="DecimalPlaces">0</Property>
       <Property Name="NumberIntDigits">2</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::Display;;;Temperature;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HVAC;;;Temperature;1;;;-1;;;Value;;;0</Property>
     </Object>
     <Property Name="Name">Panel</Property>
     <Property Name="Size">789, 534</Property>

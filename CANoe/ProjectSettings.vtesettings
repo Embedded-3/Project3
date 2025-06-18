@@ -928,7 +928,18 @@
 &lt;/ColumnProperties&gt;
 &lt;/ColumnsProperties&gt;
 &lt;Key&gt;1133967835442/NetworkSymbols&lt;/Key&gt;
-&lt;NodeTreeProperties /&gt;
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+&lt;NodeTreeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/MiddleZoneDB{VNetworkItem&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/MiddleZoneDB{VNetworkItem/{SignalGroupItem&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;/NodeTreeProperties&gt;
 &lt;/ViewProperties&gt;
 &lt;ViewProperties&gt;
 &lt;ColumnsProperties&gt;
@@ -937,6 +948,104 @@
 &lt;Position&gt;0&lt;/Position&gt;
 &lt;Sorting&gt;Ascending&lt;/Sorting&gt;
 &lt;Width&gt;200&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;IsVisible&gt;true&lt;/IsVisible&gt;
+&lt;Position&gt;1&lt;/Position&gt;
+&lt;Width&gt;200&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;Position&gt;-1&lt;/Position&gt;
+&lt;Width&gt;100&lt;/Width&gt;
+&lt;/ColumnProperties&gt;
+&lt;/ColumnsProperties&gt;
+&lt;Key&gt;1133967835442/&lt;/Key&gt;
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
+&lt;NodeTreeProperties /&gt;
+&lt;/ViewProperties&gt;
+&lt;ViewProperties&gt;
+&lt;ColumnsProperties&gt;
+&lt;ColumnProperties&gt;
+&lt;IsVisible&gt;true&lt;/IsVisible&gt;
+&lt;Position&gt;0&lt;/Position&gt;
+&lt;Sorting&gt;Ascending&lt;/Sorting&gt;
+&lt;Width&gt;352&lt;/Width&gt;
 &lt;/ColumnProperties&gt;
 &lt;ColumnProperties&gt;
 &lt;Position&gt;-1&lt;/Position&gt;
@@ -1023,7 +1132,36 @@
 &lt;/ColumnProperties&gt;
 &lt;/ColumnsProperties&gt;
 &lt;Key&gt;1133967835442/VariableSymbols&lt;/Key&gt;
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+&lt;NodeTreeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/MIDDLE&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/MIDDLE/CLU/MOTORRPM&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/MIDDLE/MBCU/HLAMP&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/FRONT/VCU&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/FRONT/MDPS&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/MIDDLE/MBCU&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;/NodeTreeProperties&gt;
+=======
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
 &lt;NodeTreeProperties /&gt;
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
 &lt;/ViewProperties&gt;
 &lt;/ViewProperties&gt;
 &lt;/SymbolSelectionProperties&gt;</d2p1:Value>

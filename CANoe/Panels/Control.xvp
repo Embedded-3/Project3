@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=19.0.155.0, Culture=neutral, PublicKeyToken=null">
   <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Control">
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xac597f26ec143e44c9eb13cef372eafa704d" ControlName="Switch / Indicator 6">
       <Property Name="Name">Xac597f26ec143e44c9eb13cef372eafa704d</Property>
       <Property Name="Size">78, 65</Property>
@@ -13,6 +21,13 @@
       <Property Name="Increment">1</Property>
       <Property Name="StartValue">0</Property>
     </Object>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X516d776de6fbbe4278eba4ae9f26a40a5877" ControlName="Group Box 4">
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X68dd07efee79fe4f3ee82cfedfb2c814a81d" ControlName="Switch / Indicator 1">
         <Property Name="Name">X68dd07efee79fe4f3ee82cfedfb2c814a81d</Property>
@@ -32,7 +47,19 @@
       </Object>
       <Property Name="Name">X516d776de6fbbe4278eba4ae9f26a40a5877</Property>
       <Property Name="Size">95, 106</Property>
+<<<<<<< Updated upstream
       <Property Name="Location">429, 9</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <Property Name="Location">560, 9</Property>
+=======
+      <Property Name="Location">429, 9</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+      <Property Name="Location">429, 9</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
       <Property Name="Text">Start up</Property>
       <Property Name="TabIndex">15</Property>
       <Property Name="UseWindowsStyle">False</Property>
@@ -57,16 +84,110 @@
       </Object>
       <Property Name="Name">Xa1e7a3f2e29d9e4a65e82d4e4d4560e0c42c</Property>
       <Property Name="Size">145, 168</Property>
+<<<<<<< Updated upstream
       <Property Name="Location">544, 9</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <Property Name="Location">663, 9</Property>
+=======
+      <Property Name="Location">544, 9</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+      <Property Name="Location">544, 9</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
       <Property Name="Text">Geer</Property>
       <Property Name="TabIndex">14</Property>
       <Property Name="UseWindowsStyle">False</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xde6a6056e7231e4f34ebae4e2d2f2467c0ed" ControlName="Group Box 2">
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xc154b3f8eefdae4341e8db6e68fce0919abb" ControlName="Switch / Indicator 10">
+        <Property Name="Name">Xc154b3f8eefdae4341e8db6e68fce0919abb</Property>
+        <Property Name="Size">61, 80</Property>
+        <Property Name="Location">77, 49</Property>
+        <Property Name="SymbolConfiguration"></Property>
+        <Property Name="ImageFile">bmp\ADAS.bmp</Property>
+        <Property Name="IsProportional">False</Property>
+        <Property Name="TabIndex">9</Property>
+        <Property Name="Epsilon">0</Property>
+        <Property Name="Increment">1</Property>
+        <Property Name="StartValue">0</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X286592fae27cae4224e885ce3ddb77c4426a" ControlName="Switch / Indicator 8">
+        <Property Name="Name">X286592fae27cae4224e885ce3ddb77c4426a</Property>
+        <Property Name="Size">49, 36</Property>
+        <Property Name="Location">22, 53</Property>
+        <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;HighBeem;1;;;-1;;;Value;;;0</Property>
+        <Property Name="ImageFile">bmp\ULight.png</Property>
+        <Property Name="IsProportional">False</Property>
+        <Property Name="TabIndex">8</Property>
+        <Property Name="Activation">Left</Property>
+        <Property Name="Epsilon">0</Property>
+        <Property Name="Increment">1</Property>
+        <Property Name="StartValue">0</Property>
+        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;2&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;</Property>
+        <Property Name="SwitchValuesVT">1;2;0/Lower/0;1/Lower/1</Property>
+        <Property Name="SwitchValues">1;2;0;1</Property>
+        <Property Name="SwitchValuesRx">1;2;0;1</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X2cf62f71ead6ee47c5e8a44e9bfc6175347f" ControlName="Switch / Indicator 9">
+        <Property Name="Name">X2cf62f71ead6ee47c5e8a44e9bfc6175347f</Property>
+        <Property Name="Size">49, 36</Property>
+        <Property Name="Location">22, 89</Property>
+        <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;LowBeem;1;;;-1;;;Value;;;0</Property>
+        <Property Name="ImageFile">bmp\DLight.png</Property>
+        <Property Name="IsProportional">False</Property>
+        <Property Name="TabIndex">7</Property>
+        <Property Name="Activation">Left</Property>
+        <Property Name="Epsilon">0</Property>
+        <Property Name="Increment">1</Property>
+        <Property Name="StartValue">0</Property>
+        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;2&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;</Property>
+        <Property Name="SwitchValuesVT">1;2;0/Lower/0;1/Lower/1</Property>
+        <Property Name="SwitchValues">1;2;0;1</Property>
+        <Property Name="SwitchValuesRx">1;2;0;1</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X20594c4ae2adbe4c4eea87fe7afc36d6bbe3" ControlName="Switch / Indicator 7">
+        <Property Name="Name">X20594c4ae2adbe4c4eea87fe7afc36d6bbe3</Property>
+        <Property Name="Size">198, 114</Property>
+        <Property Name="Location">-25, 121</Property>
+        <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;LeftLight;1;;;-1;;;Value;;;0</Property>
+        <Property Name="ImageFile">bmp\LeftBar.bmp</Property>
+        <Property Name="IsProportional">False</Property>
+        <Property Name="TabIndex">5</Property>
+        <Property Name="Epsilon">0</Property>
+        <Property Name="Increment">1</Property>
+        <Property Name="StartValue">0</Property>
+        <Property Name="StateCnt">3</Property>
+        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;3&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;&lt;RxValue&gt;2&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;2&lt;/TxValue&gt;</Property>
+        <Property Name="SwitchValuesVT">1;3;0/Lower/0;1/Lower/1;2/Lower/2</Property>
+        <Property Name="SwitchValues">1;3;0;1;2</Property>
+        <Property Name="SwitchValuesRx">1;3;0;1;2</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X7571298de0a37e4833ea914eede7bf08797f" ControlName="Switch / Indicator 2">
+        <Property Name="Name">X7571298de0a37e4833ea914eede7bf08797f</Property>
+        <Property Name="Size">319, 324</Property>
+        <Property Name="Location">174, 21</Property>
+=======
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X7571298de0a37e4833ea914eede7bf08797f" ControlName="Switch / Indicator 2">
         <Property Name="Name">X7571298de0a37e4833ea914eede7bf08797f</Property>
         <Property Name="Size">319, 324</Property>
         <Property Name="Location">24, 34</Property>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;SteeringAngle;1;;;-1;;;Value;;;0</Property>
         <Property Name="ImageFile">bmp\steering_strip_color.png</Property>
         <Property Name="IsProportional">False</Property>
@@ -83,7 +204,19 @@
       <Object Type="Vector.CANalyzer.Panels.Design.TrackBarControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X01c406b0ebd2de47b9eaf2de07fd31b66add" ControlName="Track Bar 1">
         <Property Name="Name">X01c406b0ebd2de47b9eaf2de07fd31b66add</Property>
         <Property Name="Size">348, 30</Property>
+<<<<<<< Updated upstream
         <Property Name="Location">15, 364</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <Property Name="Location">164, 351</Property>
+=======
+        <Property Name="Location">15, 364</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+        <Property Name="Location">15, 364</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="TabIndex">3</Property>
         <Property Name="MaximumDouble">13</Property>
         <Property Name="MinimumDouble">1</Property>
@@ -95,7 +228,19 @@
         <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;SteeringAngle;1;;;-1;;;Value;;;0</Property>
       </Object>
       <Property Name="Name">Xde6a6056e7231e4f34ebae4e2d2f2467c0ed</Property>
+<<<<<<< Updated upstream
       <Property Name="Size">391, 397</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <Property Name="Size">527, 397</Property>
+=======
+      <Property Name="Size">391, 397</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+      <Property Name="Size">391, 397</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
       <Property Name="Location">18, 9</Property>
       <Property Name="Text">Steering Wheel</Property>
       <Property Name="TabIndex">13</Property>
@@ -107,22 +252,58 @@
         <Property Name="Size">106, 30</Property>
         <Property Name="Location">16, 169</Property>
         <Property Name="TabIndex">4</Property>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <Property Name="LargeChangeDouble">6</Property>
+        <Property Name="MaximumSize">100000, 30</Property>
+=======
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="MaximumDouble">6</Property>
         <Property Name="LargeChangeDouble">6</Property>
         <Property Name="MaximumSize">100000, 30</Property>
         <Property Name="Maximum">6</Property>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="LargeChange">6</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Brake_Pedal;1;;;-1;;;Value;;;0</Property>
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.TrackBarControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X3a4e5515efa38e4f4aeba07ee8dc8eba3d95" ControlName="Track Bar 2">
         <Property Name="Name">X3a4e5515efa38e4f4aeba07ee8dc8eba3d95</Property>
         <Property Name="Size">106, 30</Property>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <Property Name="Location">147, 169</Property>
+        <Property Name="TabIndex">3</Property>
+        <Property Name="LargeChangeDouble">6</Property>
+        <Property Name="MaximumSize">100000, 30</Property>
+=======
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="Location">145, 169</Property>
         <Property Name="TabIndex">3</Property>
         <Property Name="MaximumDouble">6</Property>
         <Property Name="LargeChangeDouble">6</Property>
         <Property Name="MaximumSize">100000, 30</Property>
         <Property Name="Maximum">6</Property>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
         <Property Name="LargeChange">6</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Accel_Pedal;1;;;-1;;;Value;;;0</Property>
       </Object>
@@ -162,13 +343,37 @@
       </Object>
       <Property Name="Name">Xa40e7395ec7d6e4238e8ad7ea987669ac982</Property>
       <Property Name="Size">260, 193</Property>
+<<<<<<< Updated upstream
       <Property Name="Location">429, 210</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <Property Name="Location">551, 197</Property>
+=======
+      <Property Name="Location">429, 210</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+      <Property Name="Location">429, 210</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
       <Property Name="Text">Brake / Accel</Property>
       <Property Name="TabIndex">8</Property>
       <Property Name="UseWindowsStyle">False</Property>
     </Object>
     <Property Name="Name">Panel</Property>
+<<<<<<< Updated upstream
     <Property Name="Size">894, 424</Property>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <Property Name="Size">832, 414</Property>
+=======
+    <Property Name="Size">894, 424</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+=======
+    <Property Name="Size">894, 424</Property>
+>>>>>>> 99432d943b9abc197bd4406583aa83d18a2e49e6
+>>>>>>> Stashed changes
     <Property Name="Location">0, 0</Property>
     <Property Name="BackColor">White</Property>
   </Object>
