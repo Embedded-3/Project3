@@ -126,37 +126,38 @@ on timer loop10ms
   if(wakeupFlag == 0) return;
   
   counter_10ms++;
-  
+  /*
   frontHpcCarControl10msFrame.User_Steering_Angle = 1; // need to connect
   frontHpcCarControl10msFrame.Accel_Pedal_Pos     = 1; // need to connect
   frontHpcCarControl10msFrame.Brake_Pedal_Pos     = 1; // need to connect
   frontHpcCarControl10msFrame.Gear_Position       = 1; // need to connect
   frontHpcCarControl10msFrame.Ignition_Status     = 1; // need to connect
+  */
   CarControlUdpMsg.udp.SetData(0, frontHpcCarControl10msFrame);
   CarControlUdpMsg.CompletePacket();
   output(CarControlUdpMsg);
   write("[TX] [front->hpc] CarControl msg sent at %d ms", 10 * counter_10ms);
   
-  frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1; // need to connect
+  //frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1; // need to connect
   AdasOnOffUdpMsg.udp.SetData(0, frontHpcAdasOnOff10msFrame);
   AdasOnOffUdpMsg.CompletePacket();
   output(AdasOnOffUdpMsg);
   write("[TX] [front->hpc] Adas onoff msg sent at %d ms", 10 * counter_10ms);
   
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 1; // need to connect
+  //frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 1; // need to connect
   HeadLampMiddleUdpMsg.udp.SetData(0, frontMiddleHeadLampMiddle10msFrame);
   HeadLampMiddleUdpMsg.CompletePacket();
   output(HeadLampMiddleUdpMsg);
   write("[TX] [front->middle] Head Lamp Middle msg sent at %d ms", 10 * counter_10ms);
   
-  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 1; // need to connect
+  //frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 1; // need to connect
   HeadLampRearUdpMsg.udp.SetData(0, frontRearHeadLampRear10msFrame);
   HeadLampRearUdpMsg.CompletePacket();
   output(HeadLampRearUdpMsg);
   write("[TX] [front->rear] Head Lamp Rear msg sent at %d ms", 10 * counter_10ms);
   
-  frontRearMcuControl10msFrame.LeftRear_RPM = 10; // need to connect
-  frontRearMcuControl10msFrame.RightRear_RPM = 10; // need to connect
+  //frontRearMcuControl10msFrame.LeftRear_RPM = 10; // need to connect
+  //frontRearMcuControl10msFrame.RightRear_RPM = 10; // need to connect
   McuControlUdpMsg.udp.SetData(0, frontRearMcuControl10msFrame);
   McuControlUdpMsg.CompletePacket();
   output(McuControlUdpMsg);
@@ -260,3 +261,89 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
   output(*ethpkt)
   */
 }
+
+// ***CAN Message***
+// 1. ignition -> 시동
+on message VCU_VehicleStart_STATUS_100MSG
+{
+  frontHpcWakeupCallFrame.WakeUp_Call = this.Ignition_Status;
+  frontHpcCarControl10msFrame.Ignition_Status = this.Ignition_Status;
+  WakeUpCallMsg.udp.SetData(0, frontHpcWakeupCallFrame);
+  WakeUpCallMsg.CompletePacket();
+  output(WakeUpCallMsg);
+  write("[TX] [front->hpc] wake up call message sent at beginning^^");
+}
+
+// 2. Gear
+on message VCU_Transmission_STATUS_1000MSG
+{
+  frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
+}
+
+// 3. Accel
+on message VCU_AccPedal_CTL_10MSG
+{
+  frontHpcCarControl10msFrame.Accel_Pedal_Pos = this.Accel_Pedal_Pos;
+}
+
+// 4. Brake
+on message VCU_BrakePedal_CTL_10MSG
+{
+  frontHpcCarControl10msFrame.Brake_Pedal_Pos = this.Brake_Pedal_Pos;
+}
+
+
+on message VCU_OTAResult_STATUS_MSG
+{
+  //frontHpcOtaResultFrame
+}
+
+// 6. 계산된 RPM값 전송
+on message VCU_MCU_CTL_10MSG
+{
+  frontRearMcuControl10msFrame.LeftRear_RPM = this.MCU_RPM_CTL;
+}
+
+on message ABS_BrakeOutput_STATUS_10MSG
+{
+}
+
+//ABS_Alive_INFO_20MSG
+on message ABS_OTAResult_STATUS_MSG
+{
+}
+
+on message MDPS_Steering_INFO_10MSG
+{
+  frontHpcCarControl10msFrame.User_Steering_Angle = this.Steering_Angle;
+}
+
+on message MDPS_Switch_STATUS_10MSG
+{
+  frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = this.Mode_Button;
+}
+
+//
+on message MDPS_HLBeam_CTL_MSG
+{
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.HighBeam << 7;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.LowBeam << 6;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.HighBeam << 7;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.LowBeam << 6;  
+}
+
+on message MDPS_RLTurnSignal_CTL_MSG
+{
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.LeftTurnSignal << 5;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.RightTurnSignal<< 4;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.LeftTurnSignal << 5;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.RightTurnSignal << 4;
+}
+
+/*
+
+MDPS_Alive_INFO_20MSG
+MDPS_OTAResult_STATUS_MSG
+MFS_Alive_INFO_20MSG
+MFS_OTAResult_STATUS_MSG
+*/

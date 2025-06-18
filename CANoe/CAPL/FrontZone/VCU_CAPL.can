@@ -16,8 +16,8 @@ variables
   int state = 0; // 0: OFF, 1: STARTING, 2: READY
   int gearPos = 0; // 0:P, 1:R, 2:N, 3:D
   int prevGearPos = 0;
-  int throttle = 0; // 0~100
-  int brake = 0;    // 0~100
+  int throttle = 0; // 0~10
+  int brake = 0;    // 0~10
   msTimer rpmTimer;
 }
 
@@ -96,10 +96,16 @@ on sysvar FRONT::VCU::Gear
 {
   prevGearPos = gearPos;
   gearPos = @this;
-  if(state == 2 && prevGearPos != gearPos)
+
+  if (state == 2 && prevGearPos != gearPos)
   {
-    motorRpm += 300;
-    if (motorRpm > maxRpm) motorRpm = maxRpm;
+    if (gearPos == 1) {
+      write("VCU: Gear shifted to Reverse");
+    } else if (gearPos == 3) {
+      write("VCU: Gear shifted to Drive");
+    } else {
+      write("VCU: Gear changed to Neutral/Park");
+    }
   }
   
 }
@@ -140,7 +146,7 @@ on timer rpmTimer {
       
       if ((gearPos == 1 || gearPos == 3) && throttle > 0) {
         // 주행 또는 후진 + 액셀 입력
-        targetRpm = targetIdleRpm + (throttle * 40); // 예: 100 입력 → 4800 rpm
+        targetRpm = targetIdleRpm + (throttle * 400); // 예: 100 입력 → 4800 rpm
       } else {
         // 기어가 P/N이거나 throttle=0
         targetRpm = targetIdleRpm;
@@ -148,7 +154,7 @@ on timer rpmTimer {
 
       // 브레이크에 따라 RPM 감소 (비율 감속)
       if (brake > 0) {
-        targetRpm -=  brake * 100; // 10 입력 → 1000 rpm 감속
+        targetRpm -=  brake * 120; // 10 입력 → 1000 rpm 감속
         if (targetRpm < targetIdleRpm) targetRpm = targetIdleRpm;
       }
 
