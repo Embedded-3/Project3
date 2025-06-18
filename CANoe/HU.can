@@ -1,0 +1,123 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  int warningState = 0;
+}
+
+// -----------------------------
+// 온도 조절 관련
+// -----------------------------
+
+// Left 온도 증가
+on sysvar TEST_HeadUnit::Left_Plus_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::Left_Temp = @TEST_HeadUnit::Left_Temp + 1;
+    write("Left Temp 증가: %d", @TEST_HeadUnit::Left_Temp);
+  }
+}
+
+// Left 온도 감소
+on sysvar TEST_HeadUnit::Left_Sub_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::Left_Temp = @TEST_HeadUnit::Left_Temp - 1;
+    write("Left Temp 감소: %d", @TEST_HeadUnit::Left_Temp);
+  }
+}
+
+// Right 온도 증가
+on sysvar TEST_HeadUnit::Right_Plus_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::Right_Temp = @TEST_HeadUnit::Right_Temp + 1;
+    write("Right Temp 증가: %d", @TEST_HeadUnit::Right_Temp);
+  }
+}
+
+// Right 온도 감소
+on sysvar TEST_HeadUnit::Right_Sub_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::Right_Temp = @TEST_HeadUnit::Right_Temp - 1;
+    write("Right Temp 감소: %d", @TEST_HeadUnit::Right_Temp);
+  }
+}
+
+// Left AUTO 버튼
+on sysvar TEST_HeadUnit::Left_AUTO_Pressed
+{
+  if (@this == 1)
+  {
+    write("Left AUTO 버튼 눌림");
+  }
+}
+
+// Right AUTO 버튼
+on sysvar TEST_HeadUnit::Right_AUTO_Pressed
+{
+  if (@this == 1)
+  {
+    write("Right AUTO 버튼 눌림");
+  }
+}
+
+// -----------------------------
+// 장애물 거리 조절
+// -----------------------------
+
+// + 버튼 눌림
+on sysvar TEST_HeadUnit::USS_Plus_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::USS_Distance = @TEST_HeadUnit::USS_Distance + 10;
+    write("거리 증가: %d cm", @TEST_HeadUnit::USS_Distance);
+  }
+}
+
+// - 버튼 눌림
+on sysvar TEST_HeadUnit::Uss_Sub_Pressed
+{
+  if (@this == 1)
+  {
+    @TEST_HeadUnit::USS_Distance = @TEST_HeadUnit::USS_Distance - 10;
+    if (@TEST_HeadUnit::USS_Distance < 0)
+    {
+      @TEST_HeadUnit::USS_Distance = 0;
+    }
+    write("거리 감소: %d cm", @TEST_HeadUnit::USS_Distance);
+  }
+}
+
+// Apply 버튼 눌림
+on sysvar TEST_HeadUnit::Uss_Apply_Pressed
+{
+  if (@this == 1)
+  {
+    write("Apply 버튼 눌림: 현재 거리 = %d cm", @TEST_HeadUnit::USS_Distance);
+  }
+}
+
+// -----------------------------
+// 비상등 토글
+// -----------------------------
+
+on sysvar TEST_HeadUnit::WarningLight
+{
+  if (@this == 1)
+  {
+    warningState = !warningState;
+    if(warningState) write("비상등 상태 : ON");
+    else write("비상등 상태 : OFF");
+  }
+}
