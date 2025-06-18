@@ -196,7 +196,6 @@ variables
     // bit 6: LowBeamOnOff
     // bit 5: LeftTurnSignal
     // bit 4: RightTurnSignal;
-    byte HighBeam_Status;
     byte HeadLamp_Middle_Status;
   };
   

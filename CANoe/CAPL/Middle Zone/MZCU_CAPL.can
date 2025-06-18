@@ -12,6 +12,8 @@ variables
   int counter_20ms;
   
   byte wakeupFlag; // 0 : sleep 1 : wakeup
+  byte soundFlag;  // 0 : off   1 : on
+  int  OBDistance;
   
   int port_id;
   int allcan_port_id;
@@ -22,7 +24,12 @@ variables
   ethernetPacket OtaResultUdpMsg;
   ethernetPacket HeadLampStatusUdpMsg;
   ethernetPacket CanBusAliveUdpMsg;
-
+  
+  //CAN MSG
+  message MZCU_HLamp_CTL_MSG headlamp_msg;
+  message MZCU_ADB_Lamp_CTL_MSG adb_ctl_msg;
+  message MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
+  
   // TX FRAME
   struct MiddleHpcOtaAssignRejectFrame middleHpcOtaAssignRejectFrame;
   struct MiddleHpcOtaResultFrame middleHpcOtaResultFrame;
@@ -52,12 +59,38 @@ variables
   
   byte EsaFrameReceived20ms;
   byte WakeUpReceived;
+  
+  //===============MIDDLE ZCU VARIABLES====================//
+  byte FrontCanAliveState;
+  byte MiddleCanAliveState;
+  byte RearCanAliveState;
+  
+  byte rxCanHVAC_Alive;
+  byte rxCanHU_Alive;
+  byte rxCanCLU_Alive;
+  byte rxCanMBCU_Alive;
+  
+  // MBCU RX can message
+    // MBCU_TurnLight_STATUS_100MSG
+  byte rxCanLeftFront_Light;
+  byte rxCanRightFront_Light;
+    // MBCU_BrakeLight_STATUS_100MSG
+  byte rxCanBrake_Light;
+    // MBCU_LowBeam_STATUS_100MSG
+  byte rxCanLowBeam_OnOff;
+    // MBCU_HighBeam_STATUS_100MSG 
+  byte rxCanHighBeam_OnOff;
+  byte rxCanLeft_HighBeam_Status;
+  byte rxCanRight_HighBeam_Status;
+
 }
 
 on start 
 {
   counter_20ms = 0;
   wakeupFlag = 0;
+  soundFlag = 0;
+  OBDistance = 255;
   
   AdbFrameReceived20ms = 0;
   OtaMiddleFrameReceived10ms = 0;
@@ -90,6 +123,29 @@ on start
   CanBusAliveUdpMsg = globalEthPkt;
 }
 
+on message MBCU_TurnLight_STATUS_100MSG
+{
+  rxCanLeftFront_Light = this.LeftFront_Light;
+  rxCanRightFront_Light = this.RightFront_Light;
+}
+
+on message MBCU_BrakeLight_STATUS_100MSG
+{
+  rxCanBrake_Light = this.Brake_Light;
+}
+
+on message MBCU_LowBeam_STATUS_100MSG
+{
+  rxCanLowBeam_OnOff = this.LowBeam_OnOff;
+}
+
+on message MBCU_HighBeam_STATUS_100MSG
+{
+  rxCanHighBeam_OnOff = this.HighBeam_OnOff;
+  rxCanLeft_HighBeam_Status = this.Left_HighBeam_Status;
+  rxCanRight_HighBeam_Status = this.Right_HighBeam_Status;
+}
+
 on timer loopFlagInit5ms
 {
   if(wakeupFlag == 0) return;
@@ -111,17 +167,31 @@ on timer loop20ms
   
   counter_20ms++;
   
-  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status = 1; // need to connect
-  middleHpcHeadLampStatus20msFrame.LeftHighBeamStatus = 1; // need to connect
-  middleHpcHeadLampStatus20msFrame.RightHighBeamStatus = 1; // need to connect
+  //Byte[0] : LF Light, RF Light, BrakeLight, LowBeamOnOff, HighBeamOnOff
+  //Byte[1] : Left HighBeam Status
+  //Byte[2] : Right HighBeam Status
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status = 0;
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status |= (rxCanLeftFront_Light << 7);
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status |= (rxCanRightFront_Light << 6);
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status |= (rxCanBrake_Light << 5);
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status |= (rxCanLowBeam_OnOff << 4);
+  middleHpcHeadLampStatus20msFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status |= (rxCanHighBeam_OnOff << 3);
+  middleHpcHeadLampStatus20msFrame.LeftHighBeamStatus = rxCanLeft_HighBeam_Status;
+  middleHpcHeadLampStatus20msFrame.RightHighBeamStatus = rxCanRight_HighBeam_Status;
   HeadLampStatusUdpMsg.udp.SetData(0, middleHpcHeadLampStatus20msFrame);
   HeadLampStatusUdpMsg.CompletePacket();
   output(HeadLampStatusUdpMsg);
   write("[Tx] [middle->hpc] headLampStatus sent at %d ms", 20 * counter_20ms);
   
-  middleHpcCanBusAlive20msFrame.FrontZoneCanBus_Alive = 0xff; // need to connect
-  middleHpcCanBusAlive20msFrame.MiddleZoneCanBus_Alive = 0xff; // need to connect
-  middleHpcCanBusAlive20msFrame.RearZoneCanBus_Alive = 0xff; // need to connect
+  //MZCU	MBCU	CLU	HU	HVAC
+  MiddleCanAliveState = 0;
+  MiddleCanAliveState |= (1 << 7);
+  MiddleCanAliveState |= rxCanMBCU_Alive ? (1 << 6) : 1;
+  MiddleCanAliveState |= rxCanCLU_Alive ? (1 << 5) : 1;
+  MiddleCanAliveState |= rxCanHU_Alive ? (1 << 4) : 1;
+  MiddleCanAliveState |= rxCanHVAC_Alive ? (1 << 3) : 1;
+  middleHpcCanBusAlive20msFrame.FrontZoneCanBus_Alive = FrontCanAliveState; // need to connect
+  middleHpcCanBusAlive20msFrame.RearZoneCanBus_Alive = RearCanAliveState; // need to connect
   CanBusAliveUdpMsg.udp.SetData(0, middleHpcCanBusAlive20msFrame);
   CanBusAliveUdpMsg.CompletePacket();
   output(CanBusAliveUdpMsg);
@@ -165,6 +235,10 @@ on ethernetPacket *
       write("[RX] [hpc->middle] LeftHighBeam : %d, RightHighBeam : %d, LowBeam : %d",
             rxAdbFrame.Left_HighBeam_CTL, rxAdbFrame.Right_HighBeam_CTL,
             rxAdbFrame.LowBeam_CTL);
+      //CAN 메세지 MZCU_ADB_Lamp_CTL_MSG 전송
+      adb_ctl_msg.LeftHighBeam_CTL = rxAdbFrame.Left_HighBeam_CTL;
+      adb_ctl_msg.RightHighBeam_CTL = rxAdbFrame.Right_HighBeam_CTL;
+      output(adb_ctl_msg);
       break;
     case MIDDLE_OTAMIDDLE_RX_PORT_ID:
       if (OtaMiddleFrameReceived10ms) break;
@@ -176,18 +250,26 @@ on ethernetPacket *
       if (HeadLampMiddleFrameReceived10ms) break;
       HeadLampMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxHeadLampMiddleFrame);
+      //CAN 메세지 MZCU_HLamp_CTL_MSG 전송
+      headlamp_msg.HighBeam_Active = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 7);
+      headlamp_msg.LowBeam_Active  = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 6);
+      headlamp_msg.LeftTurn_Active = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 5);
+      headlamp_msg.RightTurn_Active= rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 4);
+      output(headlamp_msg);
       write("[RX] [front->middle] HeadLamp status : %d", rxHeadLampMiddleFrame.HeadLamp_Middle_Status);
       break;
     case MIDDLE_ALIVE_FRONT_RX_PORT_ID:
       if (AliveFrontFrameReceived20ms) break;
       AliveFrontFrameReceived20ms = 1;
       this.udp.GetData(0, rxFrontAliveFrame);
+      FrontCanAliveState = rxFrontAliveFrame.ECU_Alive_Status;
       write("[RX] [front->middle] Front Alive : %d", rxFrontAliveFrame.ECU_Alive_Status);
       break;
     case MIDDLE_ALIVE_REAR_RX_PORT_ID:
       if (AliveRearFrameReceived20ms) break;
       AliveRearFrameReceived20ms = 1;
       this.udp.GetData(0, rxRearAliveFrame);
+      RearCanAliveState = rxRearAliveFrame.ECU_Alive_Status;
       write("[RX] [rear->middle] Rear Alive : %d", rxRearAliveFrame.ECU_Alive_Status);
       break;
     case MIDDLE_TAILLAMP_RX_PORT_ID:
@@ -204,6 +286,8 @@ on ethernetPacket *
       RpmInfoFrameReceived20ms = 1;
       this.udp.GetData(0, rxRpmInfoFrame);
       write("[RX] [hpc->middle] LeftRPM : %d, RightRPM : %d", rxRpmInfoFrame.LeftRear_MotorRPM, rxRpmInfoFrame.RightRear_MotorRPM);
+      motor_ctl_msg.Left_Motor_RPM = rxRpmInfoFrame.LeftRear_MotorRPM;
+      output(motor_ctl_msg);
       break;
     default:
       break;
@@ -234,4 +318,47 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
   ethpkt->CompletePacket();
   output(*ethpkt)
   */
+}
+
+on message MBCU_Alive_INFO_20MSG
+{
+}
+
+on message MBCU_OTAResult_STATUS_MSG
+{
+}
+
+on message CLU_Alive_INFO_20MSG
+{
+}
+
+on message CLU_OTAResult_STATUS_MSG
+{
+}
+
+on message HU_SoundAlertOnOff_CTL_MSG
+{
+  soundFlag = this.SoundAlertOnOff_Signal;
+}
+
+on message HU_ObsDetectDist_INFO_MSG
+{
+  OBDistance = this.ObstacleDetectDistance_Signal;
+}
+
+// OTA 업데이트 승인 여부 CAN 메세지 수신
+on message HU_UpdateAcceptDecline_CTL_MSG
+{
+  middleHpcOtaAssignRejectFrame.UpdateAcceptDecline_Signal = this.UpdateAcceptDecline_Signal;
+  OtaAssignRejectUdpMsg.udp.SetData(0, middleHpcOtaAssignRejectFrame);
+  OtaAssignRejectUdpMsg.CompletePacket();
+  output(OtaAssignRejectUdpMsg);
+}
+
+on message HU_Alive_INFO_20MSG
+{
+}
+
+on message HU_OTAResult_STATUS_MSG
+{  
 }
