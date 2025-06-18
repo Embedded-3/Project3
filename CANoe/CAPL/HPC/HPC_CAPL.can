@@ -154,7 +154,8 @@ on timer loop20ms
   
   counter_20ms++;
   
-  hpcFrontLkas20msFrame.LKAS_Steering_Angle = 10; // need to connect
+  //LKAS 계산 로직
+  //hpcFrontLkas20msFrame.LKAS_Steering_Angle = 10; // need to connect
   LkasUdpMsg.udp.setData(0, hpcFrontLkas20msFrame);
   LkasUdpMsg.CompletePacket();
   output(LkasUdpMsg);
@@ -168,9 +169,11 @@ on timer loop20ms
   output(EsaUdpMsg);
   write("[TX] [hpc->All] Esa packet sent at %d ms", 20 * counter_20ms);
   
+  /*
   hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = 1; // need to connect
   hpcMiddleAdb20msFrame.Right_HighBeam_CTL = 1; // need to connect
   hpcMiddleAdb20msFrame.LowBeam_CTL        = 0; // need to connect
+  */
   AdbUdpMsg.udp.setData(0, hpcMiddleAdb20msFrame);
   AdbUdpMsg.CompletePacket();
   output(AdbUdpMsg);
@@ -208,6 +211,8 @@ on ethernetPacket *
       write("[RX] [front->hpc] SteeringAngle : %u, AccelPedalPos : %u, BrakePedal : %u, GearPosition: %u, Ignition : %u",
             rxCarControlFrame.User_Steering_Angle, rxCarControlFrame.Accel_Pedal_Pos, rxCarControlFrame.Brake_Pedal_Pos,
             rxCarControlFrame.Gear_Position, rxCarControlFrame.Ignition_Status);
+      hpcMiddleAdb20msFrame.StreeringAngle_CTL = rxCarControlFrame.User_Steering_Angle;
+      
       break;
     case HPC_OTARESULT_FRONT_RX_PORT_ID:
       if (OtaFrontResultFrameReceived10ms) break;

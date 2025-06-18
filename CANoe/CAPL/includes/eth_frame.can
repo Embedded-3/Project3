@@ -126,6 +126,7 @@ variables
     byte Left_HighBeam_CTL;
     byte Right_HighBeam_CTL;
     byte LowBeam_CTL;
+    byte StreeringAngle_CTL;
   };
   
   // Ethernet MTU : 1500 byte
@@ -191,10 +192,11 @@ variables
   };
   
   struct FrontMiddleHeadLampMiddleFrame {
-    // bit 7: HighBeam
-    // bit 6: LowBeam
+    // bit 7: HighBeamOnOff
+    // bit 6: LowBeamOnOff
     // bit 5: LeftTurnSignal
     // bit 4: RightTurnSignal;
+    byte HighBeam_Status;
     byte HeadLamp_Middle_Status;
   };
   
