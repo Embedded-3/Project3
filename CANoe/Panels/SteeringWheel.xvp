@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=19.0.155.0, Culture=neutral, PublicKeyToken=null">
+<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null">
   <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Panel1">
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xf11ead21eafc1e4a35e9b7ce1cf2c017f33b" ControlName="Switch / Indicator 1">
       <Property Name="Name">Xf11ead21eafc1e4a35e9b7ce1cf2c017f33b</Property>
       <Property Name="Size">197, 258</Property>
-      <Property Name="Location">92, 105</Property>
+      <Property Name="Location">92, 50</Property>
       <Property Name="SymbolConfiguration">8;16;BB;;;BBB;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">bmp\steering_strip_color.png</Property>
+      <Property Name="ImageFile">steering_strip_color.png</Property>
       <Property Name="TabIndex">1</Property>
       <Property Name="Epsilon">0</Property>
       <Property Name="Increment">1</Property>

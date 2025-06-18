@@ -4,9 +4,9 @@
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xaf6d8900e21cae44fee8476e5a805df172c9" ControlName="Switch / Indicator 1">
       <Property Name="Name">Xaf6d8900e21cae44fee8476e5a805df172c9</Property>
       <Property Name="Size">23, 30</Property>
-      <Property Name="Location">25, 263</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::DOOR;;;Door_FL_Status;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">..\..\..\door_status.bmp</Property>
+      <Property Name="Location">31, 263</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::DOOR;;;Door_INFO;1;;;-1;;;Value;;;0</Property>
+      <Property Name="ImageFile">bmp\door_status.bmp</Property>
       <Property Name="TabIndex">9</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -22,7 +22,7 @@
       <Property Name="Size">23, 30</Property>
       <Property Name="Location">513, 35</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::LIGHT;;;LowBeam_ONOFF;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">..\..\..\down.bmp</Property>
+      <Property Name="ImageFile">bmp\down.bmp</Property>
       <Property Name="TabIndex">8</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -38,7 +38,7 @@
       <Property Name="Size">23, 30</Property>
       <Property Name="Location">513, 5</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::LIGHT;;;HighBeam_ONOFF;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">..\..\..\up.bmp</Property>
+      <Property Name="ImageFile">bmp\up.bmp</Property>
       <Property Name="TabIndex">7</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -54,7 +54,7 @@
       <Property Name="Size">32, 42</Property>
       <Property Name="Location">418, 61</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::ADAS;;;ADB_Status;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">..\..\..\ADB.bmp</Property>
+      <Property Name="ImageFile">bmp\ADB.bmp</Property>
       <Property Name="TabIndex">6</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -70,7 +70,7 @@
       <Property Name="Size">34, 44</Property>
       <Property Name="Location">378, 59</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::ADAS;;;ESA_Status;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">..\..\..\ESA.bmp</Property>
+      <Property Name="ImageFile">bmp\ESA.bmp</Property>
       <Property Name="TabIndex">5</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -97,10 +97,10 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X0d643424e430be45d4e8558e67cdeda5fb35" ControlName="Gear_LED">
       <Property Name="Name">X0d643424e430be45d4e8558e67cdeda5fb35</Property>
-      <Property Name="Size">68, 89</Property>
-      <Property Name="Location">365, -6</Property>
-      <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Gear;1;;;-1;;;Value;;;0</Property>
-      <Property Name="ImageFile">bmp\gear_led.bmp</Property>
+      <Property Name="Size">45, 59</Property>
+      <Property Name="Location">367, 6</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU;;;Transmission_Status;1;;;-1;;;Value;;;0</Property>
+      <Property Name="ImageFile">bmp\gear_PRDN.png</Property>
       <Property Name="TabIndex">4</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -179,11 +179,11 @@
     <Object Type="Vector.CANalyzer.Panels.Design.LCDControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X14e401fbefab3e40d0e81ccea5e5fbef5f00" ControlName="LCD Control 2">
       <Property Name="Name">X14e401fbefab3e40d0e81ccea5e5fbef5f00</Property>
       <Property Name="Size">81, 28</Property>
-      <Property Name="Location">78, 293</Property>
+      <Property Name="Location">113, 293</Property>
       <Property Name="ColorOn">White</Property>
       <Property Name="DecimalPlaces">0</Property>
       <Property Name="NumberIntDigits">3</Property>
-      <Property Name="SymbolConfiguration"></Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU;;;Battery_Status;1;;;-1;;;Value;;;0</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.LCDControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c" ControlName="LCD Control 1">
       <Property Name="Name">X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c</Property>
@@ -199,15 +199,16 @@
       <Property Name="Size">347, 226</Property>
       <Property Name="Location">461, 31</Property>
       <Property Name="ScaleMin">0</Property>
-      <Property Name="ScaleMax">8</Property>
-      <Property Name="LowerRangeLimit">7</Property>
-      <Property Name="UpperRangeLimit">7</Property>
+      <Property Name="ScaleMax">4</Property>
+      <Property Name="LowerRangeLimit">0</Property>
+      <Property Name="UpperRangeLimit">4</Property>
       <Property Name="IsMinRange">False</Property>
       <Property Name="IsMidRange">False</Property>
       <Property Name="IsMaxRange">False</Property>
       <Property Name="ScaleAngle">270</Property>
       <Property Name="BackgroundColor">Transparent</Property>
       <Property Name="ArrowWidth">3</Property>
+      <Property Name="LegendText"></Property>
       <Property Name="LegendTextFont">Microsoft Sans Serif, 8.25pt</Property>
       <Property Name="IsLegendText">False</Property>
       <Property Name="GaugeFont">Microsoft Sans Serif, 8.25pt, style=Bold</Property>
@@ -219,13 +220,13 @@
       <Property Name="IsFrame">False</Property>
       <Property Name="IsMargin">False</Property>
       <Property Name="ScaleMargin">0</Property>
-      <Property Name="SymbolConfiguration"></Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTOR;;;Motor_RPM;1;;;-1;;;Value;;;0</Property>
       <Property Name="CriticalProps" Member="AAEAAAD/////AQAAAAAAAAAEAQAAAC9TeXN0ZW0uUmVmbGVjdGlvbi5NZW1iZXJJbmZvU2VyaWFsaXphdGlvbkhvbGRlcgcAAAAETmFtZQxBc3NlbWJseU5hbWUJQ2xhc3NOYW1lCVNpZ25hdHVyZQpTaWduYXR1cmUyCk1lbWJlclR5cGUQR2VuZXJpY0FyZ3VtZW50cwEBAQEBAAMIDVN5c3RlbS5UeXBlW10GAgAAAAUuY3RvcgYDAAAAXFZlY3Rvci5DQU5hbHl6ZXIuUGFuZWxzLkFuYWxvZ0dhdWdlLCBWZXJzaW9uPTE3LjMuOTEuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBgQAAAA2VmVjdG9yLkNBTmFseXplci5QYW5lbHMuRGVzaWduLkdhdWdlQ3JpdGljYWxQcm9wZXJ0aWVzBgUAAAAyVm9pZCAuY3RvcihEb3VibGUsIERvdWJsZSwgRG91YmxlLCBEb3VibGUsIERvdWJsZSkGBgAAAFAuY3RvcihTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlKQEAAAAKCw==">
         <Argument>0</Argument>
-        <Argument>8</Argument>
+        <Argument>4</Argument>
         <Argument>0</Argument>
-        <Argument>7</Argument>
-        <Argument>7</Argument>
+        <Argument>0</Argument>
+        <Argument>4</Argument>
       </Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.AnalogGaugeControl, Vector.CANalyzer.Panels.AnalogGauge, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X2f0c72efea138e4277e8d97e7a8ceeda8e3d" ControlName="Speed Gauge">
@@ -233,15 +234,16 @@
       <Property Name="Size">347, 226</Property>
       <Property Name="Location">-11, 31</Property>
       <Property Name="ScaleMin">0</Property>
-      <Property Name="ScaleMax">260</Property>
-      <Property Name="LowerRangeLimit">30</Property>
-      <Property Name="UpperRangeLimit">80</Property>
+      <Property Name="ScaleMax">270</Property>
+      <Property Name="LowerRangeLimit">0</Property>
+      <Property Name="UpperRangeLimit">270</Property>
       <Property Name="IsMinRange">False</Property>
       <Property Name="IsMidRange">False</Property>
       <Property Name="IsMaxRange">False</Property>
       <Property Name="ScaleAngle">270</Property>
       <Property Name="BackgroundColor">Transparent</Property>
       <Property Name="ArrowWidth">3</Property>
+      <Property Name="LegendText"></Property>
       <Property Name="LegendTextFont">Microsoft Sans Serif, 8.25pt</Property>
       <Property Name="IsLegendText">False</Property>
       <Property Name="GaugeFont">Microsoft Sans Serif, 8.25pt, style=Bold</Property>
@@ -251,13 +253,13 @@
       <Property Name="IsFrame">False</Property>
       <Property Name="IsMargin">False</Property>
       <Property Name="ScaleMargin">0</Property>
-      <Property Name="SymbolConfiguration"></Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTOR;;;Speed;1;;;-1;;;Value;;;0</Property>
       <Property Name="CriticalProps" Member="AAEAAAD/////AQAAAAAAAAAEAQAAAC9TeXN0ZW0uUmVmbGVjdGlvbi5NZW1iZXJJbmZvU2VyaWFsaXphdGlvbkhvbGRlcgcAAAAETmFtZQxBc3NlbWJseU5hbWUJQ2xhc3NOYW1lCVNpZ25hdHVyZQpTaWduYXR1cmUyCk1lbWJlclR5cGUQR2VuZXJpY0FyZ3VtZW50cwEBAQEBAAMIDVN5c3RlbS5UeXBlW10GAgAAAAUuY3RvcgYDAAAAXFZlY3Rvci5DQU5hbHl6ZXIuUGFuZWxzLkFuYWxvZ0dhdWdlLCBWZXJzaW9uPTE3LjMuOTEuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBgQAAAA2VmVjdG9yLkNBTmFseXplci5QYW5lbHMuRGVzaWduLkdhdWdlQ3JpdGljYWxQcm9wZXJ0aWVzBgUAAAAyVm9pZCAuY3RvcihEb3VibGUsIERvdWJsZSwgRG91YmxlLCBEb3VibGUsIERvdWJsZSkGBgAAAFAuY3RvcihTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlKQEAAAAKCw==">
         <Argument>0</Argument>
-        <Argument>260</Argument>
+        <Argument>270</Argument>
         <Argument>0</Argument>
-        <Argument>30</Argument>
-        <Argument>80</Argument>
+        <Argument>0</Argument>
+        <Argument>270</Argument>
       </Property>
     </Object>
     <Property Name="Name">Panel</Property>
