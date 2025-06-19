@@ -68,6 +68,9 @@ variables
   byte OtaFrontFrameReceived10ms;
   byte EsaFrameReceived20ms;
   byte WakeUpReceived;
+  
+  int i, j;
+  qword ota_value;
 }
 
 
@@ -346,9 +349,44 @@ on ethernetPacket *
     case FRONT_OTAFRONT_RX_PORT_ID:
       if (OtaFrontFrameReceived10ms) break;
       OtaFrontFrameReceived10ms = 1;
-      OTA_CANTX_FLAG = 1;
       this.udp.GetData(0, rxOtaFrontFrame);
-      write("FZCU : [RX] [hpc->front] OTA FRONT GOGO");
+      write("[RX] [hpc->front] OTA FRONT GOGO");
+      
+      for (i = 0; i < rxOtaFrontFrame.Total_Byte; i += 8)
+      {
+        ota_value = 0;
+        for (j = 0; j < 8; j++)
+        {
+          if (rxOtaFrontFrame.Total_Byte - i < j) break;
+          ota_value |= rxOtaFrontFrame.Data[i+j];
+          if (j != 7) ota_value = (ota_value << 8); // Endian 계산 정확한지 모르겠음.
+        }
+            
+        // FZCU VCU ABS MDPS MFS
+        switch(rxOtaFrontFrame.ECU_Select)
+        {
+          case (1 << 7): // FZCU
+            break;
+          case (1 << 6): // VCU
+            $VCU_OTA = ota_value;
+            output(ota_vcu_msg);
+            break;
+          case (1 << 5): // ABS
+            $ABS_OTA = ota_value;
+            output(ota_abs_msg);
+            break;
+          case (1 << 4):
+            $MDPS_OTA = ota_value;
+            output(ota_mdps_msg);
+            break;
+          case (1 << 3):
+            $MFS_OTA = ota_value;
+            output(ota_mfs_msg);
+            break;
+          default:
+            break;
+        }
+      }
       break;
     default:
       break;
