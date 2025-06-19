@@ -49,6 +49,7 @@ variables
   struct MiddleHpcCanBusAliveFrame rxCanBusAliveFrame;
   struct RearHpcWheelInfoFrame rxWheelInfoFrame;
   struct FrontHpcWakeUpCallFrame rxWakeUpCallFrame;
+  struct MiddleHpcObstacleDetectDistFrame rxObstacleDetectDistFrame;
   
   byte UssFrameReceived20ms;
   byte CarControlFrameReceived10ms;
@@ -61,8 +62,38 @@ variables
   byte CanBusAliveFrameReceived20ms;
   byte WheelInfoFrameReceived20ms;
   byte WakeUpCallFrameReceived;
+  byte ObstacleDetectDistFrameReceived;
   
-  int i;
+  //====================HPC VARIABLES================//
+  
+  byte ADAS_OnOff_State;
+  
+  // LKAS HPC VARIABLES
+  int rxRaspberrypiAngle; // 라즈베리파이로부터 받은 추종점 각도 on sysvar ADAS::angle update
+  
+  byte lkasTxSteeringAngle;
+  
+  // ESA HPC VARIABLES
+  byte leftTurnSignal;
+  byte rightTurnSignal;
+  
+  int obstacleDetectDistance;
+  int leftRearUltraSoundVal;
+  int rightRearUltraSoundVal;
+  
+  byte esaTxSteeringAngle;
+  byte esaTxAlertSpeakrOutput;
+  byte esaTxBrakeLightCTL;
+  
+  // ADB HPC VARIABLES
+  int currentSteeringAngle;
+  
+  byte adbTxLeftHighBeamCTL; // currentSteeringAngle > 0 -> 오른쪽이동 -> 오른쪽 하이빔 끔
+  byte adbTxRightHighBeamCTL; // currentSteeringAngle < 0 -> 왼쪽이동 -> 왼쪽 하이빔 끔
+  byte adbTxLowBeamCTL; // 차선이동, 방향전환 시 LowBeam은 항상 키기
+  
+  // 기타
+  int i;   // 반복문 쓰는 용도
 }
 
 on start
@@ -70,7 +101,16 @@ on start
   i = 0;
   counter_20ms = 0;
   wakeupFlag = 0;
-
+  
+  ADAS_OnOff_State = 0;
+  rxRaspberrypiAngle = 0;
+  
+  obstacleDetectDistance = 30; // 기본값 30 (수정필요)
+  leftRearUltraSoundVal = 100;
+  rightRearUltraSoundVal = 100;
+  
+  currentSteeringAngle = 0;
+  
   setTimerCyclic(loop20ms, 20);
   setTimerCyclic(loopFlagInit5ms, 5);
   
@@ -84,6 +124,7 @@ on start
   CanBusAliveFrameReceived20ms = 0;
   WheelInfoFrameReceived20ms = 0;
   WakeUpCallFrameReceived = 0;
+  ObstacleDetectDistFrameReceived = 0;
   
   initUdpPacket(HPC_MAC_ADDR, FZCU_MAC_ADDR, HPC_IP_ADDR, FZCU_IP_ADDR, 
                 HPC_TX_PORT_BASE, FRONT_RX_PORT_BASE, HPC_LKAS_TX_PORT_ID, FRONT_LKAS_RX_PORT_ID);
@@ -131,6 +172,12 @@ on key 'f'
   sendLEDOtaMessage();
 }
 
+// 라즈베리파이로부터 추종점 각도 수신
+on sysvar_update @ADAS::angle
+{
+  rxRaspberrypiAngle = @ADAS::angle;
+}
+
 on timer loopFlagInit5ms
 {
   if(wakeupFlag == 0) return;
@@ -146,6 +193,7 @@ on timer loopFlagInit5ms
   CanBusAliveFrameReceived20ms = 0;
   WheelInfoFrameReceived20ms = 0;
   WakeUpCallFrameReceived = 0;
+  ObstacleDetectDistFrameReceived = 0;
 }
 
 on timer loop20ms
@@ -154,26 +202,81 @@ on timer loop20ms
   
   counter_20ms++;
   
-  //LKAS 계산 로직
-  //hpcFrontLkas20msFrame.LKAS_Steering_Angle = 10; // need to connect
+  //================ADAS CALCULATE START==============//
+  if (ADAS_OnOff_State & (1 << 7)) // LKAS ON
+  {
+    if (!leftTurnSignal && !rightTurnSignal)
+    {
+      lkasTxSteeringAngle = (-rxRaspberrypiAngle) / 2;
+    }
+    else
+    {
+      lkasTxSteeringAngle = 0;
+    }
+  }
+  
+  if (ADAS_OnOff_State & (1 << 6)) // ESA ON
+  {
+    if (leftTurnSignal && leftRearUltraSoundVal <= obstacleDetectDistance && currentSteeringAngle < 0)
+    {
+      esaTxSteeringAngle = -currentSteeringAngle;
+      esaTxAlertSpeakrOutput = 1;
+      esaTxBrakeLightCTL = 1;
+    }
+    else if (rightTurnSignal && rightRearUltraSoundVal <= obstacleDetectDistance && currentSteeringAngle > 0)
+    {
+      esaTxSteeringAngle = -currentSteeringAngle;
+      esaTxAlertSpeakrOutput = 1;
+      esaTxBrakeLightCTL = 1;
+    }
+    else
+    {
+      esaTxSteeringAngle = 0;
+      esaTxAlertSpeakrOutput = 0;
+      esaTxBrakeLightCTL = 0;
+    }
+  }
+  
+  if (ADAS_OnOff_State & (1 << 5)) // ADB ON
+  {
+     if (currentSteeringAngle > 5) // 우회전을 하면 오른쪽 하이빔 꺼짐
+     {
+       adbTxRightHighBeamCTL = 0;
+       adbTxLeftHighBeamCTL = 1;
+       adbTxLowBeamCTL = 1;
+     }
+     else if (currentSteeringAngle < -5) // 좌회전을 하면 왼쪽 하이빔 꺼짐
+     {
+       adbTxRightHighBeamCTL = 1;
+       adbTxLeftHighBeamCTL = 0;
+       adbTxLowBeamCTL = 1;
+     }
+     else
+     { // 평소에는 두 개의 하이빔 모두 켜놓음
+       adbTxRightHighBeamCTL = 1;
+       adbTxLeftHighBeamCTL = 1;
+       adbTxLowBeamCTL = 0;
+     }
+  }  
+  //================ADAS CALCULATE END================//
+  
+  hpcFrontLkas20msFrame.LKAS_Steering_Angle = lkasTxSteeringAngle;
   LkasUdpMsg.udp.setData(0, hpcFrontLkas20msFrame);
   LkasUdpMsg.CompletePacket();
   output(LkasUdpMsg);
   write("[TX] [hpc->front] Lkas packet sent at %d ms", 20 * counter_20ms);
   
-  hpcAllEsa20msFrame.ESA_Steering_Angle  = 10; // need to connect
-  hpcAllEsa20msFrame.AlertSpeaker_Output = 0; // need to connect
-  hpcAllEsa20msFrame.BrakeLight_CTL      = 0; // need to connect
+  hpcAllEsa20msFrame.ESA_Steering_Angle  = esaTxSteeringAngle; 
+  hpcAllEsa20msFrame.AlertSpeaker_Output = esaTxAlertSpeakrOutput; 
+  hpcAllEsa20msFrame.BrakeLight_CTL      = esaTxBrakeLightCTL; 
   EsaUdpMsg.udp.setData(0, hpcAllEsa20msFrame);
   EsaUdpMsg.CompletePacket();
   output(EsaUdpMsg);
   write("[TX] [hpc->All] Esa packet sent at %d ms", 20 * counter_20ms);
   
-  /*
-  hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = 1; // need to connect
-  hpcMiddleAdb20msFrame.Right_HighBeam_CTL = 1; // need to connect
-  hpcMiddleAdb20msFrame.LowBeam_CTL        = 0; // need to connect
-  */
+  hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = adbTxLeftHighBeamCTL; 
+  hpcMiddleAdb20msFrame.Right_HighBeam_CTL = adbTxRightHighBeamCTL; 
+  hpcMiddleAdb20msFrame.LowBeam_CTL        = adbTxLowBeamCTL;
   AdbUdpMsg.udp.setData(0, hpcMiddleAdb20msFrame);
   AdbUdpMsg.CompletePacket();
   output(AdbUdpMsg);
@@ -208,11 +311,10 @@ on ethernetPacket *
       if (CarControlFrameReceived10ms) break;
       CarControlFrameReceived10ms = 1;
       this.udp.GetData(0, rxCarControlFrame);
+      
       write("[RX] [front->hpc] SteeringAngle : %u, AccelPedalPos : %u, BrakePedal : %u, GearPosition: %u, Ignition : %u",
             rxCarControlFrame.User_Steering_Angle, rxCarControlFrame.Accel_Pedal_Pos, rxCarControlFrame.Brake_Pedal_Pos,
             rxCarControlFrame.Gear_Position, rxCarControlFrame.Ignition_Status);
-      hpcMiddleAdb20msFrame.StreeringAngle_CTL = rxCarControlFrame.User_Steering_Angle;
-      
       break;
     case HPC_OTARESULT_FRONT_RX_PORT_ID:
       if (OtaFrontResultFrameReceived10ms) break;
@@ -236,6 +338,7 @@ on ethernetPacket *
       if (AdasOnOffFrameReceived10ms) break;
       AdasOnOffFrameReceived10ms = 1;
       this.udp.GetData(0, rxAdasOnOffFrame);
+      ADAS_OnOff_State = rxAdasOnOffFrame.ADAS_On_Off_Status;
       write("[RX] [front->hpc] ADAS state : %d", rxAdasOnOffFrame.ADAS_On_Off_Status);
       break;
     case HPC_OTA_ASSIGN_REJECT_RX_PORT_ID:
@@ -254,6 +357,8 @@ on ethernetPacket *
       if (HeadLampStatusFrameReceived20ms) break;
       HeadLampStatusFrameReceived20ms = 1;
       this.udp.GetData(0, rxHeadLampStatusFrame);
+      leftTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 7)) << 7;
+      rightTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 6)) << 6;
       write("[RX] [middle->hpc] CarState : %d, LeftHighBeam : %d, RightHighBeam : %d", 
             rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status,
             rxHeadLampStatusFrame.LeftHighBeamStatus,
@@ -288,6 +393,13 @@ on ethernetPacket *
       output(WakeUpMsg);
       write("[TX] [hpc->ALL] wakeup msg sent at beginning");
       break;
+    case HPC_OBSTACLE_DETECT_DIST_TX_PORT_ID:
+      if (ObstacleDetectDistFrameReceived) break;
+      ObstacleDetectDistFrameReceived = 1;
+      this.udp.GetData(0, rxObstacleDetectDistFrame);
+      obstacleDetectDistance = rxObstacleDetectDistFrame.ObstacleDetectDistance;
+      write("[RX] [middle->hpc] ObstacleDetectDist : %d ", obstacleDetectDistance);
+      break;
     default:
       break;
   }
@@ -310,17 +422,9 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
   globalEthPkt.ipv4.destination.ParseAddress(RX_IP_ADDR);
   globalEthPkt.udp.source = TX_PORT_BASE + TX_PORT_ID;
   globalEthPkt.udp.destination = RX_PORT_BASE + RX_PORT_ID;
-
-  /*
-  이후 해야할 일
-  struct myFrame 초기화
-  ethpkt->setData(0, myFrame);
-  ethpkt->Length = (length); (OTA는 길게 해야함)
-  ethpkt->CompletePacket();
-  output(*ethpkt)
-  */
 }
 
+// 1400 byte 보낸다고 가정
 void sendLEDOtaMessage()
 {
   hpcFrontOtaFrontFrame.ECU_Select = 0x10;

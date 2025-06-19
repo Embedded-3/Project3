@@ -48,6 +48,46 @@ variables
   
   byte EsaFrameReceived20ms;
   byte WakeUpReceived;
+  
+  // CAN RX Signal
+  byte rxCanLeftRear_TurnSignal_Status;
+  byte rxCanRightRear_TurnSignal_Status;
+  byte rxCanBrake_Light_Status;
+  
+  int rxCanLeftRear_MotorRPM;
+  int rxCanRightRear_MotorRPM;
+  
+  byte rxCanLeftRear_UltraSoundVal;
+  byte rxCanRightRear_UltraSoundVal;
+    // RZCU	RBCU USS MCU
+  byte rxCanRBCU_Alive;
+  byte rxCanUSS_Alive;
+  byte rxCanMCU_Alive;
+  
+  int i, j;
+  qword ota_value;
+  
+  // TX CAN MESSAGE
+  message RZCU_OTA_MCU_MSG rzcu_ota_mcu_msg;
+  message RZCU_OTA_RBCU_MSG rzcu_ota_rbcu_msg;
+  message RZCU_OTA_USS_MSG rzcu_ota_uss_msg;
+  
+  message RZCU_TurnLight_CTL_MSG rzcu_turnlight_ctl_msg;
+  message RZCU_BrakeLight_CTL_MSG rzcu_brakelight_ctl_msg;
+  message RZCU_ObsDetectDist_CTL_MSG rzcu_obsdetectdist_ctl_msg;
+  message RZCU_Wheel_CTL_MSG rzcu_wheel_ctl_msg;
+  message RZCU_WakeUp_CTL_MSG rzcu_wakeup_ctl_msg;
+  
+  // TX CAN SIGNAL
+  byte txCanLeftRear_Light;
+  byte txCanRightRear_Light;
+  byte txCanRear_BrakeLight;
+  byte txCanObstacleDetection_Distance;
+  int txCanLeftRear_RPM;
+  int txCanRightRear_RPM;
+  byte txCanIgnition_Status;
+  byte txCanRearZone_WakeUp;
+  
 }
 
 on start
@@ -61,6 +101,15 @@ on start
   McuControlFrameReceived20ms = 0;
   EsaFrameReceived20ms = 0;
   WakeUpReceived = 0;
+  
+  rxCanLeftRear_MotorRPM = 0;
+  rxCanRightRear_MotorRPM = 0;
+  rxCanLeftRear_UltraSoundVal = 0;
+  rxCanRightRear_UltraSoundVal = 0;
+  
+  rxCanRBCU_Alive = 0;
+  rxCanUSS_Alive = 0;
+  rxCanMCU_Alive = 0;
   
   setTimerCyclic(loop10ms, 10); // 10ms
   setTimerCyclic(loop20ms, 20); // 20ms
@@ -87,6 +136,64 @@ on start
   TailLampUdpMsg = globalEthPkt;
 }
 
+on message RBCU_TailLamp_STATUS_100MSG
+{
+  rxCanLeftRear_TurnSignal_Status = this.LeftRear_TurnSignal_Status;
+  rxCanRightRear_TurnSignal_Status = this.RightRear_TurnSignal_Status;
+  rxCanBrake_Light_Status = this.Brake_Light_Status;
+}
+
+on message MCU_RearMotor_STATUS_20MSG
+{
+  rxCanLeftRear_MotorRPM = this.LeftRear_MotorRPM;
+  rxCanRightRear_MotorRPM = this.RightRear_MotorRPM;
+}
+
+on message RBCU_Alive_INFO_20MSG
+{
+  rxCanRBCU_Alive = this.RBCU_Alive;
+}
+
+on message USS_Alive_INFO_20MSG
+{
+  rxCanUSS_Alive = this.USS_Alive;
+}
+
+on message MCU_Alive_INFO_20MSG
+{
+  rxCanMCU_Alive = this.MCU_Alive;
+}
+
+on message RBCU_OTAResult_STATUS_MSG
+{
+  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
+  OtaResultUdpMsg.CompletePacket();
+  write("[rbcu->rzcu->hpc] ota result commited");
+}
+
+on message USS_OTAResult_STATUS_MSG
+{
+  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
+  OtaResultUdpMsg.CompletePacket();
+  write("[uss->rzcu->hpc] ota result commited");
+}
+
+on message MCU_OTAResult_STATUS_MSG
+{
+  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
+  OtaResultUdpMsg.CompletePacket();
+  write("[mcu->rzcu->hpc] ota result commited");
+}
+
+on message USS_UltraSoundVal_INFO_50MSG
+{
+  rxCanLeftRear_UltraSoundVal = this.LeftRear_UltraSoundVal;
+  rxCanRightRear_UltraSoundVal = this.RightRear_UltraSoundVal;
+}
+
 on timer loopFlagInit5ms
 {
   if(wakeupFlag == 0) return;
@@ -102,17 +209,17 @@ on timer loop10ms
   if(wakeupFlag == 0) return;
   counter_10ms++;
   
-  rearHpcUss10msFrame.LeftRear_UltraSoundVal = 10; // need to connect
-  rearHpcUss10msFrame.RightRear_UltraSoundVal = 20; // need to connect
+  rearHpcUss10msFrame.LeftRear_UltraSoundVal = rxCanLeftRear_UltraSoundVal;
+  rearHpcUss10msFrame.RightRear_UltraSoundVal = rxCanRightRear_UltraSoundVal;
   UssUdpMsg.udp.SetData(0, rearHpcUss10msFrame);
   UssUdpMsg.CompletePacket();
   output(UssUdpMsg);
   write("[TX] [rear->hpc] uss msg sent at %d ms", 10 * counter_10ms);
   
-  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = 10; // need to connect
-  rearHpcWheelInfo10msFrame.LeftRear_MotorDirection = 1; // need to connect
-  rearHpcWheelInfo10msFrame.RightRear_MotorRPM = 10; // need to connect
-  rearHpcWheelInfo10msFrame.RightRear_MotorDirection = 1; // need to connect
+  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = rxCanLeftRear_MotorRPM;
+  rearHpcWheelInfo10msFrame.LeftRear_MotorDirection = 0;
+  rearHpcWheelInfo10msFrame.RightRear_MotorRPM = rxCanRightRear_MotorRPM;
+  rearHpcWheelInfo10msFrame.RightRear_MotorDirection = 0;
   WheelInfoUdpMsg.udp.SetData(0, rearHpcWheelInfo10msFrame);
   WheelInfoUdpMsg.CompletePacket();
   output(WheelInfoUdpMsg);
@@ -124,19 +231,25 @@ on timer loop20ms
   if(wakeupFlag == 0) return;
   counter_20ms++;
   
-  rearMiddleAlive20msFrame.ECU_Alive_Status = 1;
+  // RZCU	RBCU USS MCU
+  rearMiddleAlive20msFrame.ECU_Alive_Status = 0;
+  rearMiddleAlive20msFrame.ECU_Alive_Status |= (1 << 7);
+  rearMiddleAlive20msFrame.ECU_Alive_Status |= rxCanRBCU_Alive ? (1 << 6) : 0;
+  rearMiddleAlive20msFrame.ECU_Alive_Status |= rxCanUSS_Alive ? (1 << 5) : 0; 
+  rearMiddleAlive20msFrame.ECU_Alive_Status |= rxCanUSS_Alive ? (1 << 4) : 0;
   AliveUdpMsg.udp.SetData(0, rearMiddleAlive20msFrame);
   AliveUdpMsg.CompletePacket();
   output(AliveUdpMsg);
   write("[TX] [rear->middle] can alive msg sent at %d ms", 20 * counter_20ms);
   
-  rearMiddleTailLampStatus20msFrame.Brake_Light_Status = 1; // need to connect
-  rearMiddleTailLampStatus20msFrame.LeftRear_TurnSignal_Status = 0; // need to connect
-  rearMiddleTailLampStatus20msFrame.RightRear_TurnSignal_Status = 0; // need to connect
+  rearMiddleTailLampStatus20msFrame.Brake_Light_Status = rxCanBrake_Light_Status; // need to connect
+  rearMiddleTailLampStatus20msFrame.LeftRear_TurnSignal_Status = rxCanLeftRear_TurnSignal_Status; // need to connect
+  rearMiddleTailLampStatus20msFrame.RightRear_TurnSignal_Status = rxCanRightRear_TurnSignal_Status; // need to connect
   TailLampUdpMsg.udp.SetData(0, rearMiddleTailLampStatus20msFrame);
   TailLampUdpMsg.CompletePacket();
   output(TailLampUdpMsg);
   write("[TX] [rear->middle] tail lamp msg sent at %d ms", 20 * counter_20ms);
+  
 }
 
 on ethernetPacket *
@@ -155,6 +268,7 @@ on ethernetPacket *
       EsaFrameReceived20ms = 1;
       this.udp.getData(0, rxEsaFrame);
       write("[RX] [hpc->rear] ESA BrakeLight_CTL : %d", rxEsaFrame.BrakeLight_CTL);
+      txCanRear_BrakeLight = rxEsaFrame.BrakeLight_CTL;
       break;
     case ALLCAN_WAKEUP_RX_PORT_ID:
       if(WakeUpReceived) return;
@@ -162,6 +276,10 @@ on ethernetPacket *
       this.udp.getData(0, rxWakeUpFrame);
       wakeupFlag = 1;
       write("[RX] [hpc->rear] Wake up message called");
+      txCanRearZone_WakeUp = 1;
+      rzcu_wakeup_ctl_msg.RearZone_WakeUp = txCanRearZone_WakeUp;
+      output(rzcu_wakeup_ctl_msg);
+      write("[rzcu -> peripherals] wake up message sent");
       break;
     default:
       break;
@@ -173,19 +291,64 @@ on ethernetPacket *
       if (OtaRearFrameReceived10ms) break;
       OtaRearFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaRearFrame);
-      write("[RX] [hpc->rear] OTA rear gogo");
+      write("[RX] [hpc->rear] OTA REAR GOGO");
+      
+      for (i = 0; i < rxOtaRearFrame.Total_Byte; i += 8)
+      {
+        ota_value = 0;
+        for (j = 0; j < 8; j++)
+        {
+          if (rxOtaRearFrame.Total_Byte - i < j) break;
+          ota_value |= rxOtaRearFrame.Data[i+j];
+          if (j != 7) ota_value = (ota_value << 8); // Endian 계산 정확한지 모르겠음.
+        }
+            
+        // RZCU	RBCU USS MCU
+        switch(rxOtaRearFrame.ECU_Select)
+        {
+          case (1 << 7): // RZCU
+            break;
+          case (1 << 6): // RBCU
+            rzcu_ota_rbcu_msg.RBCU_OTA = ota_value;
+            output(rzcu_ota_rbcu_msg);
+            break;
+          case (1 << 5): // USS
+            rzcu_ota_uss_msg.USS_OTA = ota_value;
+            output(rzcu_ota_uss_msg);
+            break;
+          case (1 << 4): // MCU
+            rzcu_ota_mcu_msg.MCU_OTA = ota_value;
+            output(rzcu_ota_mcu_msg);
+            break;
+          default:
+            break;
+        }
+      }
       break;
     case REAR_HEADLAMP_REAR_RX_PORT_ID:
       if (HeadLampRearFrameReceived20ms) break;
       HeadLampRearFrameReceived20ms = 1;
       this.udp.GetData(0, rxHeadLampRearFrame);
       write("[RX] [front->rear] headlamp rear status : %d", rxHeadLampRearFrame.HeadLamp_Rear_Status);
+      
+      txCanLeftRear_Light = (rxHeadLampRearFrame.HeadLamp_Rear_Status & (1 << 7)) >> 7;
+      txCanRightRear_Light = (rxHeadLampRearFrame.HeadLamp_Rear_Status & (1 << 6)) >> 6;
+      rzcu_turnlight_ctl_msg.LeftRear_Light = txCanLeftRear_Light;
+      rzcu_turnlight_ctl_msg.RightRear_Light = txCanRightRear_Light;
+      output(rzcu_turnlight_ctl_msg);
+      
+      txCanRear_BrakeLight |= (rxHeadLampRearFrame.HeadLamp_Rear_Status & (1 << 5)) >> 5; // ADB로 인한 brake light가 우선이므로 or 처리했음.
+      rzcu_brakelight_ctl_msg.Rear_BrakeLight = txCanRear_BrakeLight;
+      output(rzcu_brakelight_ctl_msg);
+      
       break;
     case REAR_MCUCONTROL_RX_PORT_ID:
       if (McuControlFrameReceived20ms) break;
       McuControlFrameReceived20ms = 1;
       this.udp.GetData(0, rxMcuControlFrame);
       write("[RX] [hpc->rear] left : %d, right : %d", rxMcuControlFrame.LeftRear_RPM, rxMcuControlFrame.RightRear_RPM);
+      txCanLeftRear_RPM = rxMcuControlFrame.LeftRear_RPM;
+      txCanRightRear_RPM = rxMcuControlFrame.RightRear_RPM;
       break;
     default:
       break;
