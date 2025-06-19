@@ -9,7 +9,17 @@ variables
 {
   int isSleeping = 1; // 초기 상태는 절전
   msTimer loop;
-  int detectLine = 255;
+  msTimer hvacLoop1000ms;
+  
+  byte rxAirconOnOff = 0;
+  byte rxTargetTemp = 0;
+  byte rxHvacMode = 0;
+  byte rxHeatingOnOff = 0;
+  
+  
+  // humid, temp 측정하고 보내준다.
+  byte currentHumidity = 50;
+  byte currentTemperature = 28;
 }
 
 // 0. 시뮬레이션 시작 시 절전 진입
@@ -18,6 +28,39 @@ on start
   isSleeping = 1;
   write("HVAC: Sleep mode entered.");
   setTimerCyclic(loop, 100);
+  setTimerCyclic(hvacLoop1000ms, 1000);
+}
+
+// 1초에 한 번씩 targetTemp로 이동하는 코드
+on timer hvacLoop1000ms
+{
+  if (!isSleeping && rxAirconOnOff)
+  {
+    if (rxTargetTemp > currentTemperature)
+    {
+      currentTemperature++;
+    }
+    else if (rxTargetTemp < currentTemperature)
+    {
+      currentTemperature--;
+    }
+  } 
+}
+
+on message HU_AirCon_CTL_MSG
+{
+  rxAirconOnOff = this.AirCon_OnOff;
+  rxTargetTemp = this.AirCon_Output;
+}
+
+on message HU_Heating_CTL_MSG
+{
+  rxHeatingOnOff = this.Heating_OnOff;
+}
+
+on message HU_ModeConvert_CTL_MSG
+{
+  rxHvacMode = this.Internal_Mode;
 }
 
 // 0. Run 상태에서 보낼 주기 메세지
@@ -31,11 +74,11 @@ on timer loop
     message HVAC_IntHumi_INFO_100MSG humi_msg;
     message HVAC_IntTemp_INFO_100MSG temp_msg;
     
-    mode_msg.Hvac_Mode_Status = @sysvar::MIDDLE::HVAC::HVAC_Mode;
-    aircon_msg.Aircon_OnOff_Status = @sysvar::MIDDLE::HVAC::Aircon_ONOFF;
-    heat_msg.Heating_OnOff_Status = @sysvar::MIDDLE::HVAC::Heating_ONOFF;
-    humi_msg.Internal_Humidity = @sysvar::MIDDLE::HVAC::Humidity;
-    temp_msg.Internal_Temperature = @sysvar::MIDDLE::HVAC::Temperature;
+    mode_msg.Hvac_Mode_Status = rxHvacMode;
+    aircon_msg.Aircon_OnOff_Status = rxAirconOnOff;
+    heat_msg.Heating_OnOff_Status = rxHeatingOnOff;
+    humi_msg.Internal_Humidity = currentHumidity; // 그냥 값
+    temp_msg.Internal_Temperature = currentTemperature; // 그냥 값
     
     output(mode_msg);
     output(aircon_msg);
@@ -63,6 +106,9 @@ on message MZCU_OTA_HVAC_MSG
 {
   if(isSleeping == 0)
   {
-    //OTA어디다 저장해?
+    message HVAC_OTAResult_STATUS_MSG hvac_otaresult_status_msg;
+    hvac_otaresult_status_msg.HVAC_OTAResult = 1;
+    output(hvac_otaresult_status_msg);
+    write("HVAC OTA COMPLETED");
   }
 }  

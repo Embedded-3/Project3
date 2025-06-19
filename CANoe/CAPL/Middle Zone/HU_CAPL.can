@@ -137,8 +137,8 @@ on sysvar sysvar::MIDDLE::HU::Mode_CTL
     }
     else
     {
-      mode_msg.External_Mode = 0;
-      mode_msg.Internal_Mode = 1;
+      mode_msg.External_Mode = 1;
+      mode_msg.Internal_Mode = 0;
     }
     output(mode_msg);
   }
