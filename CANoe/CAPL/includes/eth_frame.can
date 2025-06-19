@@ -44,17 +44,18 @@ variables
   const long HPC_RPMINFO_TX_PORT_ID     = 9;
 
 // ========================== HPC RX ===========================
-  const long HPC_USS_RX_PORT_ID 		           = 1;
-  const long HPC_CARCONTROL_RX_PORT_ID         = 2;
-  const long HPC_OTARESULT_FRONT_RX_PORT_ID    = 3;
-  const long HPC_OTARESULT_MIDDLE_RX_PORT_ID   = 4;
-  const long HPC_OTARESULT_REAR_RX_PORT_ID     = 5;
-  const long HPC_ADAS_ONOFF_RX_PORT_ID         = 6;
-  const long HPC_OTA_ASSIGN_REJECT_RX_PORT_ID  = 7;
-  const long HPC_HEADLAMP_STATUS_RX_PORT_ID    = 8;
-  const long HPC_CANBUS_ALIVE_RX_PORT_ID       = 9;
-  const long HPC_WHEEL_INFO_RX_PORT_ID         = 10;
-  const long HPC_WAKEUPCALL_RX_PORT_ID         = 11;
+  const long HPC_USS_RX_PORT_ID 		              = 1;
+  const long HPC_CARCONTROL_RX_PORT_ID            = 2;
+  const long HPC_OTARESULT_FRONT_RX_PORT_ID       = 3;
+  const long HPC_OTARESULT_MIDDLE_RX_PORT_ID      = 4;
+  const long HPC_OTARESULT_REAR_RX_PORT_ID        = 5;
+  const long HPC_ADAS_ONOFF_RX_PORT_ID            = 6;
+  const long HPC_OTA_ASSIGN_REJECT_RX_PORT_ID     = 7;
+  const long HPC_HEADLAMP_STATUS_RX_PORT_ID       = 8;
+  const long HPC_CANBUS_ALIVE_RX_PORT_ID          = 9;
+  const long HPC_WHEEL_INFO_RX_PORT_ID            = 10;
+  const long HPC_WAKEUPCALL_RX_PORT_ID            = 11;
+  const long HPC_OBSTACLE_DETECT_DIST_TX_PORT_ID  = 12;
 
 // ========================= FRONT TX ==========================
   const long FRONT_CARCONTROL_TX_PORT_ID       = 1;
@@ -73,10 +74,11 @@ variables
   const long FRONT_OTAFRONT_RX_PORT_ID         = 2;
 
 // ========================= MIDDLE TX =========================
-  const long MIDDLE_OTA_ASSIGN_REJECT_TX_PORT_ID = 1;
-  const long MIDDLE_OTARESULT_TX_PORT_ID         = 2;
-  const long MIDDLE_HEADLAMP_STATUS_TX_PORT_ID   = 3;
-  const long MIDDLE_CANBUS_ALIVE_TX_PORT_ID      = 4;
+  const long MIDDLE_OTA_ASSIGN_REJECT_TX_PORT_ID    = 1;
+  const long MIDDLE_OTARESULT_TX_PORT_ID            = 2;
+  const long MIDDLE_HEADLAMP_STATUS_TX_PORT_ID      = 3;
+  const long MIDDLE_CANBUS_ALIVE_TX_PORT_ID         = 4;
+  const long MIDDLE_OBSTACLE_DETECT_DIST_TX_PORT_ID = 5;
 
 // ========================= MIDDLE RX =========================
   const long MIDDLE_ADB_RX_PORT_ID               = 1;
@@ -102,7 +104,7 @@ variables
   
 // ========================== ALLCAN RX ==========================
   const long ALLCAN_ESA_RX_PORT_ID            = 1;
-  const long ALLCAN_WAKEUP_RX_PORT_ID             = 2;
+  const long ALLCAN_WAKEUP_RX_PORT_ID         = 2;
   
   struct myFrame {
     int a;
@@ -126,7 +128,6 @@ variables
     byte Left_HighBeam_CTL;
     byte Right_HighBeam_CTL;
     byte LowBeam_CTL;
-    byte StreeringAngle_CTL;
   };
   
   // Ethernet MTU : 1500 byte
@@ -196,6 +197,7 @@ variables
     // bit 6: LowBeamOnOff
     // bit 5: LeftTurnSignal
     // bit 4: RightTurnSignal;
+    byte HighBeam_Status;
     byte HeadLamp_Middle_Status;
   };
   
@@ -239,6 +241,10 @@ variables
     byte FrontZoneCanBus_Alive; // FZCU VCU ABS MDPS MFS
     byte MiddleZoneCanBus_Alive; // MZCU MBCU CLU HU HVAC
     byte RearZoneCanBus_Alive; // RZCU RBCU USS MCU
+  };
+  
+  struct MiddleHpcObstacleDetectDistFrame {
+    byte ObstacleDetectDistance;
   };
   
   struct RearHpcUssFrame {

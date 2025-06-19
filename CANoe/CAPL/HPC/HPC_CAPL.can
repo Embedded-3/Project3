@@ -91,6 +91,7 @@ variables
   byte adbTxLeftHighBeamCTL; // currentSteeringAngle > 0 -> 오른쪽이동 -> 오른쪽 하이빔 끔
   byte adbTxRightHighBeamCTL; // currentSteeringAngle < 0 -> 왼쪽이동 -> 왼쪽 하이빔 끔
   byte adbTxLowBeamCTL; // 차선이동, 방향전환 시 LowBeam은 항상 키기
+  byte adbTxUserSteeringAngle; 
   
   // 기타
   int i;   // 반복문 쓰는 용도
@@ -173,9 +174,9 @@ on key 'f'
 }
 
 // 라즈베리파이로부터 추종점 각도 수신
-on sysvar_update @ADAS::angle
+on sysvar_update ADAS::Angle
 {
-  rxRaspberrypiAngle = @ADAS::angle;
+  rxRaspberrypiAngle = @ADAS::Angle;
 }
 
 on timer loopFlagInit5ms
@@ -257,6 +258,7 @@ on timer loop20ms
        adbTxLeftHighBeamCTL = 1;
        adbTxLowBeamCTL = 0;
      }
+     adbTxUserSteeringAngle = currentSteeringAngle;
   }  
   //================ADAS CALCULATE END================//
   
