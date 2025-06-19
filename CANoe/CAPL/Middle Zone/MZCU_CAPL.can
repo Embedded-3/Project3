@@ -29,6 +29,10 @@ variables
   message MZCU_HLamp_CTL_MSG headlamp_msg;
   message MZCU_ADB_Lamp_CTL_MSG adb_ctl_msg;
   message MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
+  message MZCU_OTA_MBCU_MSG ota_mbcu_msg;
+  message MZCU_OTA_HU_MSG ota_hu_msg;
+  message MZCU_OTA_HVAC_MSG ota_hvac_msg;
+  message MZCU_OTA_CLU_MSG ota_clu_msg;
   
   // TX FRAME
   struct MiddleHpcOtaAssignRejectFrame middleHpcOtaAssignRejectFrame;
@@ -70,6 +74,11 @@ variables
   byte rxCanCLU_Alive;
   byte rxCanMBCU_Alive;
   
+  byte rxCanHVAC_OTA;
+  byte rxCanHU_OTA;
+  byte rxCanCLU_OTA;
+  byte rxCanMBCU_OTA;
+  
   // MBCU RX can message
     // MBCU_TurnLight_STATUS_100MSG
   byte rxCanLeftFront_Light;
@@ -83,6 +92,8 @@ variables
   byte rxCanLeft_HighBeam_Status;
   byte rxCanRight_HighBeam_Status;
 
+  int i, j;
+  qword ota_value;
 }
 
 on start 
@@ -164,7 +175,7 @@ on timer loopFlagInit5ms
 on timer loop20ms
 {
   if(wakeupFlag == 0) return;
-  
+
   counter_20ms++;
   
   //Byte[0] : LF Light, RF Light, BrakeLight, LowBeamOnOff, HighBeamOnOff
@@ -186,16 +197,17 @@ on timer loop20ms
   //MZCU	MBCU	CLU	HU	HVAC
   MiddleCanAliveState = 0;
   MiddleCanAliveState |= (1 << 7);
-  MiddleCanAliveState |= rxCanMBCU_Alive ? (1 << 6) : 1;
-  MiddleCanAliveState |= rxCanCLU_Alive ? (1 << 5) : 1;
-  MiddleCanAliveState |= rxCanHU_Alive ? (1 << 4) : 1;
-  MiddleCanAliveState |= rxCanHVAC_Alive ? (1 << 3) : 1;
+  MiddleCanAliveState |= rxCanMBCU_Alive;
+  MiddleCanAliveState |= rxCanCLU_Alive;
+  MiddleCanAliveState |= rxCanHU_Alive;
+  MiddleCanAliveState |= rxCanHVAC_Alive;
   middleHpcCanBusAlive20msFrame.FrontZoneCanBus_Alive = FrontCanAliveState; // need to connect
   middleHpcCanBusAlive20msFrame.RearZoneCanBus_Alive = RearCanAliveState; // need to connect
   CanBusAliveUdpMsg.udp.SetData(0, middleHpcCanBusAlive20msFrame);
   CanBusAliveUdpMsg.CompletePacket();
   output(CanBusAliveUdpMsg);
   write("[Tx] [middle->hpc] totalCanAlive sent at %d ms", 20 * counter_20ms);
+  
 }
 
 on ethernetPacket *
@@ -245,6 +257,41 @@ on ethernetPacket *
       OtaMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaMiddleFrame);
       write("[RX] [hpc->middle] OTA MIDDLE GOGO");
+      for (i = 0; i < rxOtaMiddleFrame.Total_Byte; i += 8)
+      {
+        ota_value = 0;
+        for (j = 0; j < 8; j++)
+        {
+          if (rxOtaMiddleFrame.Total_Byte - i < j) break;
+          ota_value |= rxOtaMiddleFrame.Data[i+j];
+          if (j != 7) ota_value = (ota_value << 8); // Endian 계산 정확한지 모르겠음.
+        }
+            
+        // MZCU MBCU CLU HU HVAC
+        switch(rxOtaMiddleFrame.ECU_Select)
+        {
+          case (1 << 7): // MZCU
+            break;
+          case (1 << 6): // MBCU
+            ota_mbcu_msg.MBCU_OTA = ota_value;
+            output(ota_mbcu_msg);
+            break;
+          case (1 << 5): // CLU
+            ota_clu_msg.CLU_OTA = ota_value;
+            output(ota_clu_msg);
+            break;
+          case (1 << 4): // HU
+            ota_hu_msg.HU_OTA = ota_value;
+            output(ota_hu_msg);
+            break;
+          case (1 << 3): // HVAC
+            ota_hvac_msg.HVAC_OTA = ota_value;
+            output(ota_hvac_msg);
+            break;
+          default:
+            break;
+        }
+      }
       break;
     case MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID:
       if (HeadLampMiddleFrameReceived10ms) break;
@@ -322,14 +369,17 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
 
 on message MBCU_Alive_INFO_20MSG
 {
+  rxCanMBCU_Alive = this.MBCU_Alive;
 }
 
 on message MBCU_OTAResult_STATUS_MSG
 {
+  
 }
 
 on message CLU_Alive_INFO_20MSG
 {
+  rxCanCLU_Alive = this.CLU_Alive;
 }
 
 on message CLU_OTAResult_STATUS_MSG
@@ -357,8 +407,19 @@ on message HU_UpdateAcceptDecline_CTL_MSG
 
 on message HU_Alive_INFO_20MSG
 {
+  rxCanHU_Alive = this.HU_Alive;
 }
 
 on message HU_OTAResult_STATUS_MSG
 {  
+}
+
+on message HVAC_Alive_INFO_20MSG
+{
+  rxCanHVAC_Alive = this.HVAC_Alive;
+}
+
+on message HVAC_OTAResult_STATUS_MSG
+{
+  
 }
