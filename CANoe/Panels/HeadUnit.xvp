@@ -5,7 +5,7 @@
       <Property Name="Name">X223e1bdfeef4ee4a6eeaa9fec0a119de75f2</Property>
       <Property Name="Size">56, 18</Property>
       <Property Name="Location">59, 357</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HVAC;;;UP;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::HVAC;;;Aircon_Up;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">46</Property>
@@ -22,7 +22,7 @@
       <Property Name="Name">X4bee22aee94c2e4c24e94c8e9583038895ed</Property>
       <Property Name="Size">56, 18</Property>
       <Property Name="Location">59, 410</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::HVAC;;;DOWN;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::HU::HVAC;;;Aircon_Down;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\transparency.png</Property>
       <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">45</Property>
