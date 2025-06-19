@@ -11,12 +11,19 @@ variables
   msTimer loopFlagInit5ms;
   
   byte wakeupFlag; // 0 : sleep 1 : wakeup
+  byte WakeUp_CANTX_FLAG;
+  byte ESA_CANTX_FLAG;
+  byte LKAS_CANTX_FLAG;
 
   int counter_10ms;
   int counter_20ms;
   
   int port_id;
   int allcan_port_id;
+  
+  message FZCU_Brake_CTL_10MSG brake_ctl_msg;
+  message FZCU_Steering_CTL_MSG steering_msg;
+  message FZCU_WakeUp_CTL_MSG wakeup_ctl_msg;
   
   ethernetPacket globalEthPkt;
 
@@ -125,24 +132,26 @@ on timer loop10ms
 {
   if(wakeupFlag == 0) return;
   
-  counter_10ms++;
+  //counter_10ms++;
   /*
   frontHpcCarControl10msFrame.User_Steering_Angle = 1; // need to connect
   frontHpcCarControl10msFrame.Accel_Pedal_Pos     = 1; // need to connect
   frontHpcCarControl10msFrame.Brake_Pedal_Pos     = 1; // need to connect
   frontHpcCarControl10msFrame.Gear_Position       = 1; // need to connect
   frontHpcCarControl10msFrame.Ignition_Status     = 1; // need to connect
-  */
+
   CarControlUdpMsg.udp.SetData(0, frontHpcCarControl10msFrame);
   CarControlUdpMsg.CompletePacket();
   output(CarControlUdpMsg);
   write("[TX] [front->hpc] CarControl msg sent at %d ms", 10 * counter_10ms);
   
-  //frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1; // need to connect
+  // 한번만 전송 : ADAS 버튼
+  frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1; // need to connect
   AdasOnOffUdpMsg.udp.SetData(0, frontHpcAdasOnOff10msFrame);
   AdasOnOffUdpMsg.CompletePacket();
   output(AdasOnOffUdpMsg);
   write("[TX] [front->hpc] Adas onoff msg sent at %d ms", 10 * counter_10ms);
+  
   
   //frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 1; // need to connect
   HeadLampMiddleUdpMsg.udp.SetData(0, frontMiddleHeadLampMiddle10msFrame);
@@ -162,7 +171,27 @@ on timer loop10ms
   McuControlUdpMsg.CompletePacket();
   output(McuControlUdpMsg);
   write("[TX] [front->rear] Mcu control msg sent at %d ms", 10 * counter_10ms);
-  
+  */
+  if(WakeUp_CANTX_FLAG)
+  {
+    wakeup_ctl_msg.FZCU_Wakeup = rxWakeUpFrame.WakeUp_ALL_ECU;
+    output(wakeup_ctl_msg);
+    write("FZCU : [CAN][WakeUp] Send Wake up CAN message");
+  }
+  if(ESA_CANTX_FLAG)
+  {
+    ESA_CANTX_FLAG = 0;
+    steering_msg.Steering_Angle = rxEsaFrame.ESA_Steering_Angle;
+    output(steering_msg);
+    write("FZCU : [CAN][ESA] SteeringAngle : %d", steering_msg.Steering_Angle);
+  }
+  if(LKAS_CANTX_FLAG){
+    LKAS_CANTX_FLAG = 0;
+    steering_msg.Steering_Angle = rxLkasFrame.LKAS_Steering_Angle;
+    output(steering_msg);
+    write("FZCU : [CAN][LKAS] SteeringAngle : %d", steering_msg.Steering_Angle);
+  }
+    
 }
 
 on timer loop20ms
@@ -193,43 +222,37 @@ on ethernetPacket *
     case ALLCAN_ESA_RX_PORT_ID:
       if(EsaFrameReceived20ms) return;
       EsaFrameReceived20ms = 1;
+      ESA_CANTX_FLAG = 1;
       this.udp.getData(0, rxEsaFrame);
-      write("[RX] [hpc->front] ESA SteeringAngle : %d", rxEsaFrame.ESA_Steering_Angle);
+      write("FZCU : [RX] [hpc->front] ESA SteeringAngle : %d", rxEsaFrame.ESA_Steering_Angle);
       break;
     case ALLCAN_WAKEUP_RX_PORT_ID:
       if(WakeUpReceived) return;
-      WakeUpReceived = 1;
-      this.udp.getData(0, rxWakeUpFrame);
       wakeupFlag = 1;
-      write("[RX] [hpc->front] Wake up message");
+      WakeUpReceived = 1;
+      WakeUp_CANTX_FLAG = 1;
+      this.udp.getData(0, rxWakeUpFrame);
+      write("FZCU : [RX] [hpc->front] Wake up message");
       break;
     default:
       break;
   }
   
-  // ESA Message
-  if (endPointDst.PortNumber - ALLCAN_RX_PORT_BASE == ALLCAN_ESA_RX_PORT_ID)
-  {
-    if(EsaFrameReceived20ms) return;
-    EsaFrameReceived20ms = 1;
-    this.udp.getData(0, rxEsaFrame);
-    write("[RX] [hpc->front] ESA SteeringAngle : %d", rxEsaFrame.ESA_Steering_Angle);
-    return;
-  }
   
   switch (port_id)
   {
     case FRONT_LKAS_RX_PORT_ID:
       if (LkasFrameReceived20ms) break;
       LkasFrameReceived20ms = 1;
+      LKAS_CANTX_FLAG = 1;
       this.udp.GetData(0, rxLkasFrame);
-      write("[RX] [hpc->front] LKAS SteeringAngle : %d", rxLkasFrame.LKAS_Steering_Angle);
+      write("FZCU : [RX] [hpc->front] LKAS SteeringAngle : %d", rxLkasFrame.LKAS_Steering_Angle);
       break;
     case FRONT_OTAFRONT_RX_PORT_ID:
       if (OtaFrontFrameReceived10ms) break;
       OtaFrontFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaFrontFrame);
-      write("[RX] [hpc->front] OTA FRONT GOGO");
+      write("FZCU : [RX] [hpc->front] OTA FRONT GOGO");
       break;
     default:
       break;
