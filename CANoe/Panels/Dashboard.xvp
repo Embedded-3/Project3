@@ -1,10 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=19.0.155.0, Culture=neutral, PublicKeyToken=null">
   <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Panel" ControlName="Cluster1">
+    <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X06476897eb1f1e4e5ce900fe4c7a357640b9" ControlName="Static Text 1">
+      <Property Name="Name">X06476897eb1f1e4e5ce900fe4c7a357640b9</Property>
+      <Property Name="Size">21, 15</Property>
+      <Property Name="Location">747, 304</Property>
+      <Property Name="ForeColor">255, 127, 127, 127</Property>
+      <Property Name="Font">Microsoft Sans Serif, 8.25pt, style=Bold</Property>
+      <Property Name="Text">/ h</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.LCDControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c" ControlName="LCD Control 1">
+      <Property Name="Name">X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c</Property>
+      <Property Name="Size">81, 28</Property>
+      <Property Name="Location">648, 293</Property>
+      <Property Name="ColorOn">White</Property>
+      <Property Name="DecimalPlaces">0</Property>
+      <Property Name="NumberIntDigits">3</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTORRPM;;;CarSpeed;1;;;-1;;;Value;;;0</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.CanvasControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xde068ffbe3c46e42f2e9c96e0ac29060070b" ControlName="Canvas 2">
+      <Property Name="Name">Xde068ffbe3c46e42f2e9c96e0ac29060070b</Property>
+      <Property Name="Size">74, 34</Property>
+      <Property Name="Location">491, 293</Property>
+      <Property Name="BackColor">Black</Property>
+      <Property Name="TabIndex">11</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.CanvasControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xa0a7af0ee92fee4a8be8465ec27de50a8384" ControlName="Canvas 1">
+      <Property Name="Name">Xa0a7af0ee92fee4a8be8465ec27de50a8384</Property>
+      <Property Name="Size">52, 34</Property>
+      <Property Name="Location">256, 293</Property>
+      <Property Name="BackColor">Black</Property>
+      <Property Name="TabIndex">10</Property>
+    </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xaf6d8900e21cae44fee8476e5a805df172c9" ControlName="Switch / Indicator 1">
       <Property Name="Name">Xaf6d8900e21cae44fee8476e5a805df172c9</Property>
       <Property Name="Size">23, 30</Property>
-      <Property Name="Location">31, 263</Property>
+      <Property Name="Location">17, 291</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::DOOR;;;Door_INFO;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\door_status.bmp</Property>
       <Property Name="TabIndex">9</Property>
@@ -97,8 +128,8 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X0d643424e430be45d4e8558e67cdeda5fb35" ControlName="Gear_LED">
       <Property Name="Name">X0d643424e430be45d4e8558e67cdeda5fb35</Property>
-      <Property Name="Size">45, 59</Property>
-      <Property Name="Location">367, 6</Property>
+      <Property Name="Size">36, 48</Property>
+      <Property Name="Location">379, 11</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU;;;Transmission_Status;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\gear_PRDN.png</Property>
       <Property Name="TabIndex">4</Property>
@@ -146,10 +177,11 @@
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xea726fe1e166ce49d1ea373e8aa156e8de6f" ControlName="Power_Down_LED">
       <Property Name="Name">Xea726fe1e166ce49d1ea373e8aa156e8de6f</Property>
-      <Property Name="Size">21, 27</Property>
-      <Property Name="Location">386, 101</Property>
-      <Property Name="SymbolConfiguration"></Property>
+      <Property Name="Size">32, 27</Property>
+      <Property Name="Location">383, 100</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU;;;LowPower_Status;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\low_power.bmp</Property>
+      <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">1</Property>
       <Property Name="Activation">Left</Property>
       <Property Name="Epsilon">0</Property>
@@ -185,15 +217,6 @@
       <Property Name="NumberIntDigits">3</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU;;;Battery_Status;1;;;-1;;;Value;;;0</Property>
     </Object>
-    <Object Type="Vector.CANalyzer.Panels.Design.LCDControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c" ControlName="LCD Control 1">
-      <Property Name="Name">X8d59d9b3ee4d4e4bf8e82e1e455a96f8071c</Property>
-      <Property Name="Size">81, 28</Property>
-      <Property Name="Location">648, 293</Property>
-      <Property Name="ColorOn">White</Property>
-      <Property Name="DecimalPlaces">0</Property>
-      <Property Name="NumberIntDigits">3</Property>
-      <Property Name="SymbolConfiguration"></Property>
-    </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.AnalogGaugeControl, Vector.CANalyzer.Panels.AnalogGauge, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X138ad865e6c93e4253e93d4e696766d22717" ControlName="RPM Gauge">
       <Property Name="Name">X138ad865e6c93e4253e93d4e696766d22717</Property>
       <Property Name="Size">347, 226</Property>
@@ -220,7 +243,7 @@
       <Property Name="IsFrame">False</Property>
       <Property Name="IsMargin">False</Property>
       <Property Name="ScaleMargin">0</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTOR;;;Motor_RPM;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTORRPM;;;Motor_RPM;1;;;-1;;;Value;;;0</Property>
       <Property Name="CriticalProps" Member="AAEAAAD/////AQAAAAAAAAAEAQAAAC9TeXN0ZW0uUmVmbGVjdGlvbi5NZW1iZXJJbmZvU2VyaWFsaXphdGlvbkhvbGRlcgcAAAAETmFtZQxBc3NlbWJseU5hbWUJQ2xhc3NOYW1lCVNpZ25hdHVyZQpTaWduYXR1cmUyCk1lbWJlclR5cGUQR2VuZXJpY0FyZ3VtZW50cwEBAQEBAAMIDVN5c3RlbS5UeXBlW10GAgAAAAUuY3RvcgYDAAAAXFZlY3Rvci5DQU5hbHl6ZXIuUGFuZWxzLkFuYWxvZ0dhdWdlLCBWZXJzaW9uPTE3LjMuOTEuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBgQAAAA2VmVjdG9yLkNBTmFseXplci5QYW5lbHMuRGVzaWduLkdhdWdlQ3JpdGljYWxQcm9wZXJ0aWVzBgUAAAAyVm9pZCAuY3RvcihEb3VibGUsIERvdWJsZSwgRG91YmxlLCBEb3VibGUsIERvdWJsZSkGBgAAAFAuY3RvcihTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlKQEAAAAKCw==">
         <Argument>0</Argument>
         <Argument>4</Argument>
@@ -253,7 +276,7 @@
       <Property Name="IsFrame">False</Property>
       <Property Name="IsMargin">False</Property>
       <Property Name="ScaleMargin">0</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTOR;;;Speed;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;MIDDLE::CLU::MOTORRPM;;;CarSpeed;1;;;-1;;;Value;;;0</Property>
       <Property Name="CriticalProps" Member="AAEAAAD/////AQAAAAAAAAAEAQAAAC9TeXN0ZW0uUmVmbGVjdGlvbi5NZW1iZXJJbmZvU2VyaWFsaXphdGlvbkhvbGRlcgcAAAAETmFtZQxBc3NlbWJseU5hbWUJQ2xhc3NOYW1lCVNpZ25hdHVyZQpTaWduYXR1cmUyCk1lbWJlclR5cGUQR2VuZXJpY0FyZ3VtZW50cwEBAQEBAAMIDVN5c3RlbS5UeXBlW10GAgAAAAUuY3RvcgYDAAAAXFZlY3Rvci5DQU5hbHl6ZXIuUGFuZWxzLkFuYWxvZ0dhdWdlLCBWZXJzaW9uPTE3LjMuOTEuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBgQAAAA2VmVjdG9yLkNBTmFseXplci5QYW5lbHMuRGVzaWduLkdhdWdlQ3JpdGljYWxQcm9wZXJ0aWVzBgUAAAAyVm9pZCAuY3RvcihEb3VibGUsIERvdWJsZSwgRG91YmxlLCBEb3VibGUsIERvdWJsZSkGBgAAAFAuY3RvcihTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlLCBTeXN0ZW0uRG91YmxlKQEAAAAKCw==">
         <Argument>0</Argument>
         <Argument>270</Argument>
