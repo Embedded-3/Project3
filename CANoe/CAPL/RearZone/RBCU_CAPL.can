@@ -49,8 +49,8 @@ on message RZCU_TurnLight_CTL_MSG
 {
   if(isSleeping == 0)
   {
-    @sysvar::REAR::RBCU::LR_TurnSignalLight = this.LeftRear_Light;
-    @sysvar::REAR::RBCU::RR_TurnSignalLight = this.LeftRear_Light;
+      @sysvar::REAR::RBCU::LR_TurnSignalLight = this.LeftRear_Light;  
+      @sysvar::REAR::RBCU::RR_TurnSignalLight = this.RightRear_Light;    
   }
 }
 
