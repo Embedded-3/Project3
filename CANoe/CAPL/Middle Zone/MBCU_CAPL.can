@@ -75,6 +75,7 @@ on message MZCU_OTA_MBCU_MSG
 {
   if(isSleeping == 0)
   {
+    
     //OTA어디다 저장해?
   }
 }  
@@ -99,6 +100,49 @@ on message MZCU_HLamp_CTL_MSG
 {
   if(isSleeping == 0)
   {
-    //OTA어디다 저장해?
+    if(this.HighBeam_Active==1){
+      @sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status=1;
+    }else{
+      @sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status=0;
+    }
+    
+    if(this.LowBeam_Active==1){
+      @sysvar::MIDDLE::MBCU::HLAMP::LowBeam_Status=1;
+    }else{
+      @sysvar::MIDDLE::MBCU::HLAMP::LowBeam_Status=0;
+    }
+
+    if(this.RightTurn_Active==1){
+      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=1;
+      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
+    }else{
+      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
+    }
+    
+    if(this.LeftTurn_Active==1){
+      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=1;
+      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
+    }else{
+      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
+    }
   }
-}  
+}  // OK
+
+on message MZCU_SteeringAngle_CTL_20MSG
+{
+  if(isSleeping == 1){
+    return;
+  }
+  if(@sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status==0){
+    return;
+  }
+  
+  @sysvar::MIDDLE::MBCU::LampSteering = this.SteeringAngle_CTL; // 패널용
+  
+  // 실제 데이터용
+  if(this.SteeringAngle_CTL<0){
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftHighBeam_Status = this.SteeringAngle_CTL * -1;
+  }else{
+    @sysvar::MIDDLE::MBCU::HLAMP::RightHighBeam_Status = this.SteeringAngle_CTL;
+  }
+} // OK

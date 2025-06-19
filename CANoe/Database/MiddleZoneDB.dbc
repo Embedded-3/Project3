@@ -42,10 +42,15 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ RightHighBeam_Status : 0|8@1- (1,0) [0|63] "" Vector__XXX
  SG_ LeftHighBeam_Status : 0|8@1- (1,0) [0|63] "" Vector__XXX
 
+BO_ 51 MZCU_SteeringAngle_CTL_20MSG: 1 MZCU
+ SG_ SteeringAngle_CTL : 0|8@1- (1,0) [-30|30] ""  MBCU
+
+BO_ 625 HU_EmergencyLight_CTL_MSG: 1 HU
+ SG_ EmergencyLight_OnOff : 0|1@1+ (1,0) [0|1] ""  MZCU,MBCU
+
 BO_ 35 MZCU_ADB_Lamp_CTL_MSG: 2 MZCU
- SG_ SteeringAngle_Active : 16|3@1- (1,0) [0|63] "" Vector__XXX
- SG_ RightHighBeam_CTL : 8|8@1- (1,0) [0|255] "" Vector__XXX
- SG_ LeftHighBeam_CTL : 0|8@1- (1,0) [0|255] "" Vector__XXX
+ SG_ RightHighBeam_CTL : 8|8@1- (1,0) [0|255] ""  MBCU
+ SG_ LeftHighBeam_CTL : 0|8@1- (1,0) [0|255] ""  MBCU
 
 BO_ 864 HVAC_OTAResult_STATUS_MSG: 1 HVAC
  SG_ HVAC_OTAResult : 0|1@1+ (1,0) [0|0] ""  MZCU
@@ -224,8 +229,8 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
@@ -236,7 +241,7 @@ BA_ "GenMsgCycleTime" BO_ 356 100;
 BA_ "GenMsgCycleTime" BO_ 308 100;
 BA_ "GenSigSendType" SG_ 3221225472 RightHighBeam_Status 7;
 BA_ "GenSigSendType" SG_ 3221225472 LeftHighBeam_Status 7;
-BA_ "GenSigSendType" SG_ 35 SteeringAngle_Active 7;
+BA_ "GenSigSendType" SG_ 625 EmergencyLight_OnOff 7;
 BA_ "GenSigSendType" SG_ 35 RightHighBeam_CTL 7;
 BA_ "GenSigSendType" SG_ 35 LeftHighBeam_CTL 7;
 BA_ "GenSigSendType" SG_ 64 HVAC_OTA 7;

@@ -1,10 +1,9 @@
 ﻿/*@!Encoding:65001*/
+// 덜된 부분 OTA, ADAS켰을 때 BRAKE나 조향 데이터 들어오면 LKA, ADB, ESA status 조절
 includes
 {
   
 }
-
-
 
 variables
 {
@@ -36,6 +35,7 @@ on message MZCU_OTA_CLU_MSG
 {
   if(isSleeping == 0)
   {
+  
     //OTA어디다 저장해?
   }
 }  
@@ -50,7 +50,14 @@ on message MBCU_Door_STATUS_100MSG
     @sysvar::MIDDLE::CLU::DOOR::Door_RL_Status = this.Door_RL_Status;
     @sysvar::MIDDLE::CLU::DOOR::Door_RR_Status = this.Door_RR_Status;
   }    
-}
+      if(this.Door_FL_Status||this.Door_FR_Status||this.Door_RL_Status||this.Door_RR_Status)
+    {
+      @sysvar::MIDDLE::CLU::DOOR::Door_INFO = 1;
+    } // 하나라도 1이면 Door 열림 아이콘 켜짐
+    else{
+      @sysvar::MIDDLE::CLU::DOOR::Door_INFO = 0;
+    }
+} // OK
 
 on message MBCU_Window_STATUS_100MSG
 {
@@ -61,7 +68,7 @@ on message MBCU_Window_STATUS_100MSG
     @sysvar::MIDDLE::CLU::WINDOW::Window_RL_Status = this.Window_RL_Status;
     @sysvar::MIDDLE::CLU::WINDOW::Window_RR_Status = this.Window_RR_Status;
   }
-}
+} // OK
 
 on message MBCU_TurnLight_STATUS_100MSG
 {
@@ -70,7 +77,7 @@ on message MBCU_TurnLight_STATUS_100MSG
     @sysvar::MIDDLE::CLU::LIGHT::LeftFront_Light = this.LeftFront_Light;
     @sysvar::MIDDLE::CLU::LIGHT::RightFront_Light = this.RightFront_Light;
   }
-}
+} // OK
 
 on message MBCU_BrakeLight_STATUS_100MSG
 {
@@ -78,7 +85,7 @@ on message MBCU_BrakeLight_STATUS_100MSG
   {
     @sysvar::MIDDLE::CLU::LIGHT::BrakeLight = this.Brake_Light;
   }
-}
+} // OK
 
 on message MBCU_LowBeam_STATUS_100MSG
 {
@@ -86,7 +93,7 @@ on message MBCU_LowBeam_STATUS_100MSG
   {
     @sysvar::MIDDLE::CLU::LIGHT::LowBeam_ONOFF = this.LowBeam_OnOff;
   }
-}
+} // OK
 
 on message MBCU_HighBeam_STATUS_100MSG
 {
@@ -94,7 +101,7 @@ on message MBCU_HighBeam_STATUS_100MSG
   {
     @sysvar::MIDDLE::CLU::LIGHT::HighBeam_ONOFF = this.HighBeam_OnOff;
   }
-}
+} // OK
 
 on message MZCU_ADAS_Status_20MSG
 {
@@ -104,27 +111,33 @@ on message MZCU_ADAS_Status_20MSG
     @sysvar::MIDDLE::CLU::ADAS::ESA_Status = this.ESA_Active;
     @sysvar::MIDDLE::CLU::ADAS::ADB_Status = this.ADB_Active;
   }
-}
+} // OK
+
 on message MZCU_MotorRPM_INFO_20MSG
 {
   if(isSleeping == 0)
   {
-    @sysvar::MIDDLE::CLU::MOTORRPM::LeftMotor_RPM= this.Left_Motor_RPM;
-    @sysvar::MIDDLE::CLU::MOTORRPM::LeftMotor_RPM= this.Right_Motor_RPM;
-  }
-}
+    @sysvar::MIDDLE::CLU::MOTORRPM::Motor_RPM= (this.Left_Motor_RPM + this.Right_Motor_RPM)/2;
+  } 
+} // OK
+
 on message MZCU_Transmission_STATUS_20MSG
 {
   if(isSleeping == 0)
   {
     @sysvar::MIDDLE::CLU::Transmission_Status = this.Transmission_Status;
   }
-}
+} // OK
 
 on message MZCU_Battery_STATUS_100MSG
 {
   if(isSleeping == 0)
   {
     @sysvar::MIDDLE::CLU::Battery_Status = this.Battery_Status;
+    
+    if(this.Battery_Status<30)
+    {
+      @sysvar::MIDDLE::CLU::LowPower_Status = 1;
+    }
   }
-}
+} // OK

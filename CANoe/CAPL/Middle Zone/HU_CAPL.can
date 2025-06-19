@@ -218,3 +218,13 @@ on message HVAC_IntHumi_INFO_100MSG
 } // OK
 
 
+// 비상등
+on sysvar sysvar::MIDDLE::HU::Emergency
+{
+  if(isSleeping == 0)
+  {
+    message HU_EmergencyLight_CTL_MSG emergency_msg;
+    emergency_msg.EmergencyLight_OnOff = @this;
+    output(emergency_msg);
+  }
+}
