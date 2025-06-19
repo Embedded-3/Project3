@@ -74,9 +74,9 @@ variables
   
   message RZCU_TurnLight_CTL_MSG rzcu_turnlight_ctl_msg;
   message RZCU_BrakeLight_CTL_MSG rzcu_brakelight_ctl_msg;
-  message RZCU_ObsDetectDist_CTL_MSG rzcu_obsdetectdist_ctl_msg;
   message RZCU_Wheel_CTL_MSG rzcu_wheel_ctl_msg;
   message RZCU_WakeUp_CTL_MSG rzcu_wakeup_ctl_msg;
+  message RZCU_VehicleStart_CTL_MSG rzcu_vehiclestart_ctl_msg;
   
   // TX CAN SIGNAL
   byte txCanLeftRear_Light;
@@ -166,25 +166,28 @@ on message MCU_Alive_INFO_20MSG
 
 on message RBCU_OTAResult_STATUS_MSG
 {
-  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 6);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
+  output(OtaResultUdpMsg);
   write("[rbcu->rzcu->hpc] ota result commited");
 }
 
 on message USS_OTAResult_STATUS_MSG
 {
-  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 5);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
+  output(OtaResultUdpMsg);
   write("[uss->rzcu->hpc] ota result commited");
 }
 
 on message MCU_OTAResult_STATUS_MSG
 {
-  rearHpcOtaResultFrame.ECU_OTA_Result = 1;
+  rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 4);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
+  output(OtaResultUdpMsg);
   write("[mcu->rzcu->hpc] ota result commited");
 }
 
@@ -276,9 +279,16 @@ on ethernetPacket *
       this.udp.getData(0, rxWakeUpFrame);
       wakeupFlag = 1;
       write("[RX] [hpc->rear] Wake up message called");
+      
+      // rear ecu all wake up msg send
       txCanRearZone_WakeUp = 1;
       rzcu_wakeup_ctl_msg.RearZone_WakeUp = txCanRearZone_WakeUp;
       output(rzcu_wakeup_ctl_msg);
+      
+      //vehicle start can msg send
+      txCanIgnition_Status = 2; // ON
+      rzcu_vehiclestart_ctl_msg.Ignition_Status = txCanIgnition_Status;
+      output(rzcu_vehiclestart_ctl_msg);
       write("[rzcu -> peripherals] wake up message sent");
       break;
     default:
