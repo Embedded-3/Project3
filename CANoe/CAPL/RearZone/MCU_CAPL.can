@@ -6,7 +6,7 @@ includes
 
 variables
 {
-  int engineState = 0;//0: OFF, 1: STARTING, 2: IDLE
+  int engineState = 0;//0: OFF, 1: ACC 2: ON 3: START
   msTimer loop;
   int timerCnt = 0;
   int rpm = 0;
@@ -33,6 +33,14 @@ on timer loop
     output(motor_msg);
     write("RPM: %d", rpm);
   }
+}
+
+on message RZCU_OTA_MCU_MSG
+{
+  message MCU_OTAResult_STATUS_MSG mcu_otaresult_status_msg;
+  mcu_otaresult_status_msg.MCU_OTAResult = 1;
+  output(mcu_otaresult_status_msg);
+  write("MCU OTA COMPLETED"); 
 }
 
 

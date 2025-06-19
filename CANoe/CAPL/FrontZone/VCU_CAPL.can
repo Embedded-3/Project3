@@ -26,7 +26,7 @@ on start
 {
   state = 0;
   write("VCU: Sleep mode entered.");
-  //setTimerCyclic(loop, 10);
+  setTimerCyclic(loop, 10);
   setTimerCyclic(rpmTimer, 50);
 }
 
@@ -108,6 +108,14 @@ on sysvar FRONT::VCU::Gear
     }
   }
   
+}
+
+on message FZCU_OTA_VCU_MSG
+{
+  message VCU_OTAResult_STATUS_MSG vcu_otaresult_status_msg;
+  vcu_otaresult_status_msg.VCU_OTAResult = 1;
+  output(vcu_otaresult_status_msg);
+  write("VCU OTA COMPLETED");
 }
 
 on sysvar FRONT::VCU::Accel_Pedal

@@ -35,4 +35,12 @@ on message FZCU_WakeUp_CTL_MSG
   }
 }
 
+on message FZCU_OTA_MFS_MSG
+{
+  message MFS_OTAResult_STATUS_MSG mfs_otaresult_status_msg;
+  mfs_otaresult_status_msg.MFS_OTAResult = 1;
+  output(mfs_otaresult_status_msg);
+  write("MFS OTA COMPLETED");
+}
+
 

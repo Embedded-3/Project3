@@ -44,5 +44,10 @@ on message RZCU_WakeUp_CTL_MSG
   }
 }
 
-// 2. 감지 거리 설정 -> HPC에서 저장하면 되는거 아닌가.../?
-//on message RZCU_ObsDetectDist_CTL_MSG
+on message RZCU_OTA_USS_MSG
+{
+  message USS_OTAResult_STATUS_MSG uss_otaresult_status_msg;
+  uss_otaresult_status_msg.USS_OTAResult = 1;
+  output(uss_otaresult_status_msg);
+  write("USS OTA COMPLETED"); 
+}

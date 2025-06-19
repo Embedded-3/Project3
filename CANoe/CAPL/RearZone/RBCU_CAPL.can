@@ -62,3 +62,11 @@ on message RZCU_BrakeLight_CTL_MSG
     @sysvar::REAR::RBCU::BrakeLight = this.Rear_BrakeLight;
   }
 }
+
+on message RZCU_OTA_RBCU_MSG
+{
+  message RBCU_OTAResult_STATUS_MSG rbcu_otaresult_status_msg;
+  rbcu_otaresult_status_msg.RBCU_OTAResult = 1;
+  output(rbcu_otaresult_status_msg);
+  write("RBCU OTA COMPLETED");
+}

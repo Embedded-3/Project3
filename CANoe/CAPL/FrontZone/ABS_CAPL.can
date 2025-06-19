@@ -24,7 +24,7 @@ on timer loop
   if(isSleeping == 0)
   {
     message ABS_BrakeOutput_STATUS_10MSG Brake_msg;
-    Brake_msg.Brake_Output = @`FRONT::`ABS::BrakeStatus;
+    Brake_msg.Brake_Output = @sysvar::FRONT::`ABS::BrakeStatus;
     output(Brake_msg);
   }
 }
@@ -57,4 +57,12 @@ on message FZCU_Brake_CTL_10MSG
     write("Brake Pedal change");
     @sysvar::`FRONT::`ABS::BrakeStatus = this.Brake_Control;
   }
+}
+
+on message FZCU_OTA_ABS_MSG
+{
+  message ABS_OTAResult_STATUS_MSG abs_otaresult_status_msg;
+  abs_otaresult_status_msg.ABS_OTAResult = 1;
+  output(abs_otaresult_status_msg);
+  write("ABS OTA COMPLETED"); 
 }

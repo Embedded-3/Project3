@@ -63,6 +63,28 @@ on message FZCU_Steering_CTL_MSG
 
 
 // 3. 방향 지시등 버튼 클릭 시 메세지 전송
+on sysvar sysvar::FRONT::MDPS::LightLever
+{
+  message MDPS_RLTurnSignal_CTL_MSG myMsg;
+  if(@this == 0)
+  {
+    myMsg.LeftTurnSignal = 0;
+    myMsg.RightTurnSignal = 1;
+  }
+  else if(@this == 1)
+  {
+    myMsg.LeftTurnSignal = 0;
+    myMsg.RightTurnSignal = 0;
+  }
+  else
+  {
+    myMsg.LeftTurnSignal = 1;
+    myMsg.RightTurnSignal = 0;
+  }
+  output(myMsg);
+}
+
+/* sysvar 변경으로 지움.(서진)
 on sysvar sysvar::FRONT::MDPS::LeftLight
 {
   message MDPS_RLTurnSignal_CTL_MSG myMsg;
@@ -78,6 +100,7 @@ on sysvar sysvar::FRONT::MDPS::RightLight
   myMsg.RightTurnSignal = @this;
   output(myMsg);
 }
+*/
 
 // 4. 헤드램프 버튼 클릭 시 메세지 전송
 on sysvar sysvar::FRONT::MDPS::HighBeem
@@ -94,6 +117,14 @@ on sysvar sysvar::FRONT::MDPS::LowBeem
   myMsg.HighBeam = @sysvar::FRONT::MDPS::HighBeem;
   myMsg.LowBeam = @this;
   output(myMsg);
+}
+
+on message FZCU_OTA_MDPS_MSG
+{
+  message MDPS_OTAResult_STATUS_MSG mdps_otaresult_status_msg;
+  mdps_otaresult_status_msg.MDPS_OTAResult = 1;
+  output(mdps_otaresult_status_msg);
+  write("MDPS OTAR COMPLETED");
 }
 
 

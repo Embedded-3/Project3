@@ -284,12 +284,13 @@ on ethernetPacket *
       txCanRearZone_WakeUp = 1;
       rzcu_wakeup_ctl_msg.RearZone_WakeUp = txCanRearZone_WakeUp;
       output(rzcu_wakeup_ctl_msg);
+      write("[rzcu -> peripherals] wake up message sent");
       
       //vehicle start can msg send
-      txCanIgnition_Status = 2; // ON
+      txCanIgnition_Status = 3; // START
       rzcu_vehiclestart_ctl_msg.Ignition_Status = txCanIgnition_Status;
       output(rzcu_vehiclestart_ctl_msg);
-      write("[rzcu -> peripherals] wake up message sent");
+      write("[rzcu -> rearzone] ignition Status = %u", rzcu_vehiclestart_ctl_msg.Ignition_Status);
       break;
     default:
       break;
