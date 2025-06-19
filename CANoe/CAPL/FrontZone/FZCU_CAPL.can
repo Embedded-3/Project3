@@ -10,10 +10,16 @@ variables
   mstImer loop20ms;
   msTimer loopFlagInit5ms;
   
-  byte wakeupFlag; // 0 : sleep 1 : wakeup
+  byte wakeupFlag; // 0 : sleep 1 : 
+  
+  //CAN TX Flag
   byte WakeUp_CANTX_FLAG;
   byte ESA_CANTX_FLAG;
   byte LKAS_CANTX_FLAG;
+  byte OTA_CANTX_FLAG;
+  
+  //Eth TX flag
+  byte OTAResult_TX_FLAG;
 
   int counter_10ms;
   int counter_20ms;
@@ -24,6 +30,10 @@ variables
   message FZCU_Brake_CTL_10MSG brake_ctl_msg;
   message FZCU_Steering_CTL_MSG steering_msg;
   message FZCU_WakeUp_CTL_MSG wakeup_ctl_msg;
+  message FZCU_OTA_VCU_MSG        ota_vcu_msg;
+  message FZCU_OTA_ABS_MSG        ota_abs_msg;
+  message FZCU_OTA_MDPS_MSG       ota_mdps_msg;
+  message FZCU_OTA_MFS_MSG        ota_mfs_msg;
   
   ethernetPacket globalEthPkt;
 
@@ -172,8 +182,75 @@ on timer loop10ms
   output(McuControlUdpMsg);
   write("[TX] [front->rear] Mcu control msg sent at %d ms", 10 * counter_10ms);
   */
+  
+  //on start - TX flag = 0 초기화
+  OTAResult_TX_FLAG = 0;
+  
+  WakeUp_CANTX_FLAG = 0;
+  ESA_CANTX_FLAG = 0;
+  LKAS_CANTX_FLAG = 0;
+  
+  
+  //Periodic Eth MSG
+  // 0. WakeUpCallMsg - Event : on message VCU_VehicleStart_STATUS_100MSG
+  
+  // 1. CarControlUdpMsg - Cycle 
+  CarControlUdpMsg.udp.SetData(0, frontHpcCarControl10msFrame);
+  CarControlUdpMsg.CompletePacket();
+  output(CarControlUdpMsg);
+  write("[TX] [front->hpc] CarControl");
+  
+  
+  // 2. OtaResultUdpMsg - Event
+  // CAN 에서 OTA 응답 메세지가 들어올 때
+  if(OTAResult_TX_FLAG)
+  {
+    OTA_CANTX_FLAG = 0;
+    OtaResultUdpMsg.udp.SetData(0, frontHpcOtaResultFrame);
+    OtaResultUdpMsg.CompletePacket();
+    output(OtaResultUdpMsg);
+    write("[TX] [front->hpc] OTA onoff msg");
+    frontHpcOtaResultFrame.ECU_OTA_Result = 0;
+  }
+  
+
+  // 3. AdasOnOffUdpMsg - Cycle
+  AdasOnOffUdpMsg.udp.SetData(0, frontHpcAdasOnOff10msFrame);
+  AdasOnOffUdpMsg.CompletePacket();
+  output(AdasOnOffUdpMsg);
+  write("[TX] [front->hpc] Adas onoff msg");
+  
+  // 4. HeadLampMiddleUdpMsg - Cycle
+  HeadLampMiddleUdpMsg.udp.SetData(0, frontMiddleHeadLampMiddle10msFrame);
+  HeadLampMiddleUdpMsg.CompletePacket();
+  output(HeadLampMiddleUdpMsg);
+  write("[TX] [front->middle] Head Lamp Middle");
+  
+  // 5. AliveUdpMsg - Cycle
+  
+  // 6. HeadLampRearUdpMsg - Cycle
+  //frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 1; // need to connect
+  HeadLampRearUdpMsg.udp.SetData(0, frontRearHeadLampRear10msFrame);
+  HeadLampRearUdpMsg.CompletePacket();
+  output(HeadLampRearUdpMsg);
+  write("[TX] [front->rear] Head Lamp Rear msg");
+  
+  // 7. McuControlUdpMsg - Cycle
+  
+  
+  // 1. CAN TX
+  /*
+  FZCU_Brake_CTL_10MSG
+  FZCU_WakeUp_CTL_MSG   O
+  FZCU_Steering_CTL_MSG O
+  FZCU_OTA_VCU_MSG      
+  FZCU_OTA_ABS_MSG
+  FZCU_OTA_MDPS_MSG
+  FZCU_OTA_MFS_MSG
+  */
   if(WakeUp_CANTX_FLAG)
   {
+    WakeUp_CANTX_FLAG = 0;
     wakeup_ctl_msg.FZCU_Wakeup = rxWakeUpFrame.WakeUp_ALL_ECU;
     output(wakeup_ctl_msg);
     write("FZCU : [CAN][WakeUp] Send Wake up CAN message");
@@ -191,7 +268,25 @@ on timer loop10ms
     output(steering_msg);
     write("FZCU : [CAN][LKAS] SteeringAngle : %d", steering_msg.Steering_Angle);
   }
+  if(OTA_CANTX_FLAG)
+  {
+    OTA_CANTX_FLAG = 0;
+    switch(rxOtaFrontFrame.ECU_Select)
+    {
+      case 1 << 7 : // FZCU
+        break;
+      case 1 << 6 : // VCU
+        //ota_vcu_msg.VCU_OTA = HpcFrontOtaFrontFrame.;
+        break;
+      case 1 << 5 : // ABS
+        break;
+      case 1 << 4 : // MDPS
+        break;
+      case 1 << 3 : // MFS
+        break;
+    }
     
+  }
 }
 
 on timer loop20ms
@@ -204,7 +299,7 @@ on timer loop20ms
   AliveUdpMsg.udp.SetData(0, frontMiddleAlive20msFrame);
   AliveUdpMsg.CompletePacket();
   output(AliveUdpMsg);
-  write("[TX] [front->middle] Front Alive msg sent at %d ms", 10 * counter_10ms);
+  write("[TX] [front->middle] Front Alive msg");
 }
 
 
@@ -251,6 +346,7 @@ on ethernetPacket *
     case FRONT_OTAFRONT_RX_PORT_ID:
       if (OtaFrontFrameReceived10ms) break;
       OtaFrontFrameReceived10ms = 1;
+      OTA_CANTX_FLAG = 1;
       this.udp.GetData(0, rxOtaFrontFrame);
       write("FZCU : [RX] [hpc->front] OTA FRONT GOGO");
       break;
@@ -288,12 +384,13 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
 // ***CAN Message***
 // 1. ignition -> 시동
 on message VCU_VehicleStart_STATUS_100MSG
-{
+{ 
   frontHpcWakeupCallFrame.WakeUp_Call = this.Ignition_Status;
   frontHpcCarControl10msFrame.Ignition_Status = this.Ignition_Status;
   WakeUpCallMsg.udp.SetData(0, frontHpcWakeupCallFrame);
   WakeUpCallMsg.CompletePacket();
   output(WakeUpCallMsg);
+  // 0. WakeUpCallMsg - Event : Eth Tx
   write("[TX] [front->hpc] wake up call message sent at beginning^^");
 }
 
@@ -318,7 +415,8 @@ on message VCU_BrakePedal_CTL_10MSG
 
 on message VCU_OTAResult_STATUS_MSG
 {
-  //frontHpcOtaResultFrame
+  frontHpcOtaResultFrame.ECU_OTA_Result |= this.VCU_OTAResult << 6;
+  OTAResult_TX_FLAG = 1;
 }
 
 // 6. 계산된 RPM값 전송
@@ -334,6 +432,8 @@ on message ABS_BrakeOutput_STATUS_10MSG
 //ABS_Alive_INFO_20MSG
 on message ABS_OTAResult_STATUS_MSG
 {
+  frontHpcOtaResultFrame.ECU_OTA_Result |= this.ABS_OTAResult << 5;
+  OTAResult_TX_FLAG = 1;
 }
 
 on message MDPS_Steering_INFO_10MSG
@@ -363,10 +463,22 @@ on message MDPS_RLTurnSignal_CTL_MSG
   frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.RightTurnSignal << 4;
 }
 
-/*
 
-MDPS_Alive_INFO_20MSG
-MDPS_OTAResult_STATUS_MSG
-MFS_Alive_INFO_20MSG
-MFS_OTAResult_STATUS_MSG
-*/
+on message MDPS_Alive_INFO_20MSG
+{
+}
+on message MDPS_OTAResult_STATUS_MSG
+{
+  frontHpcOtaResultFrame.ECU_OTA_Result |= this.MDPS_OTAResult << 4;
+  OTAResult_TX_FLAG = 1;
+}
+
+on message MFS_Alive_INFO_20MSG
+{
+}
+
+on message MFS_OTAResult_STATUS_MSG
+{
+  frontHpcOtaResultFrame.ECU_OTA_Result |= this.MFS_OTAResult << 3;
+  OTAResult_TX_FLAG = 1;
+}
