@@ -42,6 +42,7 @@ variables
   const long HPC_ALIVE_TX_PORT_ID       = 7;
   const long HPC_WAKEUP_TX_PORT_ID      = 8;
   const long HPC_RPMINFO_TX_PORT_ID     = 9;
+  const long HPC_OTA_ALARM_TX_PORT_ID   = 10;
 
 // ========================== HPC RX ===========================
   const long HPC_USS_RX_PORT_ID 		              = 1;
@@ -88,6 +89,7 @@ variables
   const long MIDDLE_ALIVE_REAR_RX_PORT_ID        = 5;
   const long MIDDLE_TAILLAMP_RX_PORT_ID          = 6;
   const long MIDDLE_RPMINFO_RX_PORT_ID           = 7;
+  const long MIDDLE_OTA_ALARM_RX_PORT_ID         = 8;
 
 // ========================== REAR TX ==========================
   const long REAR_USS_TX_PORT_ID              = 1;
@@ -128,6 +130,7 @@ variables
     byte Left_HighBeam_CTL;
     byte Right_HighBeam_CTL;
     byte LowBeam_CTL;
+    char SteeringAngle_CTL;
   };
   
   // Ethernet MTU : 1500 byte
@@ -140,6 +143,12 @@ variables
   globalEthPkt.Length = 1500;
   globalEthPkt.udp.length = 1472;
   */
+  
+  struct HpcMiddleOtaAlarmFrame{
+    byte FrontZone_ECU_ID;   // FZCU VCU ABS MDPS MFS
+    byte MiddleZone_ECU_ID;  // MZCU MBCU CLU HU HVAC
+    byte RearZone_ECU_ID;    // RZCU RBCU USS MCU
+  };
   
   struct HpcFrontOtaFrontFrame { 
     byte ECU_Select; // FZCU VCU ABS MDPS MFS
