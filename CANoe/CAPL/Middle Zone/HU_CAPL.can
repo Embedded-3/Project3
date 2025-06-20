@@ -96,7 +96,7 @@ on sysvar sysvar::MIDDLE::HU::HVAC::Aircon_Up
    if(isSleeping == 0 || @sysvar::MIDDLE::HU::HVAC::Aircon_OnOff == 1)
    {
       message HU_AirCon_CTL_MSG aircon_msg;
-      @sysvar::MIDDLE::HU::HVAC::Aircon_Value += 1;
+      @sysvar::MIDDLE::HU::HVAC::Aircon_Value += @this;
       aircon_msg.AirCon_OnOff = @sysvar::MIDDLE::HU::HVAC::Aircon_OnOff;
       aircon_msg.AirCon_Output = @sysvar::MIDDLE::HU::HVAC::Aircon_Value;
       output(aircon_msg);
@@ -108,7 +108,7 @@ on sysvar sysvar::MIDDLE::HU::HVAC::Aircon_Down
    if(isSleeping == 0 || @sysvar::MIDDLE::HU::HVAC::Aircon_OnOff == 1)
    {
       message HU_AirCon_CTL_MSG aircon_msg;
-      @sysvar::MIDDLE::HU::HVAC::Aircon_Value -= 1;
+      @sysvar::MIDDLE::HU::HVAC::Aircon_Value -= @this;
       aircon_msg.AirCon_OnOff = @sysvar::MIDDLE::HU::HVAC::Aircon_OnOff;
       aircon_msg.AirCon_Output = @sysvar::MIDDLE::HU::HVAC::Aircon_Value;
       output(aircon_msg);
