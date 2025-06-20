@@ -51,6 +51,7 @@ on message RZCU_TurnLight_CTL_MSG
   {
       @sysvar::REAR::RBCU::LR_TurnSignalLight = this.LeftRear_Light;  
       @sysvar::REAR::RBCU::RR_TurnSignalLight = this.RightRear_Light;    
+      write("RZCU_TurnLight_CTL_MSG [%d] [%d]", this.LeftRear_Light.phys, this.RightRear_Light.phys);
   }
 }
 
