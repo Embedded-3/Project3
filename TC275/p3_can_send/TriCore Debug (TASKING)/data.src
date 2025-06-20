@@ -1,0 +1,256 @@
+	; Module start
+	.compiler_version	"TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler v1.1r8 Build 22011964"
+	.compiler_invocation	"ctc -f cc1720a --dep-file=data.d -c99 --fp-model=3cflnrSTz -D__CPU__=tc27xd -D__CPU_TC27XD__ --core=tc1.6.x --fp-model=+float -D__CPU__=tc27xd -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Configurations -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Platform -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore\\\\Compilers -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Sfr -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D\\\\_Reg -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service\\\\CpuGeneric -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service\\\\CpuGeneric\\\\StdIf -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe\\\\Comm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\Service\\\\CpuGeneric\\\\_Utilities -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Asc -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\CStart -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Trap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Can -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Impl -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib\\\\DataHandling -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_PinMap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\driver -g2 -w544 -w557 -t4 --language=+volatile -N0 -O0 -Y0 -Z0 --compact-max-size=200 --misrac-version=2004 -o data.src ../data.c"
+	.compiler_name		"ctc"
+	;source	'../data.c'
+
+	
+$TC16X
+	
+	.sdecl	'.data.data.size',data,cluster('size')
+	.sect	'.data.data.size'
+	.global	size
+	.align	2
+size:	.type	object
+	.size	size,4
+	.word	192
+	.sdecl	'.data.data.data0',data,cluster('data0')
+	.sect	'.data.data.data0'
+	.global	data0
+	.align	2
+data0:	.type	object
+	.size	data0,768
+	.word	-1862270725,-637599744,-721467328,1006713857,1213152257,-1576059057,-33619824,1078919759
+	.word	190189704,41581328,4080,268462096,1002441793,1845487359,1089735672,273181952
+	.word	218120436,200872008,1828718592,1089735674,273181952,50331792,1078922053,277381754
+	.word	1009441281,263131376,647982611,-637464689,284191985,996148288,1845478655,2064646384
+	.word	261034224,1827748800,4222463,-1140900846,-637464689,284191985,1002438720,1845474047
+	.word	2064646384,261034224,1827748704,71331327,-1442856198,-16066689,9445392,-637504337
+	.word	-637503487,-1858076417,-637599606,-2107606256,15732495,284191985,-1858076417,-637599606
+	.word	-2106557680,15732495,284191985,994056513,1845463295,-637504337,1007587648,5232964
+	.word	9077364,-2113568250,-2113442305,-1979755345,-1038125905,1419827720,1072755071,-637504337
+	.word	1007587648,5232964,9077348,-2113568250,-2113442305,1979667631,-1038125905,1419827720
+	.word	1072755071,-2111300352,-905913856,1957641310,-637503487,1008751776,1476476687,218140992
+	.word	5232964,9077364,-2113568250,-2113442305,1476344846,-1858076593,-649854838,-2106311936
+	.word	72366848,73415424,74477055,1241470977,-1038125055,1476475776,16143,-562046464
+	.word	2013346848,1419794433,1057950976,-1858076593,-649854838,-2107342331,-2113502713,1845440767
+	.word	1007587648,5232964,9077348,989856848,989856864,989856880,1845437183,1476510239
+	.word	2013353985,998244352,1058004607,-637503486,1006917634,-1038125054,1476574128,1896547920
+	.word	1058011519,1420804639,1957647520,-636993552,-1585456640,1957641310,-637503487,1008751776
+	.word	1476476912,218140992,5232964,9077364,-2113568250,-2113442305,-201442290,-1858076593
+	.word	-649854838,-2106311936,72366848,73415424,74477055,-436316159,-1038125055,1476475776
+	.word	16143,-562046464,2013346848,1419794433,1072696576,-1858076593,-649854838,-2107342331
+	.word	-2113502713,1845480702,1007587648,5232964,9077348,989856848,989856864,989856880
+	.word	1845477118,1476510239,2013353985,998244352,1058004607,-637503486,1006917634,-1038125054
+	.word	1476574128,1896547920,1058011519,1420804639,1957647520,-636993552,-1585511793,-1023877361
+	.word	922681488
+	.space	28
+	.sdecl	'.data.data.data_ota0',data,cluster('data_ota0')
+	.sect	'.data.data.data_ota0'
+	.global	data_ota0
+	.align	2
+data_ota0:	.type	object
+	.size	data_ota0,768
+	.word	537975296,1957681664,2013368640,16767487,9077344,2064646384,252645616,1827770688
+	.word	16767487,9077360,2064646384,252645616,1827748672,423718144,-100607488,1957641230
+	.word	-1858076593,-649854838,-2106293755,-2113502713,1828780800,1420804639,1957647520,-636993552
+	.word	-243279360,1957641230,-1858076593,-649854838,-2107342331,-2113502713,1828775680,1420804639
+	.word	1957647520,-636993552,-243301848,486590976,-637504337,1012849152,2013346848,1419794433
+	.word	1057950976,-1858076593,-649854838,-2106293755,-2113502713,1828768000,1007587648,5232964
+	.word	9077364,989856848,989856864,989856880,1828764416,1476510239,2013353985,998244352
+	.word	1058004607,-637503487,1008751776,1476476687,218140992,5232964,9077348,-2113568250
+	.word	-2113442560,-1577042930,-1858076593,-649854838,-2107360512,72366848,73415424,74476800
+	.word	-1811916799,-1038125055,1476475776,16143,-562046464,2013412356,1476575775,2013419522
+	.word	-1146064629,105922319,-109095761,-1038125905,1419827720,1072734591,-637504337,1012849152
+	.word	2013346848,1419794433,1072696576,-1858076593,-649854838,-2106293755,-2113502713,1828742400
+	.word	1007587648,5232964,9077364,989856848,989856864,989856880,1828738816,1476510239
+	.word	2013353985,998244352,1058004607,-637503487,1008751776,1476476912,218140992,5232964
+	.word	9077348,-2113568250,-2113442560,1040202766,-1858076593,-649854838,-2107360512,72366848
+	.word	73415424,74476800,805328897,-1038125055,1476475776,16143,-562046464,2013412356
+	.word	1476575775,2013419522,-1146064629,105922319,-109095761,-1038125905,1419827720,1072734591
+	.word	42975992,-552651009,9474304,16505343,54527,1212169217,1006717007,1006739983
+	.word	1062206975,9453647,38734678,277348986,2064646144,267390976,1745894336,205614591
+	.word	-419479308,200806472,1828719872,1089735673,273181952,134234356,200937544,1828717312
+	.word	9453647,189075592,-2105918422,-637464657,284173983,1846794753,261034224,1827748704
+	.word	71331327,-989889776,15732623,284191985,1002438720,1845476351,1007868417,261034224
+	.word	1827748800,4222463,-1291879664,15732623,284191985,996148288,1845471743,-1023738102
+	.word	-679542640
+	.space	28
+	.sdecl	'.data.data.data_ota1',data,cluster('data_ota1')
+	.sect	'.data.data.data_ota1'
+	.global	data_ota1
+	.align	2
+data_ota1:	.type	object
+	.size	data_ota1,768
+	.word	537975296,1957681664,2013368640,16767487,9077344,2064646384,252645616,1827770688
+	.word	16767487,9077360,2064646384,252645616,1827748800,205614336,-603951872,100762152
+	.word	486593024,-637504337,1012849152,2013346848,1419794433,1057950976,-1858076593,-649854838
+	.word	-2106293755,-2113502713,1828770048,1007587648,5232964,9077364,989856848,989856864
+	.word	989856880,1828766464,1476510239,2013353985,998244352,1058004607,-637503487,1008751776
+	.word	1476476687,218140992,5232964,9077348,-2113568250,-2113442560,-1442825202,-1858076593
+	.word	-649854838,-2107360512,72366848,73415424,74476800,-1677699071,-1038125055,1476475776
+	.word	16143,-562046464,2013412356,1476575775,2013419522,-1146064629,105922319,-109095761
+	.word	-1038125905,1419827720,1072734591,1002441793,1828744960,-637504337,1012849152,2013346848
+	.word	1419794433,1072696576,-1858076593,-649854838,-2106293755,-2113502713,1828743424,1007587648
+	.word	5232964,9077364,989856848,989856864,989856880,1828739840,1476510239,2013353985
+	.word	998244352,1058004607,-637503487,1008751776,1476476912,218140992,5232964,9077348
+	.word	-2113568250,-2113442560,1107311630,-1858076593,-649854838,-2107360512,72366848,73415424
+	.word	74476800,872437761,-1038125055,1476475776,16143,-562046464,2013412356,1476575775
+	.word	2013419522,-1146064629,105922319,-109095761,-1038125905,1419827720,1072734591,1002441793
+	.word	1828718336,42975992,-552653057,9474304,16505343,54527,1212169217,1006717007
+	.word	1006739983,1062206975,9453647,38734678,277348986,2064646144,267390976,1745894336
+	.word	205614591,-419479308,200806472,1828728320,1089735673,273181952,687882484,200937544
+	.word	1828725760,9470472,1007456576,5232964,9077364,-2113568250,-2113442305,-654327272
+	.word	-636993544,-192970232,1007456576,5232964,9077348,-2113568250,-2113442305,-922762728
+	.word	-636993544,-193003376,1078922053,277381754,1009310209,263131376,647982610,-637464689
+	.word	284191985,996148288,1845470207,2064646384,261034224,1827766868,1845468159,1007802881
+	.word	261034224,1827766868,1845466111,2064646384,261034224,1827748704,71331327,-1962949894
+	.word	-16066177,9437184
+	.space	24
+	.sdecl	'.debug_info',debug
+	.sect	'.debug_info'
+.L3:
+	.word	275
+	.half	3
+	.word	.L4
+	.byte	4
+.L2:
+	.byte	1
+	.byte	'../data.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3_can_send\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L5
+	.byte	2,1,3
+	.word	184
+	.byte	4
+	.byte	'__codeptr',0,1,1,1
+	.word	186
+	.byte	5
+	.byte	'unsigned long int',0,4,7,4
+	.byte	'uint32',0,2,116,29
+	.word	209
+	.byte	6,128,6
+	.word	209
+	.byte	7,191,1,0
+.L14:
+	.byte	8
+	.word	245
+.L15:
+	.byte	8
+	.word	245
+.L16:
+	.byte	5
+	.byte	'int',0,4,5
+.L17:
+	.byte	8
+	.word	245
+	.byte	0
+	.sdecl	'.debug_abbrev',debug
+	.sect	'.debug_abbrev'
+.L4:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,16,6,0,0,2,21,0,54,15,0,0,3,15,0,73,19,0,0,4,22,0,3,8,58,15,59,15
+	.byte	57,15,73,19,0,0,5,36,0,3,8,11,15,62,15,0,0,6,1,1,11,15,73,19,0,0,7,33,0,47,15,0,0,8,53,0,73,19,0,0,0
+	.sdecl	'.debug_line',debug
+	.sect	'.debug_line'
+.L5:
+	.word	.L19-.L18
+.L18:
+	.half	3
+	.word	.L21-.L20
+.L20:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1
+	.byte	'C:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3_can_send\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std',0
+	.byte	0
+	.byte	'../data.c',0,0,0,0
+	.byte	'Platform_Types.h',0,1,0,0,0
+.L21:
+.L19:
+	.sdecl	'.debug_info',debug,cluster('data_ota0')
+	.sect	'.debug_info'
+.L6:
+	.word	208
+	.half	3
+	.word	.L7
+	.byte	4,1
+	.byte	'../data.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3_can_send\\TriCore Debug (TASKING)\\',0,12,1,2
+	.word	.L2
+	.byte	3
+	.byte	'data_ota0',0,1,149,1,17
+	.word	.L14
+	.byte	1,5,3
+	.word	data_ota0
+	.byte	0
+	.sdecl	'.debug_abbrev',debug,cluster('data_ota0')
+	.sect	'.debug_abbrev'
+.L7:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,0,0,2,61,0,24,16,0,0,3,52,0,3,8,58,15,59,15,57,15,73,16,63,12,2,9
+	.byte	0,0,0
+	.sdecl	'.debug_info',debug,cluster('data_ota1')
+	.sect	'.debug_info'
+.L8:
+	.word	208
+	.half	3
+	.word	.L9
+	.byte	4,1
+	.byte	'../data.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3_can_send\\TriCore Debug (TASKING)\\',0,12,1,2
+	.word	.L2
+	.byte	3
+	.byte	'data_ota1',0,1,205,1,17
+	.word	.L15
+	.byte	1,5,3
+	.word	data_ota1
+	.byte	0
+	.sdecl	'.debug_abbrev',debug,cluster('data_ota1')
+	.sect	'.debug_abbrev'
+.L9:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,0,0,2,61,0,24,16,0,0,3,52,0,3,8,58,15,59,15,57,15,73,16,63,12,2,9
+	.byte	0,0,0
+	.sdecl	'.debug_info',debug,cluster('size')
+	.sect	'.debug_info'
+.L10:
+	.word	202
+	.half	3
+	.word	.L11
+	.byte	4,1
+	.byte	'../data.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3_can_send\\TriCore Debug (TASKING)\\',0,12,1,2
+	.word	.L2
+	.byte	3
+	.byte	'size',0,1,95,5
+	.word	.L16
+	.byte	1,5,3
+	.word	size
+	.byte	0
+	.sdecl	'.debug_abbrev',debug,cluster('size')
+	.sect	'.debug_abbrev'
+.L11:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,0,0,2,61,0,24,16,0,0,3,52,0,3,8,58,15,59,15,57,15,73,16,63,12,2,9
+	.byte	0,0,0
+	.sdecl	'.debug_info',debug,cluster('data0')
+	.sect	'.debug_info'
+.L12:
+	.word	203
+	.half	3
+	.word	.L13
+	.byte	4,1
+	.byte	'../data.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3_can_send\\TriCore Debug (TASKING)\\',0,12,1,2
+	.word	.L2
+	.byte	3
+	.byte	'data0',0,1,97,17
+	.word	.L17
+	.byte	1,5,3
+	.word	data0
+	.byte	0
+	.sdecl	'.debug_abbrev',debug,cluster('data0')
+	.sect	'.debug_abbrev'
+.L13:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,0,0,2,61,0,24,16,0,0,3,52,0,3,8,58,15,59,15,57,15,73,16,63,12,2,9
+	.byte	0,0,0
+	; Module end

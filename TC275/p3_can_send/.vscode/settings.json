@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "ppwm.h": "c",
+        "ifxstm.h": "c",
+        "ifx_types.h": "c"
+    }
+}
