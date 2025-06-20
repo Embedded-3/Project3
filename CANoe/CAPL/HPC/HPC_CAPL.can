@@ -197,7 +197,7 @@ on timer loop20ms
       }
     }
     if (ADAS_OnOff_State & (1 << 5)) // ADB ON
-    {
+    {    
        if (currentSteeringAngle > 5) // 우회전을 하면 오른쪽 하이빔 꺼짐
        {
          adbTxRightHighBeamCTL = 0;
@@ -222,17 +222,29 @@ on timer loop20ms
   }
   else // Python 켜졌을 때 호준이형 로직
   {
-      @sysvar::ADAS::LKAS_OnOff = ADAS_OnOff_State & (1 << 7);
-      lkasTxSteeringAngle = @sysvar::ADAS::ADAS_Steering;
-    
-      @sysvar::ADAS::ESA_OnOff = ADAS_OnOff_State & (1 << 6);
-      esaTxSteeringAngle = @sysvar::ADAS::ADAS_Steering;
-      esaTxAlertSpeakerOutput = @sysvar::ADAS::ESA_Alert;
+      @sysvar::ADAS::Car_Speed = (currentLeftMotorRPM + currentRightMotorRPM) / 2;
+      @sysvar::ADAS::USS_Detection = leftRearUltraSoundVal;
+      @sysvar::ADAS::USS_Distance = obstacleDetectDistance;
 
+      @sysvar::ADAS::LKAS_OnOff = ADAS_OnOff_State & (1 << 7);
+      if(@sysvar::ADAS::LKAS_OnOff==1)
+      {
+        lkasTxSteeringAngle = @sysvar::ADAS::ADAS_Steering;
+      }
+      else if(@sysvar::ADAS::ESA_OnOff == 1)
+      {
+        esaTxSteeringAngle = @sysvar::ADAS::ADAS_Steering;
+        esaTxAlertSpeakerOutput = @sysvar::ADAS::ESA_Alert;
+      }
+      
       @sysvar::ADAS::ADB_OnOff = ADAS_OnOff_State & (1 << 5);
-      adbTxRightHighBeamCTL = @sysvar::ADAS::ADB_Right;
-      adbTxLeftHighBeamCTL = @sysvar::ADAS::ADB_Left;
+      if(@sysvar::ADAS::ADB_OnOff==1)
+      {
+        adbTxRightHighBeamCTL = @sysvar::ADAS::ADB_Right;
+        adbTxLeftHighBeamCTL = @sysvar::ADAS::ADB_Left;
+      }
       adbTxLowBeamCTL = 1;
+        
       adbTxUserSteeringAngle = currentSteeringAngle;
     }  
     //================ADAS CALCULATE END================//

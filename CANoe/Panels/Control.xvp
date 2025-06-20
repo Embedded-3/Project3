@@ -168,13 +168,13 @@
         <Property Name="TransparentColor">Magenta</Property>
         <Property Name="TabIndex">9</Property>
         <Property Name="Epsilon">0</Property>
-        <Property Name="Increment">10</Property>
+        <Property Name="Increment">1</Property>
         <Property Name="StartValue">0</Property>
         <Property Name="StateCnt">11</Property>
-        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;11&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;10&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;10&lt;/TxValue&gt;&lt;RxValue&gt;20&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;20&lt;/TxValue&gt;&lt;RxValue&gt;30&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;30&lt;/TxValue&gt;&lt;RxValue&gt;40&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;40&lt;/TxValue&gt;&lt;RxValue&gt;50&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;50&lt;/TxValue&gt;&lt;RxValue&gt;60&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;60&lt;/TxValue&gt;&lt;RxValue&gt;70&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;70&lt;/TxValue&gt;&lt;RxValue&gt;80&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;80&lt;/TxValue&gt;&lt;RxValue&gt;90&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;90&lt;/TxValue&gt;&lt;RxValue&gt;100&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;100&lt;/TxValue&gt;</Property>
-        <Property Name="SwitchValuesVT">1;11;0/Lower/0;10/Lower/10;20/Lower/20;30/Lower/30;40/Lower/40;50/Lower/50;60/Lower/60;70/Lower/70;80/Lower/80;90/Lower/90;100/Lower/100</Property>
-        <Property Name="SwitchValues">1;11;0;10;20;30;40;50;60;70;80;90;100</Property>
-        <Property Name="SwitchValuesRx">1;11;0;10;20;30;40;50;60;70;80;90;100</Property>
+        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;11&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;&lt;RxValue&gt;2&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;2&lt;/TxValue&gt;&lt;RxValue&gt;3&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;3&lt;/TxValue&gt;&lt;RxValue&gt;4&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;4&lt;/TxValue&gt;&lt;RxValue&gt;5&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;5&lt;/TxValue&gt;&lt;RxValue&gt;6&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;6&lt;/TxValue&gt;&lt;RxValue&gt;7&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;7&lt;/TxValue&gt;&lt;RxValue&gt;8&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;8&lt;/TxValue&gt;&lt;RxValue&gt;9&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;9&lt;/TxValue&gt;&lt;RxValue&gt;10&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;10&lt;/TxValue&gt;</Property>
+        <Property Name="SwitchValuesVT">1;11;0/Lower/0;1/Lower/1;2/Lower/2;3/Lower/3;4/Lower/4;5/Lower/5;6/Lower/6;7/Lower/7;8/Lower/8;9/Lower/9;10/Lower/10</Property>
+        <Property Name="SwitchValues">1;11;0;1;2;3;4;5;6;7;8;9;10</Property>
+        <Property Name="SwitchValuesRx">1;11;0;1;2;3;4;5;6;7;8;9;10</Property>
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.TrackBarControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X055309c6ec363e4f1fe9052eb6d347b8d386" ControlName="Track Bar 2">
         <Property Name="Name">X055309c6ec363e4f1fe9052eb6d347b8d386</Property>
@@ -182,10 +182,8 @@
         <Property Name="Location">88, 19</Property>
         <Property Name="Orientation">Vertical</Property>
         <Property Name="TickStyle">Both</Property>
-        <Property Name="TabIndex">8</Property>
-        <Property Name="LargeChangeDouble">1</Property>
+        <Property Name="TabIndex">5</Property>
         <Property Name="MaximumSize">36, 100000</Property>
-        <Property Name="LargeChange">1</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Accel_Pedal;1;;;-1;;;Value;;;0</Property>
       </Object>
       <Property Name="Name">X28702b21e79ace496fe8c17ee2a059ddca93</Property>
@@ -203,16 +201,8 @@
         <Property Name="Location">87, 19</Property>
         <Property Name="Orientation">Vertical</Property>
         <Property Name="TickStyle">Both</Property>
-        <Property Name="TabIndex">14</Property>
-        <Property Name="MaximumDouble">100</Property>
-        <Property Name="SmallChangeDouble">10</Property>
-        <Property Name="LargeChangeDouble">10</Property>
-        <Property Name="TickFrequencyDouble">10</Property>
+        <Property Name="TabIndex">5</Property>
         <Property Name="MaximumSize">36, 100000</Property>
-        <Property Name="Maximum">100</Property>
-        <Property Name="SmallChange">10</Property>
-        <Property Name="LargeChange">10</Property>
-        <Property Name="TickFrequency">10</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Brake_Pedal;1;;;-1;;;Value;;;0</Property>
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="X438ca10ae239ce4b4eebcd3ec38f5ce11f24" ControlName="Switch / Indicator 1">
@@ -224,13 +214,13 @@
         <Property Name="TransparentColor">Magenta</Property>
         <Property Name="TabIndex">13</Property>
         <Property Name="Epsilon">0</Property>
-        <Property Name="Increment">10</Property>
+        <Property Name="Increment">1</Property>
         <Property Name="StartValue">0</Property>
         <Property Name="StateCnt">11</Property>
-        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;11&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;10&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;10&lt;/TxValue&gt;&lt;RxValue&gt;20&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;20&lt;/TxValue&gt;&lt;RxValue&gt;30&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;30&lt;/TxValue&gt;&lt;RxValue&gt;40&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;40&lt;/TxValue&gt;&lt;RxValue&gt;50&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;50&lt;/TxValue&gt;&lt;RxValue&gt;60&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;60&lt;/TxValue&gt;&lt;RxValue&gt;70&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;70&lt;/TxValue&gt;&lt;RxValue&gt;80&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;80&lt;/TxValue&gt;&lt;RxValue&gt;90&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;90&lt;/TxValue&gt;&lt;RxValue&gt;100&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;100&lt;/TxValue&gt;</Property>
-        <Property Name="SwitchValuesVT">1;11;0/Lower/0;10/Lower/10;20/Lower/20;30/Lower/30;40/Lower/40;50/Lower/50;60/Lower/60;70/Lower/70;80/Lower/80;90/Lower/90;100/Lower/100</Property>
-        <Property Name="SwitchValues">1;11;0;10;20;30;40;50;60;70;80;90;100</Property>
-        <Property Name="SwitchValuesRx">1;11;0;10;20;30;40;50;60;70;80;90;100</Property>
+        <Property Name="SwitchValuesVTXml">&lt;Version&gt;2&lt;/Version&gt;&lt;Count&gt;11&lt;/Count&gt;&lt;RxValue&gt;0&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;0&lt;/TxValue&gt;&lt;RxValue&gt;1&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;1&lt;/TxValue&gt;&lt;RxValue&gt;2&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;2&lt;/TxValue&gt;&lt;RxValue&gt;3&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;3&lt;/TxValue&gt;&lt;RxValue&gt;4&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;4&lt;/TxValue&gt;&lt;RxValue&gt;5&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;5&lt;/TxValue&gt;&lt;RxValue&gt;6&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;6&lt;/TxValue&gt;&lt;RxValue&gt;7&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;7&lt;/TxValue&gt;&lt;RxValue&gt;8&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;8&lt;/TxValue&gt;&lt;RxValue&gt;9&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;9&lt;/TxValue&gt;&lt;RxValue&gt;10&lt;/RxValue&gt;&lt;LowerUpper&gt;Lower&lt;/LowerUpper&gt;&lt;TxValue&gt;10&lt;/TxValue&gt;</Property>
+        <Property Name="SwitchValuesVT">1;11;0/Lower/0;1/Lower/1;2/Lower/2;3/Lower/3;4/Lower/4;5/Lower/5;6/Lower/6;7/Lower/7;8/Lower/8;9/Lower/9;10/Lower/10</Property>
+        <Property Name="SwitchValues">1;11;0;1;2;3;4;5;6;7;8;9;10</Property>
+        <Property Name="SwitchValuesRx">1;11;0;1;2;3;4;5;6;7;8;9;10</Property>
       </Object>
       <Property Name="Name">X60487888e2c1ae4d9feb5ade2d7bb0a9ea91</Property>
       <Property Name="Size">124, 149</Property>
