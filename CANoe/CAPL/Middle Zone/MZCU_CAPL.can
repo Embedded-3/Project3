@@ -23,6 +23,8 @@ variables
   byte otaAlarmFlag;
   byte motorFlag;
   byte otaAssignFlag;
+  byte adasFlag;
+  byte transmissionFlag;
   
   int  OBDistance;
   
@@ -69,6 +71,8 @@ variables
   struct RearMiddleTailLampStatusFrame rxTailLampStatusFrame;
   struct HpcMiddleRpmInfoFrame rxRpmInfoFrame;
   struct HpcMiddleOtaAlarmFrame rxOtaAlarmFrame;
+  struct HpcMiddleAdasStateFrame rxAdasStateFrame;
+  struct HpcMiddleTransmissionStateFrame rxTransmissionStateFrame;
   
   // RX FRAME(ALL)
   struct HpcAllEsaFrame rxEsaFrame;
@@ -82,6 +86,8 @@ variables
   byte TailLampFrameReceived20ms;
   byte RpmInfoFrameReceived20ms;
   byte OtaAlarmFrameFecieved20ms;
+  byte AdasStateFrameFecieved20ms;
+  byte TransmissionFrameFecieved20ms;
   
   byte EsaFrameReceived20ms;
   byte WakeUpReceived;
@@ -146,6 +152,8 @@ on start
   otaAlarmFlag = 0;
   motorFlag = 0;
   otaAssignFlag = 0;
+  adasFlag = 0;
+  transmissionFlag = 0;
   
   AdbFrameReceived20ms = 0;
   OtaMiddleFrameReceived10ms = 0;
@@ -155,6 +163,8 @@ on start
   TailLampFrameReceived20ms = 0;
   EsaFrameReceived20ms = 0;
   OtaAlarmFrameFecieved20ms = 0;
+  AdasStateFrameFecieved20ms = 0;
+  TransmissionFrameFecieved20ms = 0;
   
   WakeUpReceived = 0;
   RpmInfoFrameReceived20ms = 0;
@@ -225,6 +235,8 @@ on timer loopFlagInit5ms
   WakeUpReceived = 0;
   RpmInfoFrameReceived20ms = 0;
   OtaAlarmFrameFecieved20ms = 0;
+  AdasStateFrameFecieved20ms = 0;
+  TransmissionFrameFecieved20ms = 0;
 }
 
 on timer loop20ms
@@ -300,7 +312,8 @@ on timer loop20ms
   //----------------------------CAN TX MSG--------------------------------
   // MZCU_WakeUp_CTL_MSG wakeup_ctl_msg : ALLCAN_WAKEUP_RX_PORT_ID
   // MZCU_DoorOpenClose_CTL_MSG door_msg : X
-  // MZCU_OTA_MBCU_MSG ota_mbcu_msg; : OTA CAN 메세지 -> Eth RX port 에 작성
+  // MZCU_Battery_STATUS_100MSG battery_msg : X
+  // MZCU_OTA_MBCU_MSG ota_mbcu_msg : OTA CAN 메세지 -> Eth RX port 에 작성
   // MZCU_OTA_HU_MSG ota_hu_msg 
   // MZCU_OTA_HVAC_MSG ota_hvac_msg
   // MZCU_OTA_CLU_MSG ota_clu_msg
@@ -418,8 +431,19 @@ on timer loop20ms
   }
   ;
   // MZCU_ADAS_Status_20MSG adas_msg;
+  if(adasFlag){
+    adas_msg.ADB_Active = rxAdasStateFrame.ADB_On_Off;
+    output(adas_msg);
+    write("MZCU : [CAN] MZCU_ADAS_Status_20MSG");
+    adasFlag = 0;
+  }
   // MZCU_Transmission_STATUS_20MSG trans_msg;
-  // MZCU_Battery_STATUS_100MSG battery_msg;
+  if(transmissionFlag){
+    trans_msg.Transmission_Status = rxTransmissionStateFrame.Gear_Position;
+    output(trans_msg);
+    write("MZCU : [CAN] MZCU_Transmission_STATUS_20MSG");
+    transmissionFlag = 0;
+  }
   
 }
 
@@ -559,6 +583,21 @@ on ethernetPacket *
               rxOtaAlarmFrame.MiddleZone_ECU_ID,
               rxOtaAlarmFrame.RearZone_ECU_ID);
       otaAlarmFlag = 1;
+    case MIDDLE_ADAS_STATE_RX_PORT_ID:
+      if(AdasStateFrameFecieved20ms) break;
+      AdasStateFrameFecieved20ms = 1;
+      this.udp.GetData(0, rxAdasStateFrame);
+      write("[RX] [hpc->middle] ADB_On_Off : %d, ESA_On_Off : %d, LKAS_On_Off : %d", 
+              rxAdasStateFrame.ADB_On_Off, 
+              rxAdasStateFrame.ESA_On_Off,
+              rxAdasStateFrame.LKAS_On_Off);
+      adasFlag = 1;
+    case MIDDLE_TRANSMISSION_STATE_RX_PORT_ID:
+      if(TransmissionFrameFecieved20ms) break;
+      TransmissionFrameFecieved20ms = 1;
+      this.udp.GetData(0, rxTransmissionStateFrame);
+      write("[RX] [hpc->middle] Gear_Position : %d", rxTransmissionStateFrame.Gear_Position);
+      transmissionFlag = 1;
     default:
       break;
   }
