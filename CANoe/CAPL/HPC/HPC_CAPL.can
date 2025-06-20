@@ -25,6 +25,8 @@ variables
   // ethernetPacket AliveUdpMsg;
   ethernetPacket WakeUpMsg;
   ethernetPacket MotorInfoMsg;
+  ethernetPacket AdasStateMsg;
+  ethernetPacket TransmissionMsg;
 
   // TX FRAME
   struct HpcFrontLkasFrame hpcFrontLkas20msFrame;
@@ -35,6 +37,8 @@ variables
   struct HpcRearOtaRearFrame hpcRearOtaRearFrame;
   struct HpcAllWakeUpFrame hpcAllWakeUpFrame;
   struct HpcMiddleRpmInfoFrame hpcMiddleRpmInfo20msFrame;
+  struct HpcMiddleAdasStateFrame hpcMiddleAdasState20msFrame;
+  struct HpcMiddleTransmissionStateFrame hpcMiddleTransmissionState20msFrame;
   
   int port_id;
   // RX FRAME
@@ -68,7 +72,6 @@ variables
   
   byte ADAS_OnOff_State;
   
- 
   byte lkasTxSteeringAngle;
   
   // ESA HPC VARIABLES
@@ -265,6 +268,21 @@ on timer loop20ms
   MotorInfoMsg.CompletePacket();
   output(MotorInfoMsg);
   write("[TX] [hpc->mid] MotorLeftRpm: %d, MotorRightRpm: %d", hpcMiddleRpmInfo20msFrame.LeftRear_MotorRPM, hpcMiddleRpmInfo20msFrame.RightRear_MotorRPM);
+
+  hpcMiddleAdasState20msFrame.LKAS_On_Off = @sysvar::ADAS::LKAS_OnOff;
+  hpcMiddleAdasState20msFrame.ESA_On_Off = @sysvar::ADAS::ESA_OnOff;
+  hpcMiddleAdasState20msFrame.ADB_On_Off = @sysvar::ADAS::ADB_OnOff;
+  AdasStateMsg.udp.SetData(0, hpcMiddleAdasState20msFrame);
+  AdasStateMsg.CompletePacket();
+  output(AdasStateMsg);
+  write("[TX] [hpc->mid] ADAS STATE : %d %d %d", hpcMiddleAdasState20msFrame.LKAS_On_Off,
+                hpcMiddleAdasState20msFrame.ESA_On_Off, hpcMiddleAdasState20msFrame.ADB_On_Off);
+
+  hpcMiddleTransmissionState20msFrame.Gear_Position = currentGearPosition;
+  TransmissionMsg.udp.SetData(0, hpcMiddleTransmissionState20msFrame);
+  TransmissionMsg.CompletePacket();
+  output(TransmissionMsg);
+  write("[TX] [hpc->mid] gear position : %d", hpcMiddleTransmissionState20msFrame.Gear_Position);
 }
 
 on ethernetPacket *
