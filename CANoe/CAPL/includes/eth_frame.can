@@ -33,16 +33,18 @@ variables
   const long ALLCAN_RX_PORT_BASE    = 50000;
   
 // ========================== HPC TX ===========================
-  const long HPC_LKAS_TX_PORT_ID        = 1;
-  const long HPC_ESA_TX_PORT_ID         = 2;
-  const long HPC_ADB_TX_PORT_ID         = 3;
-  const long HPC_OTAFRONT_TX_PORT_ID    = 4;
-  const long HPC_OTAMIDDLE_TX_PORT_ID   = 5;
-  const long HPC_OTAREAR_TX_PORT_ID     = 6;
-  const long HPC_ALIVE_TX_PORT_ID       = 7;
-  const long HPC_WAKEUP_TX_PORT_ID      = 8;
-  const long HPC_RPMINFO_TX_PORT_ID     = 9;
-  const long HPC_OTA_ALARM_TX_PORT_ID   = 10;
+  const long HPC_LKAS_TX_PORT_ID               = 1;
+  const long HPC_ESA_TX_PORT_ID                = 2;
+  const long HPC_ADB_TX_PORT_ID                = 3;
+  const long HPC_OTAFRONT_TX_PORT_ID           = 4;
+  const long HPC_OTAMIDDLE_TX_PORT_ID          = 5;
+  const long HPC_OTAREAR_TX_PORT_ID            = 6;
+  const long HPC_ALIVE_TX_PORT_ID              = 7;
+  const long HPC_WAKEUP_TX_PORT_ID             = 8;
+  const long HPC_RPMINFO_TX_PORT_ID            = 9;
+  const long HPC_OTA_ALARM_TX_PORT_ID          = 10;
+  const long HPC_ADAS_STATE_TX_PORT_ID         = 11;
+  const long HPC_TRANSMISSION_STATE_TX_PORT_ID = 12;
 
 // ========================== HPC RX ===========================
   const long HPC_USS_RX_PORT_ID 		              = 1;
@@ -82,14 +84,16 @@ variables
   const long MIDDLE_OBSTACLE_DETECT_DIST_TX_PORT_ID = 5;
 
 // ========================= MIDDLE RX =========================
-  const long MIDDLE_ADB_RX_PORT_ID               = 1;
-  const long MIDDLE_OTAMIDDLE_RX_PORT_ID         = 2;
-  const long MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID   = 3;
-  const long MIDDLE_ALIVE_FRONT_RX_PORT_ID       = 4;
-  const long MIDDLE_ALIVE_REAR_RX_PORT_ID        = 5;
-  const long MIDDLE_TAILLAMP_RX_PORT_ID          = 6;
-  const long MIDDLE_RPMINFO_RX_PORT_ID           = 7;
-  const long MIDDLE_OTA_ALARM_RX_PORT_ID         = 8;
+  const long MIDDLE_ADB_RX_PORT_ID                 = 1;
+  const long MIDDLE_OTAMIDDLE_RX_PORT_ID           = 2;
+  const long MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID     = 3;
+  const long MIDDLE_ALIVE_FRONT_RX_PORT_ID         = 4;
+  const long MIDDLE_ALIVE_REAR_RX_PORT_ID          = 5;
+  const long MIDDLE_TAILLAMP_RX_PORT_ID            = 6;
+  const long MIDDLE_RPMINFO_RX_PORT_ID             = 7;
+  const long MIDDLE_OTA_ALARM_RX_PORT_ID           = 8;
+  const long MIDDLE_ADAS_STATE_RX_PORT_ID          = 9;
+  const long MIDDLE_TRANSMISSION_STATE_RX_PORT_ID  =10;
 
 // ========================== REAR TX ==========================
   const long REAR_USS_TX_PORT_ID              = 1;
@@ -280,6 +284,16 @@ variables
   
   struct RearMiddleAliveFrame {
     byte ECU_Alive_Status; // RZCU RBCU USS MCU
+  };
+  
+  struct HpcMiddleAdasStateFrame {
+    byte LKAS_On_Off;
+    byte ESA_On_Off;
+    byte ADB_On_Off;
+  };
+  
+  struct HpcMiddleTransmissionStateFrame {
+    byte Gear_Position;
   };
 
 }
