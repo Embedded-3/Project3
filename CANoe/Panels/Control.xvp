@@ -183,15 +183,9 @@
         <Property Name="Orientation">Vertical</Property>
         <Property Name="TickStyle">Both</Property>
         <Property Name="TabIndex">8</Property>
-        <Property Name="MaximumDouble">100</Property>
-        <Property Name="SmallChangeDouble">10</Property>
-        <Property Name="LargeChangeDouble">10</Property>
-        <Property Name="TickFrequencyDouble">10</Property>
+        <Property Name="LargeChangeDouble">1</Property>
         <Property Name="MaximumSize">36, 100000</Property>
-        <Property Name="Maximum">100</Property>
-        <Property Name="SmallChange">10</Property>
-        <Property Name="LargeChange">10</Property>
-        <Property Name="TickFrequency">10</Property>
+        <Property Name="LargeChange">1</Property>
         <Property Name="SymbolConfiguration">8;16;FRONT::VCU;;;Accel_Pedal;1;;;-1;;;Value;;;0</Property>
       </Object>
       <Property Name="Name">X28702b21e79ace496fe8c17ee2a059ddca93</Property>

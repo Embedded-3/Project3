@@ -441,7 +441,7 @@ on message VCU_VehicleStart_STATUS_100MSG
 }
 
 // 2. Gear
-on message VCU_Transmission_STATUS_1000MSG
+on message VCU_Transmission_STATUS_100MSG
 {
   frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
 }
