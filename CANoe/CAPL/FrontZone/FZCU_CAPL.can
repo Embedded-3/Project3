@@ -230,6 +230,7 @@ on timer loop10ms
   
   // 4. HeadLampMiddleUdpMsg - Cycle
   
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 0;
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanHighBeamOnOff ? (1 << 7) : 1;
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLowBeamOnOff ? (1 << 6) : 1;
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLeftTurnSignal ? (1 << 5) : 1;
@@ -293,6 +294,7 @@ on timer loop10ms
 on timer loop20ms
 {
   // 5. AliveUdpMsg - Cycle : on timer loop20ms
+  if (wakeupFlag == 0) return;
   FrontCanAliveState = 0;
   FrontCanAliveState |= (1 << 7);
   FrontCanAliveState |= rxCanMDPS_Alive;
@@ -504,7 +506,6 @@ on message MDPS_Switch_STATUS_10MSG
 
 on message MDPS_HLBeam_CTL_MSG
 {
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 0;
   rxCanHighBeamOnOff = this.HighBeam;
   rxCanLowBeamOnOff = this.LowBeam;
 }
