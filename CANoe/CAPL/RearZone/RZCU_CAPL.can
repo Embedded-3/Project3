@@ -143,7 +143,7 @@ on message RBCU_TailLamp_STATUS_100MSG
   rxCanBrake_Light_Status = this.Brake_Light_Status;
 }
 
-on message MCU_RearMotor_STATUS_20MSG
+on message MCU_RearMotor_STATUS_10MSG
 {
   rxCanLeftRear_MotorRPM = this.LeftRear_MotorRPM;
   rxCanRightRear_MotorRPM = this.RightRear_MotorRPM;
