@@ -38,10 +38,6 @@ VAL_TABLE_ vtbSensorReqCause 15 "SNA" 2 "by Request 2" 1 "by Request 1" 0 "norma
 VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
 
 
-BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
- SG_ RightHighBeam_Status : 0|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ LeftHighBeam_Status : 0|8@1+ (1,0) [-128|127] "" Vector__XXX
-
 BO_ 51 MZCU_SteeringAngle_CTL_20MSG: 1 MZCU
  SG_ SteeringAngle_CTL : 0|8@1- (1,0) [-128|127] ""  MBCU
 
@@ -99,8 +95,7 @@ BO_ 3 MZCU_AlertSpeaker_CTL_MSG: 1 MZCU
 BO_ 1025 MZCU_WakeUp_CTL_MSG: 1 MZCU
  SG_ WakeUpSignal : 0|1@1+ (1,0) [0|1] ""  HU,MBCU
 
-BO_ 113 MZCU_HLamp_CTL_MSG: 4 MZCU
- SG_ BrakeLight_Active : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+BO_ 113 MZCU_HLamp_CTL_MSG: 1 MZCU
  SG_ RightTurn_Active : 3|1@1+ (1,0) [0|1] ""  MBCU
  SG_ LowBeam_Active : 2|1@1+ (1,0) [0|1] ""  MBCU
  SG_ LeftTurn_Active : 1|1@1+ (1,0) [0|1] ""  MBCU
@@ -165,8 +160,8 @@ BO_ 356 MBCU_AlertSpeaker_STATUS_100MSG: 1 MBCU
 
 BO_ 340 MBCU_HighBeam_STATUS_100MSG: 3 MBCU
  SG_ HighBeam_OnOff : 0|1@1+ (1,0) [0|1] ""  CLU
- SG_ Right_HighBeam_Status : 16|8@1+ (1,0) [0|255] ""  CLU
- SG_ Left_HighBeam_Status : 8|8@1+ (1,0) [0|255] ""  CLU
+ SG_ Right_HighBeam_Status : 16|8@1+ (1,0) [0|255] ""  MZCU,CLU
+ SG_ Left_HighBeam_Status : 8|8@1+ (1,0) [0|255] ""  MZCU,CLU
 
 BO_ 324 MBCU_LowBeam_STATUS_100MSG: 1 MBCU
  SG_ LowBeam_OnOff : 0|1@1+ (1,0) [0|1] ""  CLU
@@ -192,7 +187,6 @@ BO_ 260 MBCU_Door_STATUS_100MSG: 1 MBCU
 
 
 
-CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
 BA_DEF_  "DatabaseVersion" STRING ;
 BA_DEF_ BO_  "DiagState" ENUM  "No","Yes";
 BA_DEF_ BO_  "DiagResponse" ENUM  "No","Yes","vector_leerstring";
@@ -229,8 +223,8 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
@@ -239,8 +233,6 @@ BA_ "GenMsgCycleTime" BO_ 1076 20;
 BA_ "GenMsgCycleTime" BO_ 34 20;
 BA_ "GenMsgCycleTime" BO_ 356 100;
 BA_ "GenMsgCycleTime" BO_ 308 100;
-BA_ "GenSigSendType" SG_ 3221225472 RightHighBeam_Status 7;
-BA_ "GenSigSendType" SG_ 3221225472 LeftHighBeam_Status 7;
 BA_ "GenSigSendType" SG_ 625 EmergencyLight_OnOff 7;
 BA_ "GenSigSendType" SG_ 35 RightHighBeam_CTL 7;
 BA_ "GenSigSendType" SG_ 35 LeftHighBeam_CTL 7;
@@ -250,7 +242,6 @@ BA_ "GenSigSendType" SG_ 32 CLU_OTA 7;
 BA_ "GenSigSendType" SG_ 16 MBCU_OTA 7;
 BA_ "GenSigSendType" SG_ 3 AlertSpeaker 7;
 BA_ "GenSigSendType" SG_ 1025 WakeUpSignal 7;
-BA_ "GenSigSendType" SG_ 113 BrakeLight_Active 7;
 BA_ "GenSigSendType" SG_ 113 RightTurn_Active 7;
 BA_ "GenSigSendType" SG_ 113 LowBeam_Active 7;
 BA_ "GenSigSendType" SG_ 113 LeftTurn_Active 7;

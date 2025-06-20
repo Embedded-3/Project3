@@ -27,8 +27,8 @@ on timer loop
 {
   if(engineState)
   {
-    message MCU_RearMotor_STATUS_20MSG motor_msg;
-    motor_msg.LeftRear_MotorRPM = @sysvar::REAR::MCU::LRM_RPM;
+    message MCU_RearMotor_STATUS_10MSG motor_msg;
+    motor_msg.LeftRear_MotorRPM = @sysvar::REAR::MCU::LRM_RPM; 
     motor_msg.RightRear_MotorRPM = @sysvar::REAR::MCU::RRM_RPM;
     output(motor_msg);
     write("RPM: %d", rpm);
@@ -69,7 +69,7 @@ on message RZCU_Wheel_CTL_MSG
 {
   if(engineState)
   {
-    @sysvar::REAR::MCU::LRM_RPM =  this.LeftRear_RPM;
-    @sysvar::REAR::MCU::RRM_RPM =  this.RightRear_RPM;
+    @sysvar::REAR::MCU::LRM_RPM =  this.LeftRear_RPM * 270 / 4000;
+    @sysvar::REAR::MCU::RRM_RPM =  this.RightRear_RPM * 270 / 4000;
   }
 }

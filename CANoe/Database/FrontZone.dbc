@@ -89,7 +89,7 @@ BO_ 532 ABS_BrakeOutput_STATUS_10MSG: 1 ABS
 BO_ 289 VCU_AccPedal_CTL_10MSG: 2 VCU
  SG_ Accel_Pedal_Pos : 0|7@1+ (1,0) [0|100] ""  FZCU
 
-BO_ 308 VCU_Transmission_STATUS_1000MSG: 1 VCU
+BO_ 308 VCU_Transmission_STATUS_100MSG: 1 VCU
  SG_ Gear_Position : 2|3@1+ (1,0) [0|5] ""  FZCU
  SG_ Drive_Mode : 0|2@1+ (1,0) [0|2] ""  FZCU
 
@@ -156,32 +156,32 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
-BA_ "GenMsgCycleTime" BO_ 372 20;
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgSendType" BO_ 372 0;
-BA_ "GenMsgCycleTime" BO_ 884 20;
+BA_ "GenMsgCycleTime" BO_ 372 20;
 BA_ "GenMsgSendType" BO_ 884 0;
-BA_ "GenMsgCycleTime" BO_ 628 20;
+BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgSendType" BO_ 628 0;
-BA_ "GenMsgCycleTime" BO_ 1140 20;
+BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgSendType" BO_ 1140 0;
-BA_ "GenMsgSendType" BO_ 788 0;
+BA_ "GenMsgCycleTime" BO_ 1140 20;
 BA_ "GenMsgCycleTime" BO_ 788 10;
-BA_ "GenMsgSendType" BO_ 770 0;
+BA_ "GenMsgSendType" BO_ 788 0;
 BA_ "GenMsgCycleTime" BO_ 770 10;
-BA_ "GenMsgSendType" BO_ 532 0;
+BA_ "GenMsgSendType" BO_ 770 0;
 BA_ "GenMsgCycleTime" BO_ 532 10;
-BA_ "GenMsgCycleTime" BO_ 289 10;
+BA_ "GenMsgSendType" BO_ 532 0;
 BA_ "GenMsgSendType" BO_ 289 0;
-BA_ "GenMsgCycleTime" BO_ 308 1000;
+BA_ "GenMsgCycleTime" BO_ 289 10;
 BA_ "GenMsgSendType" BO_ 308 0;
-BA_ "GenMsgCycleTime" BO_ 324 100;
+BA_ "GenMsgCycleTime" BO_ 308 100;
 BA_ "GenMsgSendType" BO_ 324 0;
+BA_ "GenMsgCycleTime" BO_ 324 100;
 BA_ "GenMsgCycleTime" BO_ 48 0;
 BA_ "GenMsgCycleTime" BO_ 32 0;
-BA_ "GenMsgCycleTime" BO_ 33 10;
 BA_ "GenMsgSendType" BO_ 33 0;
+BA_ "GenMsgCycleTime" BO_ 33 10;
 BA_ "GenSigSendType" SG_ 272 MCU_RPM_CTL 7;
 BA_ "GenSigSendType" SG_ 1124 MFS_OTAResult 7;
 BA_ "GenSigSendType" SG_ 868 MDPS_OTAResult 7;
