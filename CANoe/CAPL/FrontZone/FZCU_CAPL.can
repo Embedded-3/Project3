@@ -229,7 +229,7 @@ on timer loop10ms
   
   
   // 4. HeadLampMiddleUdpMsg - Cycle
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 0;
+  
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanHighBeamOnOff ? (1 << 7) : 1;
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLowBeamOnOff ? (1 << 6) : 1;
   frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLeftTurnSignal ? (1 << 5) : 1;
@@ -244,6 +244,7 @@ on timer loop10ms
   // 5. alive
   
   // 6. HeadLampRearUdpMsg - Cycle
+  
   frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 0;
   frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= rxCanLeftTurnSignal ? (1 << 7) : 0;
   frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= rxCanRightTurnSignal ? (1 << 6) : 0;
@@ -286,8 +287,7 @@ on timer loop10ms
     output(steering_msg);
     write("FZCU : [CAN][LKAS] SteeringAngle : %d", steering_msg.Steering_Angle);
   }
-  
-  initVariables();
+
 }
 
 on timer loop20ms
@@ -454,6 +454,7 @@ on message VCU_AccPedal_CTL_10MSG
 on message VCU_BrakePedal_CTL_10MSG
 {
   frontHpcCarControl10msFrame.Brake_Pedal_Pos = this.Brake_Pedal_Pos;
+  rxCanBrakePedalPos = this.Brake_Pedal_Pos;
 }
 
 
@@ -503,12 +504,14 @@ on message MDPS_Switch_STATUS_10MSG
 
 on message MDPS_HLBeam_CTL_MSG
 {
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 0;
   rxCanHighBeamOnOff = this.HighBeam;
   rxCanLowBeamOnOff = this.LowBeam;
 }
 
 on message MDPS_RLTurnSignal_CTL_MSG
 {
+  //frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 0;
   rxCanLeftTurnSignal = this.LeftTurnSignal;
   rxCanRightTurnSignal = this.RightTurnSignal;
 }
@@ -534,18 +537,4 @@ on message MFS_OTAResult_STATUS_MSG
 {
   rxCanMFS_OTA= this.MFS_OTAResult;
   OTAResult_TX_FLAG = 1;
-}
-
-void initVariables()
-{
-  rxCanRightTurnSignal = 0;
-  rxCanBrakePedalPos = 0;
-  rxCanAccelPedalPos = 0;
-  rxCanLeftTurnSignal = 0;
-  rxCanHighBeamOnOff = 0;
-  rxCanLowBeamOnOff = 0;
-  rxCanMDPS_Alive = 0;
-  rxCanABS_Alive = 0;
-  rxCanMFS_Alive = 0;
-  rxCanVCU_Alive = 0; 
 }
