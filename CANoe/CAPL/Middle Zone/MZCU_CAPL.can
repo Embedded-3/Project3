@@ -307,12 +307,12 @@ on timer loop20ms
   
   // MZCU_HLamp_CTL_MSG headlamp_msg : 
   if(hlampFlag){
-    headlamp_msg.HighBeam_Active = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 7);
-    headlamp_msg.LowBeam_Active  = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 6);
-    headlamp_msg.LeftTurn_Active = rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 5);
-    headlamp_msg.RightTurn_Active= rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 4);
+    headlamp_msg.HighBeam_Active = (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 7)) >> 7;
+    headlamp_msg.LowBeam_Active  = (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 6)) >> 6;
+    headlamp_msg.LeftTurn_Active = (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 5)) >> 5;
+    headlamp_msg.RightTurn_Active= (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 4)) >> 4;
     output(headlamp_msg);
-    write("MZCU : [CAN] MZCU_HLamp_CTL_MSG");
+    write("MZCU : [CAN] MZCU_HLamp_CTL_MSG %d, %d",rxHeadLampMiddleFrame.HeadLamp_Middle_Status, headlamp_msg.HighBeam_Active);
     hlampFlag = 0;
   }
   // MZCU_ADB_Lamp_CTL_MSG adb_ctl_msg;
@@ -326,8 +326,9 @@ on timer loop20ms
   // MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
   if(motorFlag){
     motor_ctl_msg.Left_Motor_RPM = rxRpmInfoFrame.LeftRear_MotorRPM;
+    motor_ctl_msg.Right_Motor_RPM = rxRpmInfoFrame.RightRear_MotorRPM;
     output(motor_ctl_msg);
-    write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG");
+    write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG LeftRPM = %d, RightRPM = %d", motor_ctl_msg.Left_Motor_RPM, motor_ctl_msg.Right_Motor_RPM);
     motorFlag = 0;
   }
   
