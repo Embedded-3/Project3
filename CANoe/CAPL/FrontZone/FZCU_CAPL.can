@@ -10,7 +10,7 @@ variables
   mstImer loop20ms;
   msTimer loopFlagInit5ms;
   
-  byte wakeupFlag; // 0 : sleep 1 : 
+  byte wakeupFlag; // 0 : sleep 1 : wakeup
   
   //CAN TX Flag
   byte WakeUp_CANTX_FLAG;
@@ -77,6 +77,33 @@ variables
   byte rxCanABS_OTA;
   byte rxCanMDPS_OTA;
   byte rxCanVCU_OTA;
+  
+  // CAR CONTROL MSG
+  byte rxCanUser_Steering_Angle; // USER -> adas off일때
+  byte rxCanHpc_Steering_Angle; // HPC -> adas on일때
+  byte rxCanAccel_Pedal_Pos;
+  byte rxCanBrake_Pedal_Pos;
+  byte rxCanGear_Position;
+  byte rxCanIgnition_Status;
+  
+  // ADAS ON OFF
+  byte rxCanAdasOnOff;
+  
+  // HEAD LAMP MIDDLE MSG
+  byte rxCanHighBeamOnOff;
+  byte rxCanLowBeamOnOff;
+  byte rxCanLeftTurnSignal;
+  byte rxCanRightTurnSignal;
+  byte rxCanHighBeam_Status; // 8bit
+  
+  // HEAD LAMP REAR MSG
+  byte rxCanRearLeftTurn_Signal;
+  byte rxCanRearRightTurn_Signal;
+  byte rxCanRearBrake_Signal;
+  
+  // MCU_CONTROL MSG
+  byte rxCanAccelPedalPos;
+  byte rxCanBrakePedalPos;
   
   byte LkasFrameReceived20ms;
   byte OtaFrontFrameReceived10ms;
@@ -166,16 +193,6 @@ on timer loop10ms
 {
   if(wakeupFlag == 0) return;
   
-  /*
-  counter_10ms++;
-
-  frontHpcCarControl10msFrame.User_Steering_Angle = 1; // need to connect
-  frontHpcCarControl10msFrame.Accel_Pedal_Pos     = 1; // need to connect
-  frontHpcCarControl10msFrame.Brake_Pedal_Pos     = 1; // need to connect
-  frontHpcCarControl10msFrame.Gear_Position       = 1; // need to connect
-  frontHpcCarControl10msFrame.Ignition_Status     = 1; // need to connect
-  */
-  
   //Periodic Eth MSG
   // 0. WakeUpCallMsg - Event : on message VCU_VehicleStart_STATUS_100MSG
   
@@ -184,8 +201,7 @@ on timer loop10ms
   CarControlUdpMsg.CompletePacket();
   output(CarControlUdpMsg);
   write("[TX] [front->hpc] CarControl");
-  //write("[TX] [front->hpc] CarControl msg sent at %d ms", 10 * counter_10ms);
-  
+
   // 2. OtaResultUdpMsg - Event
   // CAN 에서 OTA 응답 메세지가 들어올 때
   if(OTAResult_TX_FLAG)
@@ -213,22 +229,30 @@ on timer loop10ms
   
   
   // 4. HeadLampMiddleUdpMsg - Cycle
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status = 0;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanHighBeamOnOff ? (1 << 7) : 1;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLowBeamOnOff ? (1 << 6) : 1;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanLeftTurnSignal ? (1 << 5) : 1;
+  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= rxCanRightTurnSignal ? (1 << 4) : 1;
+  frontMiddleHeadLampMiddle10msFrame.HighBeam_Status = 0xFF;
   HeadLampMiddleUdpMsg.udp.SetData(0, frontMiddleHeadLampMiddle10msFrame);
   HeadLampMiddleUdpMsg.CompletePacket();
   output(HeadLampMiddleUdpMsg);
   write("[TX] [front->middle] Head Lamp Middle");
   //write("[TX] [front->middle] Head Lamp Middle msg sent at %d ms", 10 * counter_10ms);
   
-  // 5. AliveUdpMsg - Cycle : on timer loop20ms
+  // 5. alive
   
   // 6. HeadLampRearUdpMsg - Cycle
-  //frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 1; // need to connect
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 0;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= rxCanLeftTurnSignal ? (1 << 7) : 0;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= rxCanRightTurnSignal ? (1 << 6) : 0;
+  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= rxCanBrakePedalPos ? (1 << 5) : 0;
   HeadLampRearUdpMsg.udp.SetData(0, frontRearHeadLampRear10msFrame);
   HeadLampRearUdpMsg.CompletePacket();
   output(HeadLampRearUdpMsg);
   write("[TX] [front->rear] Head Lamp Rear msg");
-  //write("[TX] [front->rear] Head Lamp Rear msg sent at %d ms", 10 * counter_10ms);
-  
+
   // 7. McuControlUdpMsg - Cycle
   McuControlUdpMsg.udp.SetData(0, frontRearMcuControl10msFrame);
   McuControlUdpMsg.CompletePacket();
@@ -262,12 +286,13 @@ on timer loop10ms
     output(steering_msg);
     write("FZCU : [CAN][LKAS] SteeringAngle : %d", steering_msg.Steering_Angle);
   }
+  
+  initVariables();
 }
 
 on timer loop20ms
 {
-  if(wakeupFlag == 0) return;
-  
+  // 5. AliveUdpMsg - Cycle : on timer loop20ms
   FrontCanAliveState = 0;
   FrontCanAliveState |= (1 << 7);
   FrontCanAliveState |= rxCanMDPS_Alive;
@@ -279,12 +304,7 @@ on timer loop20ms
   AliveUdpMsg.CompletePacket();
   output(AliveUdpMsg);
   write("[TX] [front->middle] Front Alive msg");
-  rxCanMDPS_Alive = 0;
-  rxCanABS_Alive = 0;
-  rxCanMFS_Alive = 0;
-  rxCanVCU_Alive = 0;
 }
-
 
 on ethernetPacket *
 {
@@ -452,6 +472,7 @@ on message VCU_Alive_INFO_20MSG
 on message VCU_MCU_CTL_10MSG
 {
   frontRearMcuControl10msFrame.LeftRear_RPM = this.MCU_RPM_CTL;
+  frontRearMcuControl10msFrame.RightRear_RPM = this.MCU_RPM_CTL;
 }
 
 on message ABS_BrakeOutput_STATUS_10MSG
@@ -480,21 +501,16 @@ on message MDPS_Switch_STATUS_10MSG
   frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = this.Mode_Button;
 }
 
-//
 on message MDPS_HLBeam_CTL_MSG
 {
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.HighBeam << 7;
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.LowBeam << 6;
-  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.HighBeam << 7;
-  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.LowBeam << 6;  
+  rxCanHighBeamOnOff = this.HighBeam;
+  rxCanLowBeamOnOff = this.LowBeam;
 }
 
 on message MDPS_RLTurnSignal_CTL_MSG
 {
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.LeftTurnSignal << 5;
-  frontMiddleHeadLampMiddle10msFrame.HeadLamp_Middle_Status |= this.RightTurnSignal<< 4;
-  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.LeftTurnSignal << 5;
-  frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status |= this.RightTurnSignal << 4;
+  rxCanLeftTurnSignal = this.LeftTurnSignal;
+  rxCanRightTurnSignal = this.RightTurnSignal;
 }
 
 
@@ -518,4 +534,18 @@ on message MFS_OTAResult_STATUS_MSG
 {
   rxCanMFS_OTA= this.MFS_OTAResult;
   OTAResult_TX_FLAG = 1;
+}
+
+void initVariables()
+{
+  rxCanRightTurnSignal = 0;
+  rxCanBrakePedalPos = 0;
+  rxCanAccelPedalPos = 0;
+  rxCanLeftTurnSignal = 0;
+  rxCanHighBeamOnOff = 0;
+  rxCanLowBeamOnOff = 0;
+  rxCanMDPS_Alive = 0;
+  rxCanABS_Alive = 0;
+  rxCanMFS_Alive = 0;
+  rxCanVCU_Alive = 0; 
 }
