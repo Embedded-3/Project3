@@ -311,6 +311,11 @@ on ethernetPacket *
       WakeUp_CANTX_FLAG = 1;
       this.udp.getData(0, rxWakeUpFrame);
       write("FZCU : [RX] [hpc->front] Wake up message");
+      
+      wakeup_ctl_msg.FZCU_Wakeup = rxWakeUpFrame.WakeUp_ALL_ECU;
+      output(wakeup_ctl_msg);
+      write("FZCU : [CAN][WakeUp] Send Wake up CAN message");
+      
       break;
     default:
       break;

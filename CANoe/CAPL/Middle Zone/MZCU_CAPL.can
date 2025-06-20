@@ -33,6 +33,7 @@ variables
   message MZCU_OTA_HU_MSG ota_hu_msg;
   message MZCU_OTA_HVAC_MSG ota_hvac_msg;
   message MZCU_OTA_CLU_MSG ota_clu_msg;
+  message MZCU_WakeUp_CTL_MSG wakeup_ctl_msg;
   
   // TX FRAME
   struct MiddleHpcOtaAssignRejectFrame middleHpcOtaAssignRejectFrame;
@@ -233,6 +234,10 @@ on ethernetPacket *
       this.udp.getData(0, rxWakeUpFrame);
       wakeupFlag = 1;
       write("[RX] [hpc->middle] Wake up message called");
+      
+      wakeup_ctl_msg.WakeUpSignal = rxWakeUpFrame.WakeUp_ALL_ECU;
+      output(wakeup_ctl_msg);
+      write("FZCU : [CAN][WakeUp] Send Wake up CAN message");
       break;
     default:
       break;
