@@ -108,7 +108,7 @@ BO_ 68 MZCU_Battery_STATUS_100MSG: 1 MZCU
  SG_ Battery_Status : 0|1@1+ (1,0) [0|1] ""  CLU
 
 BO_ 1076 MZCU_Transmission_STATUS_20MSG: 1 MZCU
- SG_ Transmission_Status : 0|1@1+ (1,0) [0|1] ""  CLU
+ SG_ Transmission_Status : 0|2@1+ (1,0) [0|3] ""  CLU
 
 BO_ 34 MZCU_MotorRPM_INFO_20MSG: 8 MZCU
  SG_ Right_Motor_RPM : 32|32@1- (1,0) [-2147483648|2147483647] ""  CLU
@@ -150,7 +150,7 @@ BO_ 561 HU_UpdateAcceptDecline_CTL_MSG: 1 HU
  SG_ UpdateAcceptDecline_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU
 
 BO_ 546 HU_ObsDetectDist_INFO_MSG: 1 HU
- SG_ ObstacleDetectDistance_Signal : 0|8@1+ (1,0) [0|1] ""  MZCU
+ SG_ ObstacleDetectDistance_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU
 
 BO_ 513 HU_SoundAlertOnOff_CTL_MSG: 1 HU
  SG_ SoundAlertOnOff_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU

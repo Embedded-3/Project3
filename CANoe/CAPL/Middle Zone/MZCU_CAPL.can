@@ -131,11 +131,16 @@ variables
   byte rxRearUpdateID;
   byte rxOtaAlarmID;
   byte rxOtaAssign;
+  byte rxGear_Position;
+  byte rxLKAS_On_Off;
+  byte rxESA_On_Off;
+  byte rxADB_On_Off;
   
   byte txOtaResultID;
 
   int i, j;
   qword ota_value;
+  byte prev_gear_position;
 }
 
 on start 
@@ -444,16 +449,18 @@ on timer loop20ms
   
   // MZCU_ADAS_Status_20MSG adas_msg;
   if(adasFlag){
-    adas_msg.ADB_Active = rxAdasStateFrame.ADB_On_Off;
+    adas_msg.LKAS_Active = rxLKAS_On_Off;
+    adas_msg.ESA_Active = rxESA_On_Off;
+    adas_msg.ADB_Active = rxADB_On_Off;
     output(adas_msg);
     write("MZCU : [CAN] MZCU_ADAS_Status_20MSG");
     adasFlag = 0;
   }
   // MZCU_Transmission_STATUS_20MSG trans_msg;
   if(transmissionFlag){
-    trans_msg.Transmission_Status = rxTransmissionStateFrame.Gear_Position;
+    trans_msg.Transmission_Status = rxGear_Position;
     output(trans_msg);
-    write("MZCU : [CAN] MZCU_Transmission_STATUS_20MSG");
+    write("MZCU : [CAN] MZCU_Transmission_STATUS_20MSG, %d", rxGear_Position);
     transmissionFlag = 0;
   }
   
@@ -595,21 +602,28 @@ on ethernetPacket *
               rxOtaAlarmFrame.MiddleZone_ECU_ID,
               rxOtaAlarmFrame.RearZone_ECU_ID);
       otaAlarmFlag = 1;
+      break;
     case MIDDLE_ADAS_STATE_RX_PORT_ID:
       if(AdasStateFrameFecieved20ms) break;
       AdasStateFrameFecieved20ms = 1;
       this.udp.GetData(0, rxAdasStateFrame);
+      rxLKAS_On_Off = rxAdasStateFrame.LKAS_On_Off;
+      rxESA_On_Off = rxAdasStateFrame.ESA_On_Off;
+      rxADB_On_Off = rxAdasStateFrame.ADB_On_Off;
       write("[RX] [hpc->middle] ADB_On_Off : %d, ESA_On_Off : %d, LKAS_On_Off : %d", 
               rxAdasStateFrame.ADB_On_Off, 
               rxAdasStateFrame.ESA_On_Off,
               rxAdasStateFrame.LKAS_On_Off);
       adasFlag = 1;
+      break;
     case MIDDLE_TRANSMISSION_STATE_RX_PORT_ID:
       if(TransmissionFrameFecieved20ms) break;
       TransmissionFrameFecieved20ms = 1;
       this.udp.GetData(0, rxTransmissionStateFrame);
+      rxGear_Position = rxTransmissionStateFrame.Gear_Position;
       write("[RX] [hpc->middle] Gear_Position : %d", rxTransmissionStateFrame.Gear_Position);
       transmissionFlag = 1;
+      break;
     default:
       break;
   }
