@@ -8,16 +8,26 @@ variables
 {
   int engineState = 0;//0: OFF, 1: ACC 2: ON 3: START
   msTimer loop;
-  int timerCnt = 0;
-  int rpm = 0;
+  /*
   int targetRpm = 800;
-  int maxCrankRpm = 1500;
+  int maxRpm = 4000;
+  */
+  
+  //---------CAN TX-----------
+  int velocity;
+  int transmission;
+
+  message MCU_RearMotor_STATUS_10MSG motor_msg; // rpm velocity transmission
+  message MCU_OTAResult_STATUS_MSG mcu_otaresult_status_msg;  
+  
 }
 
 // 0. 시뮬레이션 시작 시 절전 진입
 on start
 {
   engineState = 0;
+  velocity = 0;
+  transmission = 0;
   write("MCU: Sleep mode entered.");
   setTimerCyclic(loop, 20);
 }
@@ -27,27 +37,27 @@ on timer loop
 {
   if(engineState)
   {
-    message MCU_RearMotor_STATUS_10MSG motor_msg;
-    motor_msg.LeftRear_MotorRPM = @sysvar::REAR::MCU::LRM_RPM; 
-    motor_msg.RightRear_MotorRPM = @sysvar::REAR::MCU::RRM_RPM;
+    motor_msg.MCU_Velocity = velocity; 
     output(motor_msg);
-    write("RPM: %d", rpm);
+    write("MCU : [CAN TX] velocity: %d", velocity);
   }
 }
 
 on message RZCU_OTA_MCU_MSG
 {
-  message MCU_OTAResult_STATUS_MSG mcu_otaresult_status_msg;
-  mcu_otaresult_status_msg.MCU_OTAResult = 1;
-  output(mcu_otaresult_status_msg);
-  write("MCU OTA COMPLETED"); 
+  if(engineState)
+  {
+    mcu_otaresult_status_msg.MCU_OTAResult = 1;
+    output(mcu_otaresult_status_msg);
+    write("MCU OTA COMPLETED"); 
+  }
 }
 
 
 // 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 MCU 깨움
 on message RZCU_WakeUp_CTL_MSG
 {
-  if (!engineState )
+  if (!engineState && this.RearZone_WakeUp)
   {
     engineState = 1;
     write("MCU: Wake-up triggered by CAN message.");
@@ -69,7 +79,9 @@ on message RZCU_Wheel_CTL_MSG
 {
   if(engineState)
   {
-    @sysvar::REAR::MCU::LRM_RPM =  this.LeftRear_RPM * 270 / 4000;
-    @sysvar::REAR::MCU::RRM_RPM =  this.RightRear_RPM * 270 / 4000;
+    // Q1. Left Right 에 따라 달라지는 로직? 수정
+    @sysvar::REAR::MCU::LRM_RPM =  this.RPM_CTL;
+    // 속도 계산로직 
+    velocity = (@sysvar::REAR::MCU::LRM_RPM * 270) / 4000;
   }
 }

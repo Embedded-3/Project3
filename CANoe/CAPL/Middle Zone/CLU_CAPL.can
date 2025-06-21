@@ -118,6 +118,7 @@ on message MZCU_MotorRPM_INFO_20MSG
   if(isSleeping == 0)
   {
     @sysvar::MIDDLE::CLU::MOTORRPM::Motor_RPM= (this.Left_Motor_RPM + this.Right_Motor_RPM)/2;
+    @sysvar::MIDDLE::CLU::MOTORRPM::CarSpeed = (@MIDDLE::CLU::MOTORRPM::Motor_RPM * 270) / 4000;
   } 
 } // OK
 

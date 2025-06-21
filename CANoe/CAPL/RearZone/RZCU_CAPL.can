@@ -56,7 +56,7 @@ variables
   byte rxCanRightRear_TurnSignal_Status;
   byte rxCanBrake_Light_Status;
   
-  int rxCanLeftRear_MotorRPM;
+  int rxCanVelocity;
   int rxCanRightRear_MotorRPM;
   
   byte rxCanLeftRear_UltraSoundVal;
@@ -108,7 +108,7 @@ on start
   WakeUpReceived = 0;
   EmergencyOnOffReceived = 0;
   
-  rxCanLeftRear_MotorRPM = 0;
+  rxCanVelocity = 0;
   rxCanRightRear_MotorRPM = 0;
   rxCanLeftRear_UltraSoundVal = 0;
   rxCanRightRear_UltraSoundVal = 0;
@@ -151,8 +151,7 @@ on message RBCU_TailLamp_STATUS_100MSG
 
 on message MCU_RearMotor_STATUS_10MSG
 {
-  rxCanLeftRear_MotorRPM = this.LeftRear_MotorRPM;
-  rxCanRightRear_MotorRPM = this.RightRear_MotorRPM;
+  rxCanVelocity = this.MCU_Velocity;
 }
 
 on message RBCU_Alive_INFO_20MSG
@@ -226,7 +225,7 @@ on timer loop10ms
   output(UssUdpMsg);
   write("[TX] [rear->hpc] uss msg sent at %d ms", 10 * counter_10ms);
   
-  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = rxCanLeftRear_MotorRPM;
+  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = rxCanVelocity;
   rearHpcWheelInfo10msFrame.LeftRear_MotorDirection = 0;
   rearHpcWheelInfo10msFrame.RightRear_MotorRPM = rxCanRightRear_MotorRPM;
   rearHpcWheelInfo10msFrame.RightRear_MotorDirection = 0;
