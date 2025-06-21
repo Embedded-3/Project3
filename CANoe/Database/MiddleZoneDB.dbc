@@ -150,7 +150,7 @@ BO_ 561 HU_UpdateAcceptDecline_CTL_MSG: 1 HU
  SG_ UpdateAcceptDecline_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU
 
 BO_ 546 HU_ObsDetectDist_INFO_MSG: 1 HU
- SG_ ObstacleDetectDistance_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU
+ SG_ ObstacleDetectDistance_Signal : 0|8@1+ (1,0) [0|255] ""  MZCU
 
 BO_ 513 HU_SoundAlertOnOff_CTL_MSG: 1 HU
  SG_ SoundAlertOnOff_Signal : 0|1@1+ (1,0) [0|1] ""  MZCU
