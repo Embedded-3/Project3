@@ -6,6 +6,7 @@ includes
 
 variables
 {
+  byte EmergencyFlag = 0;
   int isSleeping = 1; // 초기 상태는 절전
   msTimer loop;
   int timerCnt = 0;
@@ -14,6 +15,7 @@ variables
 // 0. 시뮬레이션 시작 시 절전 진입
 on start
 {
+  EmergencyFlag = 0;
   isSleeping = 1;
   write("RBCU: Sleep mode entered.");
   setTimerCyclic(loop, 100);
@@ -49,9 +51,11 @@ on message RZCU_TurnLight_CTL_MSG
 {
   if(isSleeping == 0)
   {
+    if(EmergencyFlag==0){
       @sysvar::REAR::RBCU::LR_TurnSignalLight = this.LeftRear_Light;  
       @sysvar::REAR::RBCU::RR_TurnSignalLight = this.RightRear_Light;    
       write("RZCU_TurnLight_CTL_MSG [%d] [%d]", this.LeftRear_Light.phys, this.RightRear_Light.phys);
+    }
   }
 }
 
@@ -70,4 +74,12 @@ on message RZCU_OTA_RBCU_MSG
   rbcu_otaresult_status_msg.RBCU_OTAResult = 1;
   output(rbcu_otaresult_status_msg);
   write("RBCU OTA COMPLETED");
+}
+
+on message RZCU_EmergencyOnOff_CTL_MSG
+{
+  EmergencyFlag = this.Emergency_Light;
+  @sysvar::REAR::RBCU::LR_TurnSignalLight = this.Emergency_Light;  
+  @sysvar::REAR::RBCU::RR_TurnSignalLight = this.Emergency_Light;  
+  write("EmgergencyFlag : %d", EmergencyFlag);
 }

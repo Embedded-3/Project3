@@ -37,6 +37,7 @@ variables
   struct HpcRearOtaRearFrame rxOtaRearFrame;
   struct FrontRearHeadLampRearFrame rxHeadLampRearFrame;
   struct FrontRearMcuControlFrame rxMcuControlFrame;
+  struct MiddleRearEmergencyOnOffFrame rxEmergencyOnOffFrame;
   
   // RX FRAME(ALL)
   struct HpcAllEsaFrame rxEsaFrame;
@@ -48,6 +49,7 @@ variables
   
   byte EsaFrameReceived20ms;
   byte WakeUpReceived;
+  byte EmergencyOnOffReceived;
   
   // CAN RX Signal
   byte rxCanLeftRear_TurnSignal_Status;
@@ -78,6 +80,8 @@ variables
   message RZCU_WakeUp_CTL_MSG rzcu_wakeup_ctl_msg;
   message RZCU_VehicleStart_CTL_MSG rzcu_vehiclestart_ctl_msg;
   
+  message RZCU_EmergencyOnOff_CTL_MSG rzcu_emergencyonoff_ctl_msg;
+  
   // TX CAN SIGNAL
   byte txCanLeftRear_Light;
   byte txCanRightRear_Light;
@@ -87,6 +91,7 @@ variables
   int txCanRightRear_RPM;
   byte txCanIgnition_Status;
   byte txCanRearZone_WakeUp;
+  byte txCanEmergencyOnOff;
   
 }
 
@@ -101,6 +106,7 @@ on start
   McuControlFrameReceived20ms = 0;
   EsaFrameReceived20ms = 0;
   WakeUpReceived = 0;
+  EmergencyOnOffReceived = 0;
   
   rxCanLeftRear_MotorRPM = 0;
   rxCanRightRear_MotorRPM = 0;
@@ -205,6 +211,7 @@ on timer loopFlagInit5ms
   McuControlFrameReceived20ms = 0;
   EsaFrameReceived20ms = 0;
   WakeUpReceived = 0;
+  EmergencyOnOffReceived = 0;
 }
 
 on timer loop10ms
@@ -252,6 +259,7 @@ on timer loop20ms
   TailLampUdpMsg.CompletePacket();
   output(TailLampUdpMsg);
   write("[TX] [rear->middle] tail lamp msg sent at %d ms", 20 * counter_20ms);
+  
   
 }
 
@@ -362,6 +370,18 @@ on ethernetPacket *
       txCanLeftRear_RPM = rxMcuControlFrame.LeftRear_RPM;
       txCanRightRear_RPM = rxMcuControlFrame.RightRear_RPM;
       break;
+      
+    case REAR_EMERGENCY_RX_PORT_ID:
+      if(EmergencyOnOffReceived) break;
+      EmergencyOnOffReceived = 1;
+      this.udp.GetData(0, rxEmergencyOnOffFrame);     
+      write("[RX] [middle->rear] rxEmergencyOnOff : %d", rxEmergencyOnOffFrame.Emergency_Light);
+      txCanEmergencyOnOff = rxEmergencyOnOffFrame.Emergency_Light;
+      rzcu_emergencyonoff_ctl_msg.Emergency_Light = txCanEmergencyOnOff;
+      output(rzcu_emergencyonoff_ctl_msg);
+
+      break;
+      
     default:
       break;
   }

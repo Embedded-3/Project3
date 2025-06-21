@@ -7,6 +7,7 @@ includes
 variables
 {
   int isSleeping = 1; // 초기 상태는 절전
+  byte EmergencyFlag;
   msTimer loop;
 }
 
@@ -14,6 +15,7 @@ variables
 on start
 {
   isSleeping = 1;
+  EmergencyFlag = 0;
   write("MBCU: Sleep mode entered.");
   setTimerCyclic(loop, 100);  
 }
@@ -112,21 +114,43 @@ on message MZCU_HLamp_CTL_MSG
       @sysvar::MIDDLE::MBCU::HLAMP::LowBeam_Status=0;
     }
 
-    if(this.RightTurn_Active==1){
-      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=1;
-      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
-    }else{
-      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
+    if(EmergencyFlag==0){
+      if(this.RightTurn_Active==1){
+        @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=1;
+        @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
+      }
+      else{
+        @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
+      }
+      
+      if(this.LeftTurn_Active==1){
+        @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=1;
+        @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
+      }
+      else{
+        @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0; 
+      }
     }
     
-    if(this.LeftTurn_Active==1){
-      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=1;
-      @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0;
-    }else{
-      @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
-    }
   }
 }  // OK
+
+on message HU_EmergencyLight_CTL_MSG
+{
+  
+  if(this.EmergencyLight_OnOff==1)
+  {
+    EmergencyFlag = 1;
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=1;
+    @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=1; 
+  }
+  else
+  {
+    EmergencyFlag = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status=0;
+    @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status=0; 
+  }
+}
 
 on message MZCU_SteeringAngle_CTL_20MSG
 {

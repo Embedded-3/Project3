@@ -26,8 +26,10 @@ variables
   byte adasFlag;
   byte transmissionFlag;
   byte ObstacleDistanceFlag;
+  byte EmergencyFlag;
   
   int OBDistance;
+  byte Emergency;
   int port_id;
   int allcan_port_id;
   
@@ -38,6 +40,7 @@ variables
   ethernetPacket HeadLampStatusUdpMsg;
   ethernetPacket CanBusAliveUdpMsg;
   ethernetPacket ObstacleDetectDistMsg;
+  ethernetPacket MiddleRearEmergencyOnOffMsg;
   
   //CAN MSG
   message MZCU_HLamp_CTL_MSG headlamp_msg;
@@ -63,6 +66,7 @@ variables
   struct MiddleHpcHeadLampStatusFrame middleHpcHeadLampStatus20msFrame;
   struct MiddleHpcCanBusAliveFrame middleHpcCanBusAlive20msFrame;
   struct MiddleHpcObstacleDetectDistFrame middleHpcObstacleDetectDistFrame;
+  struct MiddleRearEmergencyOnOffFrame middleRearEmergencyOnOffFrame;
   
   // RX FRAME
   struct HpcMiddleAdbFrame rxAdbFrame;
@@ -204,6 +208,14 @@ on start
   initUdpPacket(MZCU_MAC_ADDR, HPC_MAC_ADDR, MZCU_IP_ADDR, HPC_IP_ADDR,
                 MIDDLE_TX_PORT_BASE, HPC_RX_PORT_BASE, MIDDLE_CANBUS_ALIVE_TX_PORT_ID, HPC_CANBUS_ALIVE_RX_PORT_ID);
   CanBusAliveUdpMsg = globalEthPkt;
+  
+  initUdpPacket(MZCU_MAC_ADDR, HPC_MAC_ADDR, MZCU_IP_ADDR, HPC_IP_ADDR,
+                MIDDLE_TX_PORT_BASE, HPC_RX_PORT_BASE, MIDDLE_OBSTACLE_DETECT_DIST_TX_PORT_ID, HPC_OBSTACLE_DETECT_DIST_TX_PORT_ID);
+  ObstacleDetectDistMsg = globalEthPkt;
+  
+  initUdpPacket(MZCU_MAC_ADDR, RZCU_MAC_ADDR, MZCU_IP_ADDR, RZCU_IP_ADDR,
+                MIDDLE_TX_PORT_BASE, REAR_RX_PORT_BASE, MIDDLE_EMERGENCY_ON_OFF_TX_PORT_ID, REAR_EMERGENCY_RX_PORT_ID);
+  MiddleRearEmergencyOnOffMsg = globalEthPkt;
 }
 
 on message MBCU_TurnLight_STATUS_100MSG
@@ -294,6 +306,15 @@ on timer loop20ms
     write("[Tx] [middle->hpc] ObstacleDetectDistMsg - [%d]", middleHpcObstacleDetectDistFrame.ObstacleDetectDistance);
     ObstacleDistanceFlag=0;
   }
+  
+  if(EmergencyFlag){
+    middleRearEmergencyOnOffFrame.Emergency_Light = Emergency;
+    MiddleRearEmergencyOnOffMsg.udp.SetData(0, middleRearEmergencyOnOffFrame);
+    MiddleRearEmergencyOnOffMsg.CompletePacket();
+    output(MiddleRearEmergencyOnOffMsg);
+    write("[Tx] [middle->Rear] middleRearEmergencyOnOffFrame - [%d]", middleRearEmergencyOnOffFrame.Emergency_Light);
+    EmergencyFlag=0;
+  } // Ok
   
   //ethernetPacket OtaResultUdpMsg;
   if(otaFlag){
@@ -686,6 +707,12 @@ on message HU_ObsDetectDist_INFO_MSG
 {
   OBDistance = this.ObstacleDetectDistance_Signal;
   ObstacleDistanceFlag = 1;
+}
+
+on message HU_EmergencyLight_CTL_MSG
+{
+  Emergency = this.EmergencyLight_OnOff;
+  EmergencyFlag = 1;
 }
 
 // OTA 업데이트 승인 여부 CAN 메세지 수신

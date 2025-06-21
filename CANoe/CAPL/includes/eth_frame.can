@@ -82,7 +82,7 @@ variables
   const long MIDDLE_HEADLAMP_STATUS_TX_PORT_ID      = 3;
   const long MIDDLE_CANBUS_ALIVE_TX_PORT_ID         = 4;
   const long MIDDLE_OBSTACLE_DETECT_DIST_TX_PORT_ID = 5;
-
+  const long MIDDLE_EMERGENCY_ON_OFF_TX_PORT_ID = 6;
 // ========================= MIDDLE RX =========================
   const long MIDDLE_ADB_RX_PORT_ID                 = 1;
   const long MIDDLE_OTAMIDDLE_RX_PORT_ID           = 2;
@@ -101,12 +101,13 @@ variables
   const long REAR_OTARESULT_TX_PORT_ID        = 3;
   const long REAR_ALIVE_TX_PORT_ID            = 4;
   const long REAR_TAILLAMP_TX_PORT_ID         = 5;
-
+  
 // ========================== REAR RX ==========================
   const long REAR_OTAREAR_RX_PORT_ID          = 1;
   // const long REAR_ALIVE_RX_PORT_ID            = 2;
   const long REAR_HEADLAMP_REAR_RX_PORT_ID    = 3;
   const long REAR_MCUCONTROL_RX_PORT_ID       = 4;
+  const long REAR_EMERGENCY_RX_PORT_ID        = 5;
   
 // ========================== ALLCAN RX ==========================
   const long ALLCAN_ESA_RX_PORT_ID            = 1;
@@ -258,6 +259,10 @@ variables
   
   struct MiddleHpcObstacleDetectDistFrame {
     byte ObstacleDetectDistance;
+  };
+  
+  struct MiddleRearEmergencyOnOffFrame{
+    byte Emergency_Light;
   };
   
   struct RearHpcUssFrame {
