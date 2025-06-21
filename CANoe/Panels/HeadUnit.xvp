@@ -55,8 +55,12 @@
       <Property Name="Location">145, 177</Property>
       <Property Name="TabIndex">44</Property>
       <Property Name="MaximumDouble">255</Property>
+      <Property Name="SmallChangeDouble">5</Property>
+      <Property Name="TickFrequencyDouble">5</Property>
       <Property Name="MaximumSize">100000, 30</Property>
       <Property Name="Maximum">255</Property>
+      <Property Name="SmallChange">5</Property>
+      <Property Name="TickFrequency">5</Property>
       <Property Name="SymbolConfiguration">8;16;MIDDLE::HU;;;ObstacleDetectionDistance;1;;;-1;;;Value;;;0</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=18.0.150.0, Culture=neutral, PublicKeyToken=null" Name="Xfe85db37eb60be4ea2eaf82e9d30304dab3d" ControlName="Static Text 9">

@@ -25,9 +25,9 @@ variables
   byte otaAssignFlag;
   byte adasFlag;
   byte transmissionFlag;
+  byte ObstacleDistanceFlag;
   
-  int  OBDistance;
-  
+  int OBDistance;
   int port_id;
   int allcan_port_id;
   
@@ -37,6 +37,7 @@ variables
   ethernetPacket OtaResultUdpMsg;
   ethernetPacket HeadLampStatusUdpMsg;
   ethernetPacket CanBusAliveUdpMsg;
+  ethernetPacket ObstacleDetectDistMsg;
   
   //CAN MSG
   message MZCU_HLamp_CTL_MSG headlamp_msg;
@@ -61,6 +62,7 @@ variables
   struct MiddleHpcOtaResultFrame middleHpcOtaResultFrame;
   struct MiddleHpcHeadLampStatusFrame middleHpcHeadLampStatus20msFrame;
   struct MiddleHpcCanBusAliveFrame middleHpcCanBusAlive20msFrame;
+  struct MiddleHpcObstacleDetectDistFrame middleHpcObstacleDetectDistFrame;
   
   // RX FRAME
   struct HpcMiddleAdbFrame rxAdbFrame;
@@ -154,6 +156,7 @@ on start
   otaAssignFlag = 0;
   adasFlag = 0;
   transmissionFlag = 0;
+  ObstacleDistanceFlag = 0;
   
   AdbFrameReceived20ms = 0;
   OtaMiddleFrameReceived10ms = 0;
@@ -277,6 +280,15 @@ on timer loop20ms
   CanBusAliveUdpMsg.CompletePacket();
   output(CanBusAliveUdpMsg);
   write("[Tx] [middle->hpc] totalCanAlive sent at %d ms", 20 * counter_20ms);
+  
+  if(ObstacleDistanceFlag){
+    middleHpcObstacleDetectDistFrame.ObstacleDetectDistance = OBDistance;
+    ObstacleDetectDistMsg.udp.SetData(0, middleHpcObstacleDetectDistFrame);
+    ObstacleDetectDistMsg.CompletePacket();
+    output(ObstacleDetectDistMsg);
+    write("[Tx] [middle->hpc] ObstacleDetectDistMsg - [%d]", middleHpcObstacleDetectDistFrame.ObstacleDetectDistance);
+    ObstacleDistanceFlag=0;
+  }
   
   //ethernetPacket OtaResultUdpMsg;
   if(otaFlag){
@@ -429,7 +441,7 @@ on timer loop20ms
     write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
     otaAlarmFlag = 0;
   }
-  ;
+  
   // MZCU_ADAS_Status_20MSG adas_msg;
   if(adasFlag){
     adas_msg.ADB_Active = rxAdasStateFrame.ADB_On_Off;
@@ -659,6 +671,7 @@ on message HU_SoundAlertOnOff_CTL_MSG
 on message HU_ObsDetectDist_INFO_MSG
 {
   OBDistance = this.ObstacleDetectDistance_Signal;
+  ObstacleDistanceFlag = 1;
 }
 
 // OTA 업데이트 승인 여부 CAN 메세지 수신
