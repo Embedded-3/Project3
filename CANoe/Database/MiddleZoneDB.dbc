@@ -110,9 +110,9 @@ BO_ 68 MZCU_Battery_STATUS_100MSG: 1 MZCU
 BO_ 1076 MZCU_Transmission_STATUS_20MSG: 1 MZCU
  SG_ Transmission_Status : 0|2@1+ (1,0) [0|3] ""  CLU
 
-BO_ 34 MZCU_MotorRPM_INFO_20MSG: 8 MZCU
- SG_ Right_Motor_RPM : 32|32@1- (1,0) [-2147483648|2147483647] ""  CLU
- SG_ Left_Motor_RPM : 0|32@1- (1,0) [-2147483648|2147483647] ""  CLU
+BO_ 34 MZCU_MotorRPM_INFO_20MSG: 4 MZCU
+ SG_ Velocity : 16|16@1+ (1,0) [0|0] ""  CLU
+ SG_ RPM : 0|16@1+ (1,0) [0|0] ""  CLU
 
 BO_ 1026 MZCU_UpdateAlarm_INFO_MSG: 1 MZCU
  SG_ Update_ID : 0|8@1+ (1,0) [0|255] ""  HU
@@ -223,8 +223,8 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
@@ -247,6 +247,8 @@ BA_ "GenSigSendType" SG_ 113 LowBeam_Active 7;
 BA_ "GenSigSendType" SG_ 113 LeftTurn_Active 7;
 BA_ "GenSigSendType" SG_ 113 HighBeam_Active 7;
 BA_ "GenSigSendType" SG_ 82 DoorOpenClose_INFO 7;
+BA_ "GenSigSendType" SG_ 34 Velocity 7;
+BA_ "GenSigSendType" SG_ 34 RPM 7;
 BA_ "GenSigSendType" SG_ 1026 Update_ID 7;
 BA_ "GenSigSendType" SG_ 609 Internal_Mode 7;
 BA_ "GenSigSendType" SG_ 609 External_Mode 7;

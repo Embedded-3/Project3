@@ -446,6 +446,7 @@ on message VCU_Transmission_STATUS_100MSG
 {
   rxCanGear_Position = this.Gear_Position;
   //frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
+  frontRearMcuControl10msFrame.transition = this.Gear_Position;
 }
 
 // 3. Accel
@@ -476,8 +477,7 @@ on message VCU_Alive_INFO_20MSG
 // 6. 계산된 RPM값 전송
 on message VCU_MCU_CTL_10MSG
 {
-  frontRearMcuControl10msFrame.LeftRear_RPM = this.MCU_RPM_CTL;
-  frontRearMcuControl10msFrame.RightRear_RPM = this.MCU_RPM_CTL;
+  frontRearMcuControl10msFrame.RPM = this.MCU_RPM_CTL;
 }
 
 on message ABS_BrakeOutput_STATUS_10MSG

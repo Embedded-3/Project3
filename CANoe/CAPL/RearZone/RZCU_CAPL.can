@@ -25,6 +25,8 @@ variables
   ethernetPacket OtaResultUdpMsg;
   ethernetPacket AliveUdpMsg;
   ethernetPacket TailLampUdpMsg;
+  ethernetPacket WakeUpCallMsg;
+  
   
   // TX FRAME
   struct RearHpcUssFrame rearHpcUss10msFrame;
@@ -57,7 +59,7 @@ variables
   byte rxCanBrake_Light_Status;
   
   int rxCanVelocity;
-  int rxCanRightRear_MotorRPM;
+  int rxCanRPM;
   
   byte rxCanLeftRear_UltraSoundVal;
   byte rxCanRightRear_UltraSoundVal;
@@ -87,8 +89,8 @@ variables
   byte txCanRightRear_Light;
   byte txCanRear_BrakeLight;
   byte txCanObstacleDetection_Distance;
-  int txCanLeftRear_RPM;
-  int txCanRightRear_RPM;
+  int txCanRPM;
+  int txCanTransition;
   byte txCanIgnition_Status;
   byte txCanRearZone_WakeUp;
   byte txCanEmergencyOnOff;
@@ -109,7 +111,7 @@ on start
   EmergencyOnOffReceived = 0;
   
   rxCanVelocity = 0;
-  rxCanRightRear_MotorRPM = 0;
+  rxCanRPM = 0;
   rxCanLeftRear_UltraSoundVal = 0;
   rxCanRightRear_UltraSoundVal = 0;
   
@@ -140,6 +142,10 @@ on start
   initUdpPacket(RZCU_MAC_ADDR, MZCU_MAC_ADDR, RZCU_IP_ADDR, MZCU_IP_ADDR,
             REAR_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, REAR_TAILLAMP_TX_PORT_ID, MIDDLE_TAILLAMP_RX_PORT_ID);
   TailLampUdpMsg = globalEthPkt;
+  
+  initUdpPacket(FZCU_MAC_ADDR, HPC_MAC_ADDR, FZCU_IP_ADDR, HPC_IP_ADDR,
+                FRONT_TX_PORT_BASE, HPC_RX_PORT_BASE, FRONT_WAKEUPCALL_TX_PORT_ID, HPC_WAKEUPCALL_RX_PORT_ID);
+  WakeUpCallMsg = globalEthPkt;
 }
 
 on message RBCU_TailLamp_STATUS_100MSG
@@ -152,6 +158,7 @@ on message RBCU_TailLamp_STATUS_100MSG
 on message MCU_RearMotor_STATUS_10MSG
 {
   rxCanVelocity = this.MCU_Velocity;
+  rxCanRPM = this.VCU_RPM;
 }
 
 on message RBCU_Alive_INFO_20MSG
@@ -225,10 +232,8 @@ on timer loop10ms
   output(UssUdpMsg);
   write("[TX] [rear->hpc] uss msg sent at %d ms", 10 * counter_10ms);
   
-  rearHpcWheelInfo10msFrame.LeftRear_MotorRPM = rxCanVelocity;
-  rearHpcWheelInfo10msFrame.LeftRear_MotorDirection = 0;
-  rearHpcWheelInfo10msFrame.RightRear_MotorRPM = rxCanRightRear_MotorRPM;
-  rearHpcWheelInfo10msFrame.RightRear_MotorDirection = 0;
+  rearHpcWheelInfo10msFrame.Velocity = rxCanVelocity;
+  rearHpcWheelInfo10msFrame.RPM = rxCanRPM;
   WheelInfoUdpMsg.udp.SetData(0, rearHpcWheelInfo10msFrame);
   WheelInfoUdpMsg.CompletePacket();
   output(WheelInfoUdpMsg);
@@ -270,7 +275,7 @@ on ethernetPacket *
   
   port_id = (int)(endPointDst.PortNumber - REAR_RX_PORT_BASE);
   allcan_port_id = (int)(endPointDst.PortNumber - ALLCAN_RX_PORT_BASE);
-  
+  write("RZCU allcanport_id : %d", allcan_port_id);
   switch(allcan_port_id)
   {
     case ALLCAN_ESA_RX_PORT_ID:
@@ -365,9 +370,12 @@ on ethernetPacket *
       if (McuControlFrameReceived20ms) break;
       McuControlFrameReceived20ms = 1;
       this.udp.GetData(0, rxMcuControlFrame);
-      write("[RX] [hpc->rear] left : %d, right : %d", rxMcuControlFrame.LeftRear_RPM, rxMcuControlFrame.RightRear_RPM);
-      txCanLeftRear_RPM = rxMcuControlFrame.LeftRear_RPM;
-      txCanRightRear_RPM = rxMcuControlFrame.RightRear_RPM;
+      write("[RX] [hpc->rear] rpm : %d, gear(Transtion)", rxMcuControlFrame.RPM, rxMcuControlFrame.transition);
+      txCanRPM = rxMcuControlFrame.RPM;
+      txCanTransition = rxMcuControlFrame.transition;
+      rzcu_wheel_ctl_msg.RPM_CTL = txCanRPM;
+      rzcu_wheel_ctl_msg.Transition_Status = txCanTransition;
+      output(rzcu_wheel_ctl_msg);
       break;
       
     case REAR_EMERGENCY_RX_PORT_ID:

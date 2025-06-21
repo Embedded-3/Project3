@@ -14,10 +14,11 @@ variables
   */
   
   //---------CAN TX-----------
+  int rpm;
   int velocity;
-  int transmission;
+  int transition;
 
-  message MCU_RearMotor_STATUS_10MSG motor_msg; // rpm velocity transmission
+  message MCU_RearMotor_STATUS_10MSG motor_msg; // rpm velocity transition
   message MCU_OTAResult_STATUS_MSG mcu_otaresult_status_msg;  
   
 }
@@ -26,8 +27,10 @@ variables
 on start
 {
   engineState = 0;
+  
+  rpm = 0;
   velocity = 0;
-  transmission = 0;
+  transition = 0;
   write("MCU: Sleep mode entered.");
   setTimerCyclic(loop, 20);
 }
@@ -38,8 +41,9 @@ on timer loop
   if(engineState)
   {
     motor_msg.MCU_Velocity = velocity; 
+    motor_msg.VCU_RPM = rpm;
     output(motor_msg);
-    write("MCU : [CAN TX] velocity: %d", velocity);
+    write("MCU : [CAN TX] velocity: %d, rpm : %d", velocity, rpm);
   }
 }
 
@@ -57,15 +61,13 @@ on message RZCU_OTA_MCU_MSG
 // 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 MCU 깨움
 on message RZCU_WakeUp_CTL_MSG
 {
-  if (!engineState && this.RearZone_WakeUp)
+  if (this.RearZone_WakeUp)
   {
     engineState = 1;
     write("MCU: Wake-up triggered by CAN message.");
     // MCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $MCU_Alive = 1; 
-  }
-  
-  if( engineState && !this.RearZone_WakeUp)
+  }else if(!this.RearZone_WakeUp)
   {
     engineState = 0;
     write("MCU: Sleep triggered by CAN message.");
@@ -79,9 +81,9 @@ on message RZCU_Wheel_CTL_MSG
 {
   if(engineState)
   {
-    // Q1. Left Right 에 따라 달라지는 로직? 수정
-    @sysvar::REAR::MCU::LRM_RPM =  this.RPM_CTL;
+    rpm =  this.RPM_CTL;
+    transition = this.Transition_Status;
     // 속도 계산로직 
-    velocity = (@sysvar::REAR::MCU::LRM_RPM * 270) / 4000;
+    velocity = (rpm * 270) / 4000;
   }
 }

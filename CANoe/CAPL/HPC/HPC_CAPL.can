@@ -114,8 +114,7 @@ variables
   byte currentMiddleCanChannelAlive;
   byte currentRearCanChannelAlive;
   
-  int currentLeftMotorRPM;
-  int currentRightMotorRPM;
+  int Velocity;
   
   // 기타
   int i;   // 반복문 쓰는 용도
@@ -222,7 +221,7 @@ on timer loop20ms
   }
   else // Python 켜졌을 때 호준이형 로직
   {
-      @sysvar::ADAS::Car_Speed = (currentLeftMotorRPM + currentRightMotorRPM) / 2;
+      @sysvar::ADAS::Car_Speed = Velocity;
       @sysvar::ADAS::USS_Detection = leftRearUltraSoundVal;
       @sysvar::ADAS::USS_Distance = obstacleDetectDistance;
 
@@ -271,15 +270,13 @@ on timer loop20ms
   AdbUdpMsg.CompletePacket();
   output(AdbUdpMsg);
   write("[TX] [hpc->mid] Adb packet sent at %d ms", 20 * counter_20ms);
-  
-  hpcMiddleRpmInfo20msFrame.LeftRear_MotorRPM = rxWheelInfoFrame.LeftRear_MotorRPM;
-  hpcMiddleRpmInfo20msFrame.LeftRear_MotorDirection = rxWheelInfoFrame.LeftRear_MotorDirection;
-  hpcMiddleRpmInfo20msFrame.RightRear_MotorRPM = rxWheelInfoFrame.RightRear_MotorRPM;
-  hpcMiddleRpmInfo20msFrame.RightRear_MotorDirection = rxWheelInfoFrame.RightRear_MotorDirection;
+  							
+  hpcMiddleRpmInfo20msFrame.VCU_RPM = rxWheelInfoFrame.RPM;
+  hpcMiddleRpmInfo20msFrame.MCU_Velocity = rxWheelInfoFrame.Velocity;
   MotorInfoMsg.udp.setData(0, hpcMiddleRpmInfo20msFrame);
   MotorInfoMsg.CompletePacket();
   output(MotorInfoMsg);
-  write("[TX] [hpc->mid] MotorLeftRpm: %d, MotorRightRpm: %d", hpcMiddleRpmInfo20msFrame.LeftRear_MotorRPM, hpcMiddleRpmInfo20msFrame.RightRear_MotorRPM);
+  write("[TX] [hpc->mid] VCU_RPM: %d, MCU_Velocity : %d", hpcMiddleRpmInfo20msFrame.VCU_RPM, hpcMiddleRpmInfo20msFrame.MCU_Velocity);
 
   hpcMiddleAdasState20msFrame.LKAS_On_Off = @sysvar::ADAS::LKAS_OnOff;
   hpcMiddleAdasState20msFrame.ESA_On_Off = @sysvar::ADAS::ESA_OnOff;
@@ -401,11 +398,8 @@ on ethernetPacket *
       if (WheelInfoFrameReceived20ms) break;
       WheelInfoFrameReceived20ms = 1;
       this.udp.GetData(0, rxWheelInfoFrame);
-      currentLeftMotorRPM = rxWheelInfoFrame.LeftRear_MotorRPM;
-      currentRightMotorRPM = rxWheelInfoFrame.RightRear_MotorRPM;
-      write("[RX] [rear->hpc] left wheel : %d rpm & direction : %d, right wheel : %d rpm & direction : %d",
-            rxWheelInfoFrame.LeftRear_MotorRPM, rxWheelInfoFrame.LeftRear_MotorDirection,
-            rxWheelInfoFrame.RightRear_MotorRPM, rxWheelInfoFrame.RightRear_MotorDirection);    
+      Velocity = rxWheelInfoFrame.Velocity;
+      write("[RX] [rear->hpc] Velocity : %d", rxWheelInfoFrame.Velocity);    
       break;
     case HPC_WAKEUPCALL_RX_PORT_ID:
       if (WakeUpCallFrameReceived) break;
@@ -502,8 +496,7 @@ void initVariables()
   currentMiddleCanChannelAlive = 0;
   currentRearCanChannelAlive = 0;
   
-  currentLeftMotorRPM = 0;
-  currentRightMotorRPM = 0;
+  Velocity = 0;
   
   setTimerCyclic(loop20ms, 20);
   setTimerCyclic(loopFlagInit5ms, 5);

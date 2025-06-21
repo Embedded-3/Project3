@@ -184,10 +184,8 @@ variables
   };
   
   struct HpcMiddleRpmInfoFrame {
-    int LeftRear_MotorRPM;
-    byte LeftRear_MotorDirection;
-    int RightRear_MotorRPM;
-    byte RightRear_MotorDirection;   
+    int VCU_RPM;   
+    int MCU_Velocity;
   };
   
   struct FrontHpcCarControlFrame {
@@ -224,8 +222,8 @@ variables
   };
   
   struct FrontRearMcuControlFrame {
-    int LeftRear_RPM;
-    int RightRear_RPM;
+    int RPM;
+    int transition;
   };
   
   struct FrontHpcWakeUpCallFrame {
@@ -271,10 +269,8 @@ variables
   };
   
   struct RearHpcWheelInfoFrame {
-    int LeftRear_MotorRPM;
-    byte LeftRear_MotorDirection;
-    int RightRear_MotorRPM;
-    byte RightRear_MotorDirection;
+    int Velocity;
+    int RPM;
   };
   
   struct RearHpcOtaResultFrame {

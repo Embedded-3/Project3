@@ -45,7 +45,7 @@ variables
   //CAN MSG
   message MZCU_HLamp_CTL_MSG headlamp_msg;
   message MZCU_ADB_Lamp_CTL_MSG adb_ctl_msg;
-  message MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
+  message MZCU_MotorRPM_INFO_20MSG motor_ctl_msg; // 수정 motor_ctl_msg.Left_Motor_RPM -> motor_ctl_msg.VCU_Calculate_RPM
   message MZCU_OTA_MBCU_MSG ota_mbcu_msg;
   message MZCU_OTA_HU_MSG ota_hu_msg;
   message MZCU_OTA_HVAC_MSG ota_hvac_msg;
@@ -376,10 +376,10 @@ on timer loop20ms
   }
   // MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
   if(motorFlag){
-    motor_ctl_msg.Left_Motor_RPM = rxRpmInfoFrame.LeftRear_MotorRPM;
-    motor_ctl_msg.Right_Motor_RPM = rxRpmInfoFrame.RightRear_MotorRPM;
+    motor_ctl_msg.RPM = rxRpmInfoFrame.VCU_RPM;
+    motor_ctl_msg.Velocity = rxRpmInfoFrame.MCU_Velocity;
     output(motor_ctl_msg);
-    write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG LeftRPM = %d, RightRPM = %d", motor_ctl_msg.Left_Motor_RPM, motor_ctl_msg.Right_Motor_RPM);
+    write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG RPM = %d, Velocity = %d", motor_ctl_msg.RPM, motor_ctl_msg.Velocity);
     motorFlag = 0;
   }
   
@@ -611,7 +611,7 @@ on ethernetPacket *
       if (RpmInfoFrameReceived20ms) break;
       RpmInfoFrameReceived20ms = 1;
       this.udp.GetData(0, rxRpmInfoFrame);
-      write("[RX] [hpc->middle] LeftRPM : %d, RightRPM : %d", rxRpmInfoFrame.LeftRear_MotorRPM, rxRpmInfoFrame.RightRear_MotorRPM);
+      write("[RX] [hpc->middle] Velocity : %d", rxRpmInfoFrame.VCU_RPM);
       motorFlag = 1;
       break;
     case MIDDLE_OTA_ALARM_RX_PORT_ID:
