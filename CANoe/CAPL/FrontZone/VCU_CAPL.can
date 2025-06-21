@@ -9,7 +9,7 @@ variables
   msTimer loop;
   int timerCnt = 0;
   int RPM;
-  
+  byte gear;
   int state = 0; // 0: OFF, 1: STARTING, 
   
   message VCU_AccPedal_CTL_10MSG acc_msg; //X
@@ -25,6 +25,7 @@ on start
   state = 0;
   write("VCU: Sleep mode entered.");
   setTimerCyclic(loop, 10);
+  gear = 0;
 }
 
 // 0. Run 상태에서 보낼 주기 메세지
@@ -57,8 +58,8 @@ on timer loop
       output(ign_msg);
       
       // 기어
-      trans_msg.Drive_Mode = @sysvar::FRONT::VCU::Drive_Mode;
-      trans_msg.Gear_Position = @sysvar::FRONT::VCU::Gear;
+      trans_msg.Gear_Position = gear;
+      write("VCU : gear %d", gear);
       output(trans_msg);
       timerCnt = 0;
     }
@@ -93,27 +94,10 @@ on sysvar sysvar::FRONT::VCU::Ignition
 }
 
 // 3. 기어 변경
-on sysvar FRONT::VCU::Gear
+on sysvar sysvar::FRONT::VCU::Gear
 {
-  /*
-  if(state){
-    prevGearPos = gearPos;
-    gearPos = @this;
-  
-    if (state && prevGearPos != gearPos)
-    {
-      if (gearPos == 1) {
-        write("VCU: Gear shifted to Reverse");
-      } else if (gearPos == 3) {
-        write("VCU: Gear shifted to Drive");
-      } else {
-        write("VCU: Gear changed to Neutral/Park");
-      }
-    }
-  }
-  */
+  gear = @this;
 }
-
 on message FZCU_OTA_VCU_MSG
 {
   message VCU_OTAResult_STATUS_MSG vcu_otaresult_status_msg;

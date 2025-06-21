@@ -197,11 +197,10 @@ on timer loop10ms
   // 0. WakeUpCallMsg - Event : on message VCU_VehicleStart_STATUS_100MSG
   
   // 1. CarControlUdpMsg - Cycle 
-  frontHpcCarControl10msFrame.Gear_Position = rxCanGear_Position;
   CarControlUdpMsg.udp.SetData(0, frontHpcCarControl10msFrame);
   CarControlUdpMsg.CompletePacket();
   output(CarControlUdpMsg);
-  write("[TX] [front->hpc] CarControl %d", frontHpcCarControl10msFrame.Gear_Position);
+  write("[TX] [front->hpc] Gear_Position %d", frontHpcCarControl10msFrame.Gear_Position);
 
   // 2. OtaResultUdpMsg - Event
   // CAN 에서 OTA 응답 메세지가 들어올 때
@@ -444,9 +443,9 @@ on message VCU_VehicleStart_STATUS_100MSG
 // 2. Gear
 on message VCU_Transmission_STATUS_100MSG
 {
-  rxCanGear_Position = this.Gear_Position;
-  //frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
+  frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
   frontRearMcuControl10msFrame.transition = this.Gear_Position;
+  write("FZCU : CAN RX Gear_Position %d now Gear_Position %d", this.Gear_Position, frontHpcCarControl10msFrame.Gear_Position );
 }
 
 // 3. Accel

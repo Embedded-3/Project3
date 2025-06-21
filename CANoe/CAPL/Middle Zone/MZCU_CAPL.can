@@ -280,7 +280,7 @@ on timer loop20ms
   HeadLampStatusUdpMsg.udp.SetData(0, middleHpcHeadLampStatus20msFrame);
   HeadLampStatusUdpMsg.CompletePacket();
   output(HeadLampStatusUdpMsg);
-  write("[Tx] [middle->hpc] headLampStatus sent at %d ms", 20 * counter_20ms);
+  //write("[Tx] [middle->hpc] headLampStatus sent at %d ms", 20 * counter_20ms);
   
   //ethernetPacket CanBusAliveUdpMsg;
   //MZCU	MBCU	CLU	HU	HVAC
@@ -296,14 +296,14 @@ on timer loop20ms
   CanBusAliveUdpMsg.udp.SetData(0, middleHpcCanBusAlive20msFrame);
   CanBusAliveUdpMsg.CompletePacket();
   output(CanBusAliveUdpMsg);
-  write("[Tx] [middle->hpc] totalCanAlive sent at %d ms", 20 * counter_20ms);
+  //write("[Tx] [middle->hpc] totalCanAlive sent at %d ms", 20 * counter_20ms);
   
   if(ObstacleDistanceFlag){
     middleHpcObstacleDetectDistFrame.ObstacleDetectDistance = OBDistance;
     ObstacleDetectDistMsg.udp.SetData(0, middleHpcObstacleDetectDistFrame);
     ObstacleDetectDistMsg.CompletePacket();
     output(ObstacleDetectDistMsg);
-    write("[Tx] [middle->hpc] ObstacleDetectDistMsg - [%d]", middleHpcObstacleDetectDistFrame.ObstacleDetectDistance);
+    //write("[Tx] [middle->hpc] ObstacleDetectDistMsg - [%d]", middleHpcObstacleDetectDistFrame.ObstacleDetectDistance);
     ObstacleDistanceFlag=0;
   }
   
@@ -312,7 +312,7 @@ on timer loop20ms
     MiddleRearEmergencyOnOffMsg.udp.SetData(0, middleRearEmergencyOnOffFrame);
     MiddleRearEmergencyOnOffMsg.CompletePacket();
     output(MiddleRearEmergencyOnOffMsg);
-    write("[Tx] [middle->Rear] middleRearEmergencyOnOffFrame - [%d]", middleRearEmergencyOnOffFrame.Emergency_Light);
+    //write("[Tx] [middle->Rear] middleRearEmergencyOnOffFrame - [%d]", middleRearEmergencyOnOffFrame.Emergency_Light);
     EmergencyFlag=0;
   } // Ok
   
@@ -327,7 +327,7 @@ on timer loop20ms
     OtaResultUdpMsg.udp.SetData(0, middleHpcOtaResultFrame);
     OtaResultUdpMsg.CompletePacket();
     output(OtaResultUdpMsg);
-    write("[Tx] [middle->hpc] OtaResultUdpMsg");
+    //write("[Tx] [middle->hpc] OtaResultUdpMsg");
     rxCanMBCU_OTA = 0;
     rxCanCLU_OTA  = 0;
     rxCanHU_OTA = 0;
@@ -341,7 +341,7 @@ on timer loop20ms
     OtaAssignRejectUdpMsg.udp.SetData(0, middleHpcOtaAssignRejectFrame);
     OtaAssignRejectUdpMsg.CompletePacket();
     output(OtaAssignRejectUdpMsg);
-    write("[Tx] [middle->hpc] OtaAssignRejectUdpMsg");
+    //write("[Tx] [middle->hpc] OtaAssignRejectUdpMsg");
     rxOtaAssign = 0;
     otaAssignFlag = 0;
   }
@@ -363,7 +363,7 @@ on timer loop20ms
     headlamp_msg.LeftTurn_Active = (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 5)) >> 5;
     headlamp_msg.RightTurn_Active= (rxHeadLampMiddleFrame.HeadLamp_Middle_Status & (1 << 4)) >> 4;
     output(headlamp_msg);
-    write("MZCU : [CAN] MZCU_HLamp_CTL_MSG %d, %d",rxHeadLampMiddleFrame.HeadLamp_Middle_Status, headlamp_msg.HighBeam_Active);
+    //write("MZCU : [CAN] MZCU_HLamp_CTL_MSG %d, %d",rxHeadLampMiddleFrame.HeadLamp_Middle_Status, headlamp_msg.HighBeam_Active);
     hlampFlag = 0;
   }
   // MZCU_ADB_Lamp_CTL_MSG adb_ctl_msg;
@@ -371,7 +371,7 @@ on timer loop20ms
     adb_ctl_msg.LeftHighBeam_CTL = rxAdbLeft;
     adb_ctl_msg.RightHighBeam_CTL = rxAdbRight;
     output(adb_ctl_msg);
-    write("MZCU : [CAN] MZCU_ADB_Lamp_CTL_MSG");
+    //write("MZCU : [CAN] MZCU_ADB_Lamp_CTL_MSG");
     adbFlag = 0;
   }
   // MZCU_MotorRPM_INFO_20MSG motor_ctl_msg;
@@ -379,7 +379,7 @@ on timer loop20ms
     motor_ctl_msg.RPM = rxRpmInfoFrame.VCU_RPM;
     motor_ctl_msg.Velocity = rxRpmInfoFrame.MCU_Velocity;
     output(motor_ctl_msg);
-    write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG RPM = %d, Velocity = %d", motor_ctl_msg.RPM, motor_ctl_msg.Velocity);
+    //write("MZCU : [CAN] MZCU_MotorRPM_INFO_20MSG RPM = %d, Velocity = %d", motor_ctl_msg.RPM, motor_ctl_msg.Velocity);
     motorFlag = 0;
   }
   
@@ -389,14 +389,14 @@ on timer loop20ms
   if(steeringFlag){
     steering_ctl_msg.SteeringAngle_CTL = rxSteeringAngle;
     output(steering_ctl_msg);
-    write("MZCU : [CAN] MZCU_SteeringAngle_CTL_20MSG");
+    //write("MZCU : [CAN] MZCU_SteeringAngle_CTL_20MSG");
     steeringFlag = 0;
   }
   // MZCU_AlertSpeaker_CTL_MSG alert_msg : ALLCAN_ESA_RX_PORT_ID
   if(speakerFlag){
     alert_msg.AlertSpeaker = rxSpeaker;
     output(alert_msg);
-    write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
+    //write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
     speakerFlag = 0;
   }
   
@@ -464,7 +464,7 @@ on timer loop20ms
     }
     update_msg.Update_ID = rxOtaAlarmID;
     output(update_msg);
-    write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
+    //write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
     otaAlarmFlag = 0;
   }
   
@@ -474,14 +474,14 @@ on timer loop20ms
     adas_msg.ESA_Active = rxESA_On_Off;
     adas_msg.ADB_Active = rxADB_On_Off;
     output(adas_msg);
-    write("MZCU : [CAN] MZCU_ADAS_Status_20MSG");
+    //write("MZCU : [CAN] MZCU_ADAS_Status_20MSG");
     adasFlag = 0;
   }
   // MZCU_Transmission_STATUS_20MSG trans_msg;
   if(transmissionFlag){
     trans_msg.Transmission_Status = rxGear_Position;
     output(trans_msg);
-    write("MZCU : [CAN] MZCU_Transmission_STATUS_20MSG, %d", rxGear_Position);
+    //write("MZCU : [CAN] MZCU_Transmission_STATUS_20MSG, %d", rxGear_Position);
     transmissionFlag = 0;
   }
   
@@ -504,7 +504,7 @@ on ethernetPacket *
       this.udp.getData(0, rxEsaFrame);
       rxSteeringAngle = rxEsaFrame.ESA_Steering_Angle;
       rxSpeaker = rxEsaFrame.AlertSpeaker_Output;
-      write("[RX] [hpc->middle] ESA AlertSpeakerOutput : %d", rxEsaFrame.AlertSpeaker_Output);
+      //write("[RX] [hpc->middle] ESA AlertSpeakerOutput : %d", rxEsaFrame.AlertSpeaker_Output);
       steeringFlag = 1;
       speakerFlag = 1;
       break;
@@ -513,11 +513,11 @@ on ethernetPacket *
       WakeUpReceived = 1;
       this.udp.getData(0, rxWakeUpFrame);
       wakeupFlag = 1;
-      write("[RX] [hpc->middle] Wake up message called");
+      //write("[RX] [hpc->middle] Wake up message called");
       
       wakeup_ctl_msg.WakeUpSignal = rxWakeUpFrame.WakeUp_ALL_ECU;
       output(wakeup_ctl_msg);
-      write("MZCU : [CAN] MZCU_WakeUp_CTL_MSG");
+      //write("MZCU : [CAN] MZCU_WakeUp_CTL_MSG");
       break;
     default:
       break;
@@ -531,16 +531,16 @@ on ethernetPacket *
       this.udp.GetData(0, rxAdbFrame);
       rxAdbLeft = rxAdbFrame.Left_HighBeam_CTL;
       rxAdbRight= rxAdbFrame.Right_HighBeam_CTL;
-      write("[RX] [hpc->middle] LeftHighBeam : %d, RightHighBeam : %d, LowBeam : %d",
+      /*write("[RX] [hpc->middle] LeftHighBeam : %d, RightHighBeam : %d, LowBeam : %d",
             rxAdbFrame.Left_HighBeam_CTL, rxAdbFrame.Right_HighBeam_CTL,
-            rxAdbFrame.LowBeam_CTL);
+            rxAdbFrame.LowBeam_CTL);*/
       adbFlag = 1;
       break;
     case MIDDLE_OTAMIDDLE_RX_PORT_ID:
       if (OtaMiddleFrameReceived10ms) break;
       OtaMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaMiddleFrame);
-      write("[RX] [hpc->middle] OTA MIDDLE GOGO");
+      //write("[RX] [hpc->middle] OTA MIDDLE GOGO");
       for (i = 0; i < rxOtaMiddleFrame.Total_Byte; i += 8)
       {
         ota_value = 0;
@@ -581,7 +581,7 @@ on ethernetPacket *
       if (HeadLampMiddleFrameReceived10ms) break;
       HeadLampMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxHeadLampMiddleFrame);
-      write("[RX] [front->middle] HeadLamp status : %d", rxHeadLampMiddleFrame.HeadLamp_Middle_Status);
+      //write("[RX] [front->middle] HeadLamp status : %d", rxHeadLampMiddleFrame.HeadLamp_Middle_Status);
       hlampFlag = 1;
       break;
     case MIDDLE_ALIVE_FRONT_RX_PORT_ID:
@@ -589,39 +589,39 @@ on ethernetPacket *
       AliveFrontFrameReceived20ms = 1;
       this.udp.GetData(0, rxFrontAliveFrame);
       FrontCanAliveState = rxFrontAliveFrame.ECU_Alive_Status;
-      write("[RX] [front->middle] Front Alive : %d", rxFrontAliveFrame.ECU_Alive_Status);
+      //write("[RX] [front->middle] Front Alive : %d", rxFrontAliveFrame.ECU_Alive_Status);
       break;
     case MIDDLE_ALIVE_REAR_RX_PORT_ID:
       if (AliveRearFrameReceived20ms) break;
       AliveRearFrameReceived20ms = 1;
       this.udp.GetData(0, rxRearAliveFrame);
       RearCanAliveState = rxRearAliveFrame.ECU_Alive_Status;
-      write("[RX] [rear->middle] Rear Alive : %d", rxRearAliveFrame.ECU_Alive_Status);
+      //write("[RX] [rear->middle] Rear Alive : %d", rxRearAliveFrame.ECU_Alive_Status);
       break;
     case MIDDLE_TAILLAMP_RX_PORT_ID:
       if (TailLampFrameReceived20ms) break;
       TailLampFrameReceived20ms = 1;
       this.udp.GetData(0, rxTailLampStatusFrame);
-      write("[RX] [rear->middle] BrakeLight : %d, LeftRearTurn: %d, RightRearTurn : %d",
+      /*write("[RX] [rear->middle] BrakeLight : %d, LeftRearTurn: %d, RightRearTurn : %d",
             rxTailLampStatusFrame.Brake_Light_Status,
             rxTailLampStatusFrame.LeftRear_TurnSignal_Status,
-            rxTailLampStatusFrame.RightRear_TurnSignal_Status);
+            rxTailLampStatusFrame.RightRear_TurnSignal_Status);*/
       break;
     case MIDDLE_RPMINFO_RX_PORT_ID:
       if (RpmInfoFrameReceived20ms) break;
       RpmInfoFrameReceived20ms = 1;
       this.udp.GetData(0, rxRpmInfoFrame);
-      write("[RX] [hpc->middle] Velocity : %d", rxRpmInfoFrame.VCU_RPM);
+      //write("[RX] [hpc->middle] Velocity : %d", rxRpmInfoFrame.VCU_RPM);
       motorFlag = 1;
       break;
     case MIDDLE_OTA_ALARM_RX_PORT_ID:
       if(OtaAlarmFrameFecieved20ms) break;
       OtaAlarmFrameFecieved20ms = 1;
       this.udp.GetData(0, rxOtaAlarmFrame);
-      write("[RX] [hpc->middle] FrontZone_ECU_ID : %d, MiddleZone_ECU_ID : %d, RearZone_ECU_ID : %d", 
+      /*write("[RX] [hpc->middle] FrontZone_ECU_ID : %d, MiddleZone_ECU_ID : %d, RearZone_ECU_ID : %d", 
               rxOtaAlarmFrame.FrontZone_ECU_ID, 
               rxOtaAlarmFrame.MiddleZone_ECU_ID,
-              rxOtaAlarmFrame.RearZone_ECU_ID);
+              rxOtaAlarmFrame.RearZone_ECU_ID);*/
       otaAlarmFlag = 1;
       break;
     case MIDDLE_ADAS_STATE_RX_PORT_ID:
@@ -631,10 +631,10 @@ on ethernetPacket *
       rxLKAS_On_Off = rxAdasStateFrame.LKAS_On_Off;
       rxESA_On_Off = rxAdasStateFrame.ESA_On_Off;
       rxADB_On_Off = rxAdasStateFrame.ADB_On_Off;
-      write("[RX] [hpc->middle] ADB_On_Off : %d, ESA_On_Off : %d, LKAS_On_Off : %d", 
+      /*write("[RX] [hpc->middle] ADB_On_Off : %d, ESA_On_Off : %d, LKAS_On_Off : %d", 
               rxAdasStateFrame.ADB_On_Off, 
               rxAdasStateFrame.ESA_On_Off,
-              rxAdasStateFrame.LKAS_On_Off);
+              rxAdasStateFrame.LKAS_On_Off);*/
       adasFlag = 1;
       break;
     case MIDDLE_TRANSMISSION_STATE_RX_PORT_ID:
@@ -642,7 +642,7 @@ on ethernetPacket *
       TransmissionFrameFecieved20ms = 1;
       this.udp.GetData(0, rxTransmissionStateFrame);
       rxGear_Position = rxTransmissionStateFrame.Gear_Position;
-      write("[RX] [hpc->middle] Gear_Position : %d", rxTransmissionStateFrame.Gear_Position);
+      //write("[RX] [hpc->middle] Gear_Position : %d", rxTransmissionStateFrame.Gear_Position);
       transmissionFlag = 1;
       break;
     default:

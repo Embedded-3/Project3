@@ -127,6 +127,7 @@ on message MZCU_Transmission_STATUS_20MSG
   if(isSleeping == 0)
   {
     @sysvar::MIDDLE::CLU::Transmission_Status = this.Transmission_Status;
+    write("CLU : transition %d",this.Transmission_Status);
   }
 } // OK
 
