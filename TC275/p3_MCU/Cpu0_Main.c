@@ -38,6 +38,7 @@
 #include "driver/asclin.h"
 #include "driver/can.h"
 #include "driver/main.h"
+#include "driver/uss.h"
 
 
 IfxCpu_syncEvent g_cpuSyncEvent = 0;
@@ -79,6 +80,7 @@ void core0_main(void)
     initCan();
     Driver_Stm_Init();      // 스케줄링
     initEncoder();          // 엔코더 초기화
+    ultrasonic_init();      // 초음파 센서 초기화
 
     initPwm();              // PWM 초기화
     startPwm();             // PWM 시작
@@ -151,6 +153,25 @@ void AppTask10ms(void)
         print("lspeed : %.3lf, rspeed : %.3lf\n\r", measured_speed.lspeed, measured_speed.rspeed);
         print("can send status : %d\n\r", g_status);
     }
+
+
+    /*------------------- 초음파 거리 측정 -----------------------*/
+    if(stTestCnt.u32nuCnt10ms % 50 == 0) { // 50ms 주기로 초음파 거리 측정
+        int distance = measure_ultrasonic_distance();
+
+        g_txMsg.id = 0x112;
+        g_txMsg.lengthCode = 2;
+        g_txMsg.data[0] = (uint32)((uint8)distance << 8 | (uint8)distance);
+        g_txMsg.data[1] = (uint32)(0x00);
+        g_status = sendCanMessage();  // 메시지 전송
+
+        static int i = 0;
+        if(i++ % 2 == 0) {
+            print("Distance: %d cm\n\r", distance);
+        }
+
+    }
+
 
 }
 

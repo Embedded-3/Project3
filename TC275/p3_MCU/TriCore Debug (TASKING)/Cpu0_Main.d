@@ -164,3 +164,5 @@ Cpu0_Main.o :	..\driver\pwm.h
 ..\driver\pwm.h :
 Cpu0_Main.o :	..\driver\main.h
 ..\driver\main.h :
+Cpu0_Main.o :	..\driver\uss.h
+..\driver\uss.h :

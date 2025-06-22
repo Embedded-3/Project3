@@ -6,8 +6,8 @@
 
 #define DELAY_STM    (&MODULE_STM0)
 #define TRIG_PORT      &MODULE_P02
-#define TRIG_PIN       4
-#define ECHO_INPUT     IfxGtm_TIM0_0_TIN0_P02_0_IN
+#define TRIG_PIN       1                    // d3
+#define ECHO_INPUT     IfxGtm_TIM0_0_TIN0_P02_0_IN  // d2
 
 
 IfxGtm_Tim_In g_driverTIM;
