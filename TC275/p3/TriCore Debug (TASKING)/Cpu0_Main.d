@@ -114,6 +114,10 @@ Cpu0_Main.o :	..\driver\Flash_Programming.h
 ..\driver\Flash_Programming.h :
 Cpu0_Main.o :	..\driver\main.h
 ..\driver\main.h :
+Cpu0_Main.o :	..\driver\stm.h
+..\driver\stm.h :
+Cpu0_Main.o :	..\driver\start.h
+..\driver\start.h :
 Cpu0_Main.o :	..\driver\start.h
 ..\driver\start.h :
 Cpu0_Main.o :	..\driver\asclin.h

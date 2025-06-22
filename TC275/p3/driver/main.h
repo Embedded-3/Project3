@@ -10,13 +10,15 @@ typedef enum {
     UPDATING = 1,
 } Core_Mode_t;
 
-typedef void (*ffunc_t)(void);
+typedef struct {
+    uint8 onoff;       // on/off 상태
+    uint8 posl;       // 좌측 LED 상태
+    uint8 posr;       // 우측 LED 상태
+} Hbeam_t;
 
 
-//extern func_t fff;
 
 
-extern Core_Mode_t core_mode;
 
 
 extern IfxMultican_Can        g_can;         // CAN 모듈 핸들
@@ -29,6 +31,13 @@ extern IfxMultican_Message g_txMsg;
 extern IfxMultican_Message g_rxMsg;
 // CAN bus 상태
 extern IfxMultican_Status g_status;
+
+
+
+extern Core_Mode_t core_mode;
+extern Hbeam_t g_hbeam;
+
+
 
 
 #endif

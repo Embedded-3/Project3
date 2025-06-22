@@ -4,13 +4,13 @@
 #define WHITE   0x40,0x40,0x40 //0x18,0x18,0x18 //0x40,0x40,0x40
 #define OFF     0x00,0x00,0x00
 
-
+// 평소용
 void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b);
 void ws2812_send_byte(Ifx_P *port, uint8 pinIndex, uint8 data);
 
 
 
-
+// binary firmware data 생성용
 // void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b) __attribute__((section(".otaSection0")));
 // void ws2812_send_byte(Ifx_P *port, uint8 pinIndex, uint8 data) __attribute__((section(".otaSection0")));
 // void allclear() __attribute__((section(".otaSection0")));
@@ -32,6 +32,8 @@ void Driver_Stm_Init(void)
     /* enable interrupts again */
     IfxCpu_restoreInterrupts(interruptState);
 }
+
+
 
 
 
@@ -63,13 +65,20 @@ void allclear()
     }
 }
 
-void adb(uint8 posr, uint8 posl)
+void led8Ctl()
 {
-    allclear();
+    /*-------------상향등 off-----------------*/
+    if(g_hbeam.onoff == 0)
+    {
+        allclear();
+        return;
+    }
 
+    /*-------------상향등 on-----------------*/
+    allclear();
     for (int i = 0; i < 8; i++)
     {
-        if (posr & (1 << (7 - i)))  // MSB부터 확인
+        if (g_hbeam.posr & (1 << (7 - i)))  // MSB부터 확인
         {
             ws2812_send_color(LEDR, WHITE);  // on
         }
@@ -81,7 +90,7 @@ void adb(uint8 posr, uint8 posl)
 
     for (int i = 0; i < 8; i++)
     {
-        if (posl & (1 << (7 - i)))  // MSB부터 확인
+        if (g_hbeam.posl & (1 << (7 - i)))  // MSB부터 확인
         {
             ws2812_send_color(LEDL, WHITE);  // on
         }
@@ -96,24 +105,28 @@ void adb(uint8 posr, uint8 posl)
 
 void ws2812_send_byte(Ifx_P *port, uint8 pinIndex, uint8 data)
 {
+#define highTime 70 //75
+#define lowTime 5 //15
 
     for (int i = 7; i >= 0; i--) {
         if (data & (1 << i)) {
             // 1비트 전송: High 0.8us + Low 0.45us
             IfxPort_setPinHigh(port, pinIndex);
             //waitns(70);
-            waitns(70);
+            waitns(highTime);
             IfxPort_setPinLow(port, pinIndex);
             //waitns(12);
-            waitns(5);
+            // waitns(5);
+            waitns(lowTime);
         } else {
             // 0비트 전송: High 0.4us + Low 0.85us
             IfxPort_setPinHigh(port, pinIndex);
             //waitns(12);
-            waitns(5);
+            // waitns(5);
+            waitns(lowTime);
             IfxPort_setPinLow(port, pinIndex);
             //waitns(70);
-            waitns(70);
+            waitns(highTime);
         }
     }
     // 18 : 500
@@ -127,12 +140,11 @@ void ws2812_send_byte(Ifx_P *port, uint8 pinIndex, uint8 data)
 void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b)
 {
     IfxPort_setPinLow(port, pinIndex);
-    //waitns(3000);
-    //waitns(4500);
-    waitns(4300);
-    //waitns(1700);
-    //waitns(1000);
 
+    //waitns(4300);
+
+    waitns(3500);   // 3800
+    
     ws2812_send_byte(port, pinIndex, g);
     ws2812_send_byte(port, pinIndex, r);
     ws2812_send_byte(port, pinIndex, b);
@@ -147,10 +159,7 @@ void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b)
 
 
 
-/*-------------------------------------------------------------------------------------------*/
-
-
-
+/*------------------------binary firmware data 생성용------------------------------*/
 
 
 // void waitns(uint32 ns)__attribute__((section(".otaSection0")))
@@ -203,11 +212,9 @@ void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b)
 // void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b) __attribute__((section(".otaSection0")))
 // {
 //     IfxPort_setPinLow(port, pinIndex);
-//     //waitns(3000);
-//     //waitns(4500);
-//     waitns(4300);
-//     //waitns(1700);
-//     //waitns(1000);
+
+//     //waitns(4300);
+//     waitns(3500);
 
 //     ws2812_send_byte(port, pinIndex, g);
 //     ws2812_send_byte(port, pinIndex, r);

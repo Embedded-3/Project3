@@ -36,14 +36,6 @@
 
 IfxCpu_syncEvent g_cpuSyncEvent = 0;
 
-#define LED1                        &MODULE_P10,5               //LED connected to Port 00, Pin 5
-#define LED2                        &MODULE_P10,6               //LED connected to Port 00, Pin 6
-
-
-
-
-//FuncPtr g_funcptr;  // 두 섹션 주소 저장
-//int g_select __attribute__((section(".otaDataSection")));       // 현재 사용 섹션
 
 // CAN 관련
 /* 글로벌 핸들 */
@@ -59,123 +51,25 @@ IfxMultican_Message g_rxMsg;
 IfxMultican_Status g_status;
 
 
-Core_Mode_t core_mode;
+Core_Mode_t core_mode;  // 현재 코어 모드
 
-
-// typedef void (*func_t)(void);
-ffunc_t fff = (ffunc_t)0x80100000; // = (func_t)0x801000BC;
-
+Hbeam_t g_hbeam;        // 하이빔 상태
 
 
 
 
+void wait_ms(uint32 ms)
+{
+    uint32 start = IfxStm_getLower(&MODULE_STM0);  // 현재 시간
+    uint32 delayTicks = IfxStm_getTicksFromMilliseconds(&MODULE_STM0, ms);  // 100ms → 틱 변환
 
-// void ws2812_send_byte(Ifx_P *port, uint8 pinIndex, uint8 data) __attribute__((section(".otaSection0")))
-// {
-//     for (int i = 7; i >= 0; i--) {
-//         if (data & (1 << i)) {
-//             // 1비트 전송: High 0.8us + Low 0.45us
-//             IfxPort_setPinHigh(port, pinIndex);
-//             waitns(70);
-//             IfxPort_setPinLow(port, pinIndex);
-        
-//             waitns(12);
-//         } else {
-//             // 0비트 전송: High 0.4us + Low 0.85us
-//             IfxPort_setPinHigh(port, pinIndex);
-//             waitns(12);
-//             IfxPort_setPinLow(port, pinIndex);
-//             waitns(70);
-//         }
-//     }
-//     // 18 : 500
-//     // 80 : 1us
-// }
+    // unsigned 비교: 오버플로 대비
+    while ((IfxStm_getLower(&MODULE_STM0) - start) < delayTicks)
+    {
+        __nop();  // CPU가 너무 바빠지지 않게 NOP 삽입 (선택)
+    }
+}
 
-// void ws2812_send_color(Ifx_P *port, uint8 pinIndex, uint8 g, uint8 r, uint8 b) __attribute__((section(".otaSection0")))
-// {
-//     IfxPort_setPinLow(port, pinIndex);
-//     //waitns(3000);
-//     //waitns(4500);
-//     waitns(4300);
-//     //waitns(1000);
-
-//     ws2812_send_byte(port, pinIndex, g);
-//     ws2812_send_byte(port, pinIndex, r);
-//     ws2812_send_byte(port, pinIndex, b);
-
-    
-// }
-
-
-// void func() __attribute__((section(".myfunc")))       // 현재 사용 섹션
-// {
-//     volatile int i = 0;
-//     volatile int j = 0;
-//     // IfxPort_setPinModeOutput(LEDR, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
-//     // IfxPort_setPinModeOutput(LEDL, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
-//     IfxPort_setPinLow(LEDL);
-//     IfxPort_setPinLow(LEDR);
-//     waitns(4500);
-
-//     for(i = 0; i < 8;i++){
-//         ws2812_send_color(LEDR, 0x00, 0x00, 0x00);
-//     }
-//     for(i = 0; i < 8;i++){
-//         ws2812_send_color(LEDL, 0x00, 0x00, 0x00);
-//     }
-
-//     int num = 2;
-//     while(num--) {
-//         for (i = 0; i < 8; i++)
-//         {
-//             for (j = 0; j < 8; j++) // 한 세트 8개
-//             {
-//                 if (i <= j) {
-//                     ws2812_send_color(LEDR, 0x00, 0x00, 0x00);  // off
-//                 }
-//                 else {
-//                     ws2812_send_color(LEDR, 0x40, 0x40, 0x40);  // on
-//                 }
-//             }
-
-//             for (j = 0; j < 8; j++) // 한 세트 8개
-//             {
-//                 if (i <= j) {
-//                     ws2812_send_color(LEDL, 0x00, 0x00, 0x00);  // off
-//                 }
-//                 else {
-//                     ws2812_send_color(LEDL, 0x40, 0x40, 0x40);  // on
-//                 }
-//             }
-//             for(volatile int t=0;t<1500000;t++);
-//         }
-
-//         for (i = 0; i < 8; i++)
-//         {
-//             for (j = 0; j < 8; j++) // 한 세트 8개
-//             {
-//                 if (i >= j) {
-//                     ws2812_send_color(LEDR, 0x00, 0x00, 0x00);  // off
-//                 }
-//                 else {
-//                     ws2812_send_color(LEDR, 0x40, 0x40, 0x40);  // on
-//                 }
-//             }
-
-//             for (j = 0; j < 8; j++) // 한 세트 8개
-//             {
-//                 if (i >= j) {
-//                     ws2812_send_color(LEDL, 0x00, 0x00, 0x00);  // off
-//                 }
-//                 else {
-//                     ws2812_send_color(LEDL, 0x40, 0x40, 0x40);  // on
-//                 }
-//             }
-//             for(volatile int t=0;t<1500000;t++);
-//         }
-//     }
-// }
 
 
 
@@ -218,8 +112,7 @@ void core0_main(void)
     IfxCpu_emitEvent(&g_cpuSyncEvent);
     IfxCpu_waitEvent(&g_cpuSyncEvent, 1);
     
-    IfxPort_setPinModeOutput(LED1, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
-    IfxPort_setPinModeOutput(LED2, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
+
     IfxPort_setPinModeOutput(LEDL, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
     IfxPort_setPinModeOutput(LEDR, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
 
@@ -232,17 +125,49 @@ void core0_main(void)
 
 
 
-    g_funcptr.ota();
+    g_funcptr.ota();    // 웰컴 라이트
 
 
     while(1)
     {
         if(core_mode == OPERATING) {
+
+            /*----------- 하이빔 상태 전송 canid 0x154, 100ms -------------*/
+            //wait_ms(100);  // 100ms 대기
+            
+
+            led8Ctl();  // 상향등 상태에 따라 LED 제어
+
+            g_txMsg.id = 0x154;
+            g_txMsg.lengthCode = 3; // 낮은거 부터 3바이트네
+            // g_hbeam.onoff = 1;
+            // g_hbeam.posl = 0x00;  // 우측 LED 상태
+            // g_hbeam.posr = 0xFE;  // 좌측 LED 상태
+            g_txMsg.data[0] = (uint32)((uint32)g_hbeam.onoff << 0 | (uint32)g_hbeam.posl << 8 | (uint32)g_hbeam.posr << 16);   // lsb에 맞춰서 보냄
+            g_txMsg.data[1] = (uint32)(0x00);
+            //g_status = sendCanMessage();  // 메시지 전송
+            static int i=0;
+            if (i++ % 10 == 0) {
+                ;
+                //print("%d\n\r", g_status);
+            }
+
+
+            /*---------------------ota용---------------------------*/
             //g_funcptr.ota();
             //func();   // 내 함수
         }
         else if(core_mode == UPDATING) {
-            ;
+            if(ota_write_flag == 1) {
+                ota_write_flag = 0;
+                print("======Write START======\n\r");
+                for(volatile int i=0;i<10000000;i++); // wait
+                writeProgramFlash();
+                core_mode = OPERATING;
+                print("======Write Finish======\n\r");
+
+            }
+
         }
     }
 }

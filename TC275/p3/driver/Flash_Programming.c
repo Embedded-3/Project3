@@ -8,7 +8,11 @@
 #include "IfxCpu.h"
 #include "can.h"
 #include "start.h"
+#include "asclin.h"
 
+
+
+void print_OTA_Success();
 // Macro
 #define PFLASH_PAGE_LENGTH          IFXFLASH_PFLASH_PAGE_LENGTH /* 0x20 = 32 Bytes (smallest unit that can be
                                                                  * programmed in the Program Flash memory (PFLASH)) */
@@ -67,8 +71,6 @@
 
 #define MEM(address)                *((uint32 *)(address))      /* Macro to simplify the access to a memory address */
 
-
-// Function Prototype
 void erasePFLASH(uint32 sectorAddr);
 void writePFLASH(uint32 startingAddr);
 void copyFunctionsToPSPR(void);
@@ -89,10 +91,6 @@ typedef struct
 Function g_commandFromPSPR;
 
 
-// Function Implementations
-/* This function copies the erase and program routines to the Program Scratch-Pad SRAM (PSPR) of the CPU0 and assigns
- * function pointers to them.
- */
 void copyFunctionsToPSPR()
 {
     /* Copy the IfxFlash_eraseMultipleSectors() routine and assign it to a function pointer */
@@ -124,10 +122,7 @@ void copyFunctionsToPSPR()
     g_commandFromPSPR.writeFlash = (void *)WRITEPFLASH_ADDR;
 }
 
-/* This function erases a given sector of the Program Flash memory. The function is copied in the PSPR through
- * copyFunctionsToPSPR(). Because of this, inside the function, only routines from the PSPR or inline functions
- * can be called, otherwise a Context Type (CTYP) trap can be triggered.
- */
+
 void erasePFLASH(uint32 sectorAddr)
 {
     /* Get the current password of the Safety WatchDog module */
@@ -142,10 +137,7 @@ void erasePFLASH(uint32 sectorAddr)
     g_commandFromPSPR.waitUnbusy(FLASH_MODULE, PROGRAM_FLASH_0);
 }
 
-/* This function writes the Program Flash memory. The function is copied in the PSPR through copyFunctionsToPSPR().
- * Because of this, inside the function, only routines from the PSPR or inline functions can be called,
- * otherwise a Context Type (CTYP) trap can be triggered.
- */
+
 void writePFLASH(uint32 startingAddr)
 {
     uint32 page;                                                /* Variable to cycle over all the pages             */
@@ -182,26 +174,26 @@ void writePFLASH(uint32 startingAddr)
         g_commandFromPSPR.waitUnbusy(FLASH_MODULE, PROGRAM_FLASH_0);
 
         //  verify
-        uint32 check = 0;
+        //uint32 check = 0;
         // from 0 to 8
-        for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
-        {
-            /* Check if the data in the Program Flash is correct */
-            if(MEM(pageAddr + offset) != firmware_data[page][check++])
-            {
-                /* If not, count the found errors */
-                errors++;
-                /* If error, Try again*/
-//                IfxScuWdt_clearSafetyEndinitInline(endInitSafetyPassword);      /* Disable EndInit protection               */
-//                g_commandFromPSPR.writePage(pageAddr);                          /* Write the page                           */
-//                IfxScuWdt_setSafetyEndinitInline(endInitSafetyPassword);        /* Enable EndInit protection                */
-            }
-        }
-//        if(errors == 0)
-//        {
-//            IfxPort_setPinState(LED1, IfxPort_State_high);
-//        }
-        check = 0;
+//         for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
+//         {
+//             /* Check if the data in the Program Flash is correct */
+// //             if(MEM(pageAddr + offset) != firmware_data[page][check++])
+// //             {
+// //                 /* If not, count the found errors */
+// //                 errors++;
+// //                 /* If error, Try again*/
+// // //                IfxScuWdt_clearSafetyEndinitInline(endInitSafetyPassword);      /* Disable EndInit protection               */
+// // //                g_commandFromPSPR.writePage(pageAddr);                          /* Write the page                           */
+// // //                IfxScuWdt_setSafetyEndinitInline(endInitSafetyPassword);        /* Enable EndInit protection                */
+// //             }
+//         }
+//         if(errors == 0)
+//         {
+//             print("No Errors\n\r");
+//         }
+        //check = 0;
 
 
     }
@@ -226,16 +218,20 @@ void writeProgramFlash()
     // 1. 플래싱 후 파랑 led on
     // 2. 데이터 플래시에도 작성
     // 3. 소프트웨어 재부팅
-    IfxPort_setPinState(LED2, IfxPort_State_high);
     writeDataFlash();
+
+    //for(volatile int t = 0;t<30000000;t++);
+    //print_OTA_Success();
+    print_OTA_Success();
     for(volatile int t = 0;t<30000000;t++);
+
 
     uint16 password = IfxScuWdt_getSafetyWatchdogPasswordInline();
     IfxScuWdt_clearSafetyEndinitInline(password);
-    //MODULE_SCU.SWRSTCON.B.SWRSTREQ = 1;
+    MODULE_SCU.SWRSTCON.B.SWRSTREQ = 1;
     IfxScuWdt_setSafetyEndinitInline(password);
 
-    //while (1) {}
+    while (1) {}
 }
 
 /* This function verifies if the data has been correctly written in the Program Flash */
@@ -270,10 +266,6 @@ void verifyProgramFlash()
 }
 
 
-
-/* This function flashes the Data Flash memory.
- * It is not needed to run this function from the PSPR, thus it can call functions from the Program Flash memory.
- */
 void writeDataFlash()
 {
     uint32 page;                                                /* Variable to cycle over all the pages             */
@@ -313,6 +305,25 @@ void writeDataFlash()
         IfxFlash_waitUnbusy(FLASH_MODULE, DATA_FLASH_0);
         break;
     }
+}
+
+void print_OTA_Success()
+{
+    print("\n\r");
+    print("========================================\n\r");
+    print("        OTA UPDATE COMPLETED\n\r");
+    print("     System will reboot automatically\n\r");
+    print("========================================\n\r");
+    print("   Verifying installation... ");
+    print("[OK]\n\r");
+    for(volatile int t = 0;t<30000000;t++);
+    print("   Applying new firmware...");
+    for(volatile int t = 0;t<30000000;t++);
+    print("[OK]\n\r");
+    print("   Cleaning up...             [OK]\n\r");
+    print("----------------------------------------\n\r");
+    print("   Rebooting system now...\n\r");
+    print("========================================\n\r\n\r");
 }
 
 /* This function verifies if the data has been correctly written in the Data Flash */

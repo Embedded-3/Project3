@@ -8,9 +8,13 @@
 #include "IfxScuWdt.h"
 #include "IfxStm.h"
 #include "IfxMultican_Can.h"
+#include "Platform_Types.h"
+
 #include "asclin.h"
 #include "Flash_Programming.h"
 #include "main.h"
+#include "stm.h"
+#include "start.h"
 
 #define ISR_PRIORITY_CAN_RX   3 // 10
 
@@ -32,6 +36,11 @@ extern volatile uint32 firmware_data[256][8];  // 8KB  [i] : page, [j] : idx in 
 extern volatile int fwPage;
 
 
+extern volatile uint8 hbeamOnOff;
+extern volatile uint8 posr;
+extern volatile uint8 posl;
+
+extern volatile uint32 ota_write_flag;
 
 void initCan(void);
 IfxMultican_Status sendCanMessage(void);

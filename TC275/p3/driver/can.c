@@ -1,32 +1,20 @@
 // can.c
 #include "can.h"
-#include "stm.h"
-#include "Platform_Types.h"
-#include "start.h"
 
 
+volatile uint32 ota_write_flag = 0;
 volatile uint32 meta_data[2] = {0}; // 8byte
 volatile uint32 firmware_data[256][8];  // 8KB  [i] : page, [j] : idx in a page
-
-
-static volatile uint8 hbeamOnOff;
-static volatile uint8 posr;
-static volatile uint8 posl;
-// volatile uint32 firmware_data[1][8]={{0xFF004091,0x0B00FFD9,0x1F8601DA,0x9000F16C,0x11111111,0,0,0}};
-// volatile int fwPage = 1;
-
-
-// volatile uint32 firmware_data[4][8]=
-// {
-//         {0x00DA0820,0x2D3CAF74,0xFF004091,0x0B00FFD9,0x1F8601DA,0x00DAF16C,0x043C0178,0x1FC20158},
-//         {0x01580178,0x04B4003B,0x0004C09B,0x7FF80F3F,0xFF004091,0x0B00FFD9,0xF000107B,0xF16C1F86},
-//         {0x017800DA,0x0158043C,0x01781FC2,0x003B0158,0xC09B04B4,0x0F3F0004,0xAF547FF8,0xAF741FC2},
-//         {0x5FBFAF54,0x90007FD3,0,0,0,0,0,0},
-// };
+volatile uint32 total_pages;
+volatile uint32 repeat;
+volatile uint32 turn=0;
 volatile int fwPage = 0; //4;
 volatile int idx = 0;
-
 // 8byte : can packet
+
+volatile uint8 hbeamOnOff;
+volatile uint8 posr;
+volatile uint8 posl;
 
 static uint32 swapEndian(uint32 value) {
     return ((value & 0x000000FF) << 24) |
@@ -55,7 +43,7 @@ void initCan(void)
   IfxMultican_Can_Node_initConfig(&nodeConfig, &g_can);
 
   nodeConfig.nodeId = IfxMultican_NodeId_0;       // Node0 사용
-  nodeConfig.baudrate = 250000;                   // 250kbps 설정
+  nodeConfig.baudrate = 500000;  //250000;                   // 250kbps 설정
   nodeConfig.samplePoint = 8000;                  // 샘플 포인트 80%
   nodeConfig.rxPin = &IfxMultican_RXD0B_P20_7_IN; // RX 핀 (P20.7)
   nodeConfig.txPin = &IfxMultican_TXD0_P20_8_OUT; // TX 핀 (P20.8)
@@ -125,40 +113,56 @@ void canReceiveLoop()
         {
             print("[CAN 수신] -> ID: 0x%02X  ---  \n\r", g_rxMsg.id);
             switch(g_rxMsg.id) {
-                case 0x154: // 주행중 adb
-                    hbeamOnOff = (g_rxMsg.data[0] >> 24) & 0xFF;
-                    posr = (g_rxMsg.data[0] >> 16) & 0xFF;
-                    posl = (g_rxMsg.data[0] >> 8) & 0xFF;
-                    adb(posr, posl);
+                /*--------------------주행 관련 메시지 수신-----------------------*/
+                case 0x71: // 기본 주행
+                    hbeamOnOff = (g_rxMsg.data[0] >> 29) & 0x01;    // 29번째 비트 (앞에서 3번째비트)
+                    if(hbeamOnOff) {
+                        g_hbeam.onoff = 1;
+                        g_hbeam.posl = 0xC0;
+                        g_hbeam.posr = 0xC0;
+                    }
+                    else {
+                        g_hbeam.onoff = 0;
+                        g_hbeam.posl = 0x00;
+                        g_hbeam.posr = 0x00;
+                    }
                     break;
-                
-                // ota
+
+                /*--------------------adb 관련 메시지 수신-----------------------*/
+                case 0x23: // adb
+                    print("data[0] : 0x%X\n\r", g_rxMsg.data[0]);
+                    print("data[1] : 0x%X\n\r", g_rxMsg.data[1]);
+
+                    g_hbeam.posl = (g_rxMsg.data[0] >> 0) & 0xFF;
+                    g_hbeam.posr = (g_rxMsg.data[0] >> 8) & 0xFF;
+                    if(!g_hbeam.posl && !g_hbeam.posr) g_hbeam.onoff = 0;   // hbeam off
+                    else g_hbeam.onoff = 1;                                 // hbeam on
+
+                    print("left : 0x%X\n\r", g_hbeam.posl);
+                    print("right : 0x%X\n\r", g_hbeam.posr);
+                    break;
+
+                /* ------------------ ota관련 메시지 수신------------------------*/
                 case 0x10:  // metadata
+                    print("0x%X\n\r", g_rxMsg.data[0]);
+                    print("0x%X\n\r", g_rxMsg.data[1]);
                     meta_data[0] = g_rxMsg.data[0];
                     meta_data[1] = g_rxMsg.data[1];
-
+                    repeat = meta_data[0];
+                    total_pages = meta_data[0]/8;
+                    if(meta_data[0]%8>0) total_pages++;
                     fwPage = 0;
                     idx = 0;
 
                     core_mode = UPDATING;
                     print("start!\n\r");
-                    print("data[0] : 0x%X\n\r", g_rxMsg.data[0]);
-                    print("data[1] : 0x%X\n\r", g_rxMsg.data[1]);
-
-
-
-                    // g_txMsg.id = 0x100;
-                    // g_txMsg.lengthCode = 8;
-                    // g_txMsg.data[0] = (uint32)(PFLASH_STARTING_ADDRESS);
-                    // g_txMsg.data[1] = (uint32)(PFLASH_STARTING_ADDRESS);
-                    // g_status = sendCanMessage();  // 메시지 전송
-
-
-
+                    print("0x%d\n\r", total_pages);
+                    print("0x%d\n\r", repeat);
                     break;
 
                 case 0x11:  // firmware data
-                    if(fwPage < 256) {
+                    if(fwPage <= total_pages) {
+
                         g_rxMsg.data[0] = swapEndian(g_rxMsg.data[0]);
                         g_rxMsg.data[1] = swapEndian(g_rxMsg.data[1]);
 
@@ -168,32 +172,30 @@ void canReceiveLoop()
 
                         firmware_data[fwPage][idx++] = g_rxMsg.data[0];
                         firmware_data[fwPage][idx++] = g_rxMsg.data[1];
-
-                        if(idx >= 8) {
+                        turn += 2;
+                        if(idx %8 == 0) {
                             idx = 0;
                             fwPage += 1;
                         }
+                        print("turn : %d\n\r", turn);
+                        print("fwPage : %d\n\r", fwPage);
+                        print("total_pages : %d\n\r", total_pages);
+                    }
+                    
+                    if(turn == repeat){
+                        if(idx != 0) {  // 한 페이지를 다 못채움
+                            // while(idx < 8) {
+                            //     firmware_data[fwPage][idx++] = 0;   // padding
+                            // }
+                            // if(idx >= 8 ){
+                            //     fwPage += 1;
+                            //     idx = 0;
+                            // }
+                        }
+                        ota_write_flag = 1;
+
                     }
                     break;
-
-                case 0x12:
-
-                    if(idx != 0) {  // 한 페이지를 다 못채움
-                        while(idx < 8) {
-                            firmware_data[fwPage][idx++] = 0;   // padding
-                        }
-                        if(idx >= 8 ){
-                            fwPage += 1;
-                            idx = 0;
-                        }                        
-                    }
-                    writeProgramFlash();
-                    
-                    //verify
-
-                    print("write Success\n\r");
-                    core_mode = OPERATING;
-                    break;  // 큰 switch 문 종료
                 default:
                     break;
             }

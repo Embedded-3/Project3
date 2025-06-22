@@ -13,28 +13,52 @@
        <EditorPersist>
         <__.0>
          <BookmarkList></BookmarkList>
+         <CaretPos>3852</CaretPos>
+         <Encoding>8</Encoding>
+         <FileName>C:\Users\haewoong\AURIX-v1.10.6-workspace\p3\Cpu0_Main.c</FileName>
+         <FileType>1</FileType>
+         <ScrollPos>96</ScrollPos>
+        </__.0>
+        <__.1>
+         <BookmarkList></BookmarkList>
+         <CaretPos>0</CaretPos>
+         <Encoding>8</Encoding>
+         <FileName>C:\Users\USER\AURIX-v1.10.6-workspace\p3\Libraries\iLLD\TC27D\Tricore\Cpu\Std\IfxCpu.h</FileName>
+         <FileType>1</FileType>
+         <ScrollPos>0</ScrollPos>
+        </__.1>
+        <__.2>
+         <BookmarkList></BookmarkList>
+         <CaretPos>8357</CaretPos>
+         <Encoding>8</Encoding>
+         <FileName>C:\Users\USER\AURIX-v1.10.6-workspace\p3\Cpu0_Main.c</FileName>
+         <FileType>1</FileType>
+         <ScrollPos>229</ScrollPos>
+        </__.2>
+        <__.3>
+         <BookmarkList></BookmarkList>
+         <CaretPos>7481</CaretPos>
+         <Encoding>8</Encoding>
+         <FileName>C:\Users\USER\AURIX-v1.10.6-workspace\p3\Libraries\iLLD\TC27D\Tricore\Cpu\Trap\IfxCpu_Trap.c</FileName>
+         <FileType>1</FileType>
+         <ScrollPos>166</ScrollPos>
+        </__.3>
+        <__.4>
+         <BookmarkList></BookmarkList>
          <CaretPos>26096</CaretPos>
          <Encoding>8</Encoding>
          <FileName>C:\Users\haewoong\AURIX-v1.10.6-workspace\p3\Libraries\iLLD\TC27D\Tricore\Cpu\Std\IfxCpu.h</FileName>
          <FileType>1</FileType>
          <ScrollPos>656</ScrollPos>
-        </__.0>
-        <__.1>
-         <BookmarkList></BookmarkList>
-         <CaretPos>8417</CaretPos>
-         <Encoding>8</Encoding>
-         <FileName>C:\Users\haewoong\AURIX-v1.10.6-workspace\p3\Cpu0_Main.c</FileName>
-         <FileType>1</FileType>
-         <ScrollPos>224</ScrollPos>
-        </__.1>
-        <__.2>
+        </__.4>
+        <__.5>
          <BookmarkList></BookmarkList>
          <CaretPos>7481</CaretPos>
          <Encoding>8</Encoding>
          <FileName>C:\Users\haewoong\AURIX-v1.10.6-workspace\p3\Libraries\iLLD\TC27D\Tricore\Cpu\Trap\IfxCpu_Trap.c</FileName>
          <FileType>1</FileType>
          <ScrollPos>161</ScrollPos>
-        </__.2>
+        </__.5>
        </EditorPersist>
       </EditorPersist>
      </REG_ROOT>
@@ -146,7 +170,7 @@
       <PrimaryDocumentPaneId>3</PrimaryDocumentPaneId>
       <Frames>
        <__.0>
-        <FocusedViewId>3</FocusedViewId>
+        <FocusedViewId>2</FocusedViewId>
         <FrameState>3</FrameState>
         <IsPrimary>true</IsPrimary>
         <Bounds>
@@ -182,7 +206,7 @@
            <IsPinned>false</IsPinned>
            <IsTabbed>true</IsTabbed>
            <Orientation>None</Orientation>
-           <TopTabViewId>3</TopTabViewId>
+           <TopTabViewId>2</TopTabViewId>
            <ViewId>-1</ViewId>
            <Children>
             <__.0>
@@ -236,10 +260,6 @@
       </FindInFilesDialogData>
      </GlobalData>
      <History>
-      <ComboBox>
-       <ComboBoxes>
-       </ComboBoxes>
-      </ComboBox>
      </History>
      <Options>
       <CallstackWindow>

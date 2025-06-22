@@ -92,3 +92,19 @@ stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr
 "C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCbs_reg.h" :
 stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCbs_regdef.h"
 "C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCbs_regdef.h" :
+stm.o :	..\driver\main.h
+..\driver\main.h :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\\Multican\\Can\IfxMultican_Can.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\\Multican\\Can\IfxMultican_Can.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\Multican\Std\IfxMultican.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\Multican\Std\IfxMultican.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\_Impl\IfxMultican_cfg.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\_Impl\IfxMultican_cfg.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_reg.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_reg.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_regdef.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_regdef.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\_PinMap\IfxMultican_PinMap.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\iLLD\\TC27D\\Tricore\_PinMap\IfxMultican_PinMap.h" :
+stm.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_bf.h"
+"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Infra\\Sfr\\TC27D\\_Reg\IfxCan_bf.h" :
