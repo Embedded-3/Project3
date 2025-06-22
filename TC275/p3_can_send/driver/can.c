@@ -32,7 +32,7 @@ void initCan(void)
   IfxMultican_Can_Node_initConfig(&nodeConfig, &g_can);
 
   nodeConfig.nodeId = IfxMultican_NodeId_0;       // Node0 사용
-  nodeConfig.baudrate = 250000;                   // 250kbps 설정
+  nodeConfig.baudrate = 500000; //250000;                   // 250kbps 설정
   nodeConfig.samplePoint = 8000;                  // 샘플 포인트 80%
   nodeConfig.rxPin = &IfxMultican_RXD0B_P20_7_IN; // RX 핀 (P20.7)
   nodeConfig.txPin = &IfxMultican_TXD0_P20_8_OUT; // TX 핀 (P20.8)

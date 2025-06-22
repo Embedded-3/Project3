@@ -237,11 +237,11 @@ void core0_main(void)
 // };
 
 
-#define waitingtime 500000 //1000000 //1000000
+#define waitingtime 500000 //1000000 //1000000 //500000
     g_txMsg.id = 0x10;
     g_txMsg.lengthCode = 8;
-    g_txMsg.data[0] = (uint32)(1);
-    g_txMsg.data[1] = (uint32)(0x801000BC);
+    g_txMsg.data[0] = (uint32)(size);
+    g_txMsg.data[1] = (uint32)(2);
     g_status = sendCanMessage();  // 메시지 전송
     print("%d\n\r", g_status);
     for(volatile int i=0;i<waitingtime;i++);
@@ -249,21 +249,21 @@ void core0_main(void)
     g_txMsg.id = 0x11;
     g_txMsg.lengthCode = 8;
     for(int i=0; i < size; i+=2){
-        g_txMsg.data[0] = data_ota1[i];
-        g_txMsg.data[1] = data_ota1[i+1];
+        g_txMsg.data[0] = data_ota2[i];
+        g_txMsg.data[1] = data_ota2[i+1];
         g_status = sendCanMessage();  // 메시지 전송
-        print("%d\n\r", g_status);
+        print("[%d] %d\n\r", i, g_status);
         for(volatile int i=0;i<waitingtime;i++);
     }
 
-    g_txMsg.id = 0x12;
-    g_txMsg.lengthCode = 8;
-    g_txMsg.data[0] = (uint32)(3);
-    g_txMsg.data[1] = (uint32)(4);
-    g_status = sendCanMessage();  // 메시지 전송
-    for(volatile int i=0;i<waitingtime;i++);
-
-    print("%d\n\r", g_status);
+//    g_txMsg.id = 0x12;
+//    g_txMsg.lengthCode = 8;
+//    g_txMsg.data[0] = (uint32)(3);
+//    g_txMsg.data[1] = (uint32)(4);
+//    g_status = sendCanMessage();  // 메시지 전송
+//    for(volatile int i=0;i<waitingtime;i++);
+//
+//    print("%d\n\r", g_status);
 
 
 
