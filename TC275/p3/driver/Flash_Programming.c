@@ -215,16 +215,22 @@ void writeProgramFlash()
 
     IfxCpu_restoreInterrupts(interruptState);            /* Restore the interrupts state                            */
 
+    
     // 1. 플래싱 후 파랑 led on
     // 2. 데이터 플래시에도 작성
     // 3. 소프트웨어 재부팅
     writeDataFlash();
 
-    //for(volatile int t = 0;t<30000000;t++);
-    //print_OTA_Success();
     print_OTA_Success();
-    for(volatile int t = 0;t<30000000;t++);
 
+    /*-- ota 성공 메시지 전송 can id : 0x160 --*/
+    g_txMsg.id = 0x160;
+    g_txMsg.lengthCode = 1;
+    g_txMsg.data[0] = (uint32)(0x1);
+    g_txMsg.data[1] = (uint32)(0x00);
+
+
+    for(volatile int t = 0;t<30000000;t++);
 
     uint16 password = IfxScuWdt_getSafetyWatchdogPasswordInline();
     IfxScuWdt_clearSafetyEndinitInline(password);

@@ -133,9 +133,8 @@ void core0_main(void)
         if(core_mode == OPERATING) {
 
             /*----------- 하이빔 상태 전송 canid 0x154, 100ms -------------*/
-            //wait_ms(100);  // 100ms 대기
+            wait_ms(100);  // 100ms 대기
             
-
             led8Ctl();  // 상향등 상태에 따라 LED 제어
 
             g_txMsg.id = 0x154;

@@ -12,9 +12,9 @@ volatile int fwPage = 0; //4;
 volatile int idx = 0;
 // 8byte : can packet
 
-volatile uint8 hbeamOnOff;
-volatile uint8 posr;
-volatile uint8 posl;
+// volatile uint8 hbeamOnOff;
+// volatile uint8 posr;
+// volatile uint8 posl;
 
 static uint32 swapEndian(uint32 value) {
     return ((value & 0x000000FF) << 24) |
@@ -115,8 +115,8 @@ void canReceiveLoop()
             switch(g_rxMsg.id) {
                 /*--------------------주행 관련 메시지 수신-----------------------*/
                 case 0x71: // 기본 주행
-                    hbeamOnOff = (g_rxMsg.data[0] >> 29) & 0x01;    // 29번째 비트 (앞에서 3번째비트)
-                    if(hbeamOnOff) {
+                    g_hbeam.onoff = (g_rxMsg.data[0] >> 29) & 0x01;    // 29번째 비트 (앞에서 3번째비트)
+                    if(g_hbeam.onoff) {
                         g_hbeam.onoff = 1;
                         g_hbeam.posl = 0xC0;
                         g_hbeam.posr = 0xC0;
@@ -173,7 +173,7 @@ void canReceiveLoop()
                         firmware_data[fwPage][idx++] = g_rxMsg.data[0];
                         firmware_data[fwPage][idx++] = g_rxMsg.data[1];
                         turn += 2;
-                        if(idx %8 == 0) {
+                        if(idx % 8 == 0) {
                             idx = 0;
                             fwPage += 1;
                         }

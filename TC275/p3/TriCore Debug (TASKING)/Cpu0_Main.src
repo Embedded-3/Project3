@@ -1,6 +1,6 @@
 	; Module start
 	.compiler_version	"TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler v1.1r8 Build 22011964"
-	.compiler_invocation	"ctc -f cc2192a --dep-file=Cpu0_Main.d -c99 --fp-model=3cflnrSTz -D__CPU__=tc27xd -D__CPU_TC27XD__ --core=tc1.6.x --fp-model=+float -D__CPU__=tc27xd -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3 -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Configurations -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore\\\\Compilers -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D\\\\_Reg -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\StdIf -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe\\\\Comm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\_Utilities -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Asc -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\CStart -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Trap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Flash -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Flash\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Can -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Impl -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib\\\\DataHandling -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_PinMap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\driver -g2 -w544 -w557 -t4 --language=+volatile -N0 -O0 -Y0 -Z0 --compact-max-size=200 --misrac-version=2004 -o Cpu0_Main.src ../Cpu0_Main.c"
+	.compiler_invocation	"ctc -f cc5900a --dep-file=Cpu0_Main.d -c99 --fp-model=3cflnrSTz -D__CPU__=tc27xd -D__CPU_TC27XD__ --core=tc1.6.x --fp-model=+float -D__CPU__=tc27xd -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3 -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Configurations -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore\\\\Compilers -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D\\\\_Reg -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\StdIf -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe\\\\Comm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\Service\\\\CpuGeneric\\\\_Utilities -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Asc -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\CStart -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Trap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Flash -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Flash\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Can -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm\\\\Std -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Impl -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib\\\\DataHandling -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_PinMap -IC:\\\\Users\\\\haewoong\\\\AURIX-v1.10.6-workspace\\\\p3\\\\driver -g2 -w544 -w557 -t4 --language=+volatile -N0 -O0 -Y0 -Z0 --compact-max-size=200 --misrac-version=2004 -o Cpu0_Main.src ../Cpu0_Main.c"
 	.compiler_name		"ctc"
 	;source	'../Cpu0_Main.c'
 
@@ -288,74 +288,77 @@ core0_main:	.type	func
 .L240:
 	jne	d15,#0,.L24
 .L241:
-	call	led8Ctl
+	mov	d4,#100
+	call	wait_ms
 .L242:
-	movh.a	a15,#@his(g_txMsg)
-	lea	a15,[a15]@los(g_txMsg)
+	call	led8Ctl
 .L243:
-	mov	d15,#340
-.L244:
-	st.w	[a15],d15
-.L245:
 	movh.a	a15,#@his(g_txMsg)
 	lea	a15,[a15]@los(g_txMsg)
+.L244:
+	mov	d15,#340
+.L245:
+	st.w	[a15],d15
 .L246:
-	mov	d15,#3
+	movh.a	a15,#@his(g_txMsg)
+	lea	a15,[a15]@los(g_txMsg)
 .L247:
-	st.b	[a15]4,d15
+	mov	d15,#3
 .L248:
+	st.b	[a15]4,d15
+.L249:
 	movh.a	a2,#@his(g_txMsg)
 	lea	a2,[a2]@los(g_txMsg)
-.L249:
-	movh.a	a15,#@his(g_hbeam)
-	lea	a15,[a15]@los(g_hbeam)
 .L250:
-	ld.bu	d0,[a15]
+	movh.a	a15,#@his(g_hbeam)
+	lea	a15,[a15]@los(g_hbeam)
 .L251:
-	movh.a	a15,#@his(g_hbeam)
-	lea	a15,[a15]@los(g_hbeam)
+	ld.bu	d0,[a15]
 .L252:
-	ld.bu	d15,[a15]1
-.L253:
-	sh	d15,d15,#8
-.L254:
-	or	d0,d15
-.L255:
 	movh.a	a15,#@his(g_hbeam)
 	lea	a15,[a15]@los(g_hbeam)
-.L256:
-	ld.bu	d15,[a15]2
-.L257:
-	sh	d15,d15,#16
-.L258:
+.L253:
+	ld.bu	d15,[a15]1
+.L254:
+	sh	d15,d15,#8
+.L255:
 	or	d0,d15
+.L256:
+	movh.a	a15,#@his(g_hbeam)
+	lea	a15,[a15]@los(g_hbeam)
+.L257:
+	ld.bu	d15,[a15]2
+.L258:
+	sh	d15,d15,#16
 .L259:
-	st.w	[a2]6,d0
+	or	d0,d15
 .L260:
+	st.w	[a2]6,d0
+.L261:
 	movh.a	a15,#@his(g_txMsg)
 	lea	a15,[a15]@los(g_txMsg)
-.L261:
-	mov	d15,#0
 .L262:
+	mov	d15,#0
+.L263:
 	st.w	[a15]10,d15
 .L150:
 	movh.a	a15,#@his(_999001_i)
 	lea	a15,[a15]@los(_999001_i)
 	ld.w	d0,[a15]
-.L263:
-	mov	d15,#10
 .L264:
-	div	e0,d0,d15
+	mov	d15,#10
 .L265:
+	div	e0,d0,d15
+.L266:
 	movh.a	a15,#@his(_999001_i)
 	lea	a15,[a15]@los(_999001_i)
 	movh.a	a2,#@his(_999001_i)
 	lea	a2,[a2]@los(_999001_i)
 	ld.w	d15,[a2]
-.L266:
+.L267:
 	add	d15,#1
 	st.w	[a15],d15
-.L267:
+.L268:
 	jne	d1,#0,.L25
 .L25:
 	j	.L26
@@ -363,22 +366,22 @@ core0_main:	.type	func
 	movh.a	a15,#@his(core_mode)
 	lea	a15,[a15]@los(core_mode)
 	ld.bu	d15,[a15]
-.L268:
-	jne	d15,#1,.L27
 .L269:
+	jne	d15,#1,.L27
+.L270:
 	movh.a	a15,#@his(ota_write_flag)
 	lea	a15,[a15]@los(ota_write_flag)
 	ld.w	d15,[a15]
-.L270:
-	jne	d15,#1,.L28
 .L271:
+	jne	d15,#1,.L28
+.L272:
 	movh.a	a15,#@his(ota_write_flag)
 	lea	a15,[a15]@los(ota_write_flag)
-.L272:
-	mov	d15,#0
 .L273:
-	st.w	[a15],d15
+	mov	d15,#0
 .L274:
+	st.w	[a15],d15
+.L275:
 	movh.a	a15,#@his(stdif)
 	lea	a15,[a15]@los(stdif)
 	ld.a	a4,[a15]
@@ -387,32 +390,32 @@ core0_main:	.type	func
 	call	IfxStdIf_DPipe_print
 .L151:
 	mov	d15,#0
-.L275:
-	st.w	[a10]4,d15
 .L276:
+	st.w	[a10]4,d15
+.L277:
 	j	.L29
 .L30:
 	ld.w	d15,[a10]4
-.L277:
+.L278:
 	add	d15,#1
 	st.w	[a10]4,d15
 .L29:
 	ld.w	d15,[a10]4
-.L278:
+.L279:
 	mov.u	d0,#38528
 	addih	d0,d0,#152
-.L279:
+.L280:
 	jlt	d15,d0,.L30
 .L152:
 	call	writeProgramFlash
-.L280:
+.L281:
 	movh.a	a15,#@his(core_mode)
 	lea	a15,[a15]@los(core_mode)
-.L281:
-	mov	d15,#0
 .L282:
-	st.b	[a15],d15
+	mov	d15,#0
 .L283:
+	st.b	[a15],d15
+.L284:
 	movh.a	a15,#@his(stdif)
 	lea	a15,[a15]@los(stdif)
 	ld.a	a4,[a15]
@@ -552,6 +555,7 @@ _999001_i:	.type	object
 	.calls	'core0_main','Driver_Stm_Init'
 	.calls	'core0_main','IfxStdIf_DPipe_print'
 	.calls	'core0_main','__INDIRECT__'
+	.calls	'core0_main','wait_ms'
 	.calls	'core0_main','led8Ctl'
 	.calls	'core0_main','writeProgramFlash'
 	.calls	'wait_ms','',0
@@ -17547,14 +17551,14 @@ _999001_i:	.type	object
 	.byte	0,4
 	.word	.L150,.L25
 	.byte	8
-	.byte	'i',0,1,149,1,24
+	.byte	'i',0,1,148,1,24
 	.word	.L113
 	.byte	5,3
 	.word	_999001_i
 	.byte	0,4
 	.word	.L151,.L152
 	.byte	9
-	.byte	'i',0,1,164,1,34
+	.byte	'i',0,1,163,1,34
 	.word	.L153,.L154
 	.byte	0,0,0,0
 	.sdecl	'.debug_abbrev',debug,cluster('core0_main')
@@ -17634,111 +17638,113 @@ _999001_i:	.type	object
 	.half	.L23-.L239
 	.byte	3,2,1,5,9,9
 	.half	.L240-.L23
-	.byte	1,5,20,7,9
+	.byte	1,5,21,7,9
 	.half	.L241-.L240
-	.byte	3,6,1,5,13,9
+	.byte	3,3,1,5,20,9
 	.half	.L242-.L241
-	.byte	3,2,1,5,26,9
+	.byte	3,2,1,5,13,9
 	.half	.L243-.L242
-	.byte	1,5,24,9
+	.byte	3,2,1,5,26,9
 	.half	.L244-.L243
-	.byte	1,5,13,9
+	.byte	1,5,24,9
 	.half	.L245-.L244
-	.byte	3,1,1,5,34,9
+	.byte	1,5,13,9
 	.half	.L246-.L245
-	.byte	1,5,32,9
+	.byte	3,1,1,5,34,9
 	.half	.L247-.L246
-	.byte	1,5,13,9
+	.byte	1,5,32,9
 	.half	.L248-.L247
-	.byte	3,4,1,5,48,9
+	.byte	1,5,13,9
 	.half	.L249-.L248
-	.byte	1,5,55,9
+	.byte	3,4,1,5,48,9
 	.half	.L250-.L249
-	.byte	1,5,77,9
+	.byte	1,5,55,9
 	.half	.L251-.L250
-	.byte	1,5,84,9
+	.byte	1,5,77,9
 	.half	.L252-.L251
-	.byte	1,5,90,9
+	.byte	1,5,84,9
 	.half	.L253-.L252
-	.byte	1,5,67,9
+	.byte	1,5,90,9
 	.half	.L254-.L253
-	.byte	1,5,105,9
+	.byte	1,5,67,9
 	.half	.L255-.L254
-	.byte	1,5,112,9
+	.byte	1,5,105,9
 	.half	.L256-.L255
-	.byte	1,5,118,9
+	.byte	1,5,112,9
 	.half	.L257-.L256
-	.byte	1,5,95,9
+	.byte	1,5,118,9
 	.half	.L258-.L257
-	.byte	1,5,29,9
+	.byte	1,5,95,9
 	.half	.L259-.L258
-	.byte	1,5,13,9
-	.half	.L260-.L259
-	.byte	3,1,1,5,31,9
-	.half	.L261-.L260
 	.byte	1,5,29,9
-	.half	.L262-.L261
-	.byte	1,5,17,9
-	.half	.L150-.L262
-	.byte	3,3,1,5,23,9
-	.half	.L263-.L150
-	.byte	1,5,21,9
-	.half	.L264-.L263
-	.byte	1,5,17,9
-	.half	.L265-.L264
-	.byte	1,5,18,9
-	.half	.L266-.L265
+	.half	.L260-.L259
 	.byte	1,5,13,9
+	.half	.L261-.L260
+	.byte	3,1,1,5,31,9
+	.half	.L262-.L261
+	.byte	1,5,29,9
+	.half	.L263-.L262
+	.byte	1,5,17,9
+	.half	.L150-.L263
+	.byte	3,3,1,5,23,9
+	.half	.L264-.L150
+	.byte	1,5,21,9
+	.half	.L265-.L264
+	.byte	1,5,17,9
+	.half	.L266-.L265
+	.byte	1,5,18,9
 	.half	.L267-.L266
+	.byte	1,5,13,9
+	.half	.L268-.L267
 	.byte	1,7,9
-	.half	.L25-.L267
+	.half	.L25-.L268
 	.byte	1,5,17,9
 	.half	.L24-.L25
 	.byte	3,10,1,5,14,9
-	.half	.L268-.L24
+	.half	.L269-.L24
 	.byte	1,5,16,7,9
-	.half	.L269-.L268
-	.byte	3,1,1,5,13,9
 	.half	.L270-.L269
-	.byte	1,5,17,7,9
+	.byte	3,1,1,5,13,9
 	.half	.L271-.L270
-	.byte	3,1,1,5,34,9
+	.byte	1,5,17,7,9
 	.half	.L272-.L271
-	.byte	1,5,32,9
+	.byte	3,1,1,5,34,9
 	.half	.L273-.L272
-	.byte	1,5,17,9
+	.byte	1,5,32,9
 	.half	.L274-.L273
-	.byte	3,1,1,5,36,9
-	.half	.L151-.L274
-	.byte	3,1,1,5,35,9
-	.half	.L275-.L151
-	.byte	1,5,48,9
-	.half	.L276-.L275
-	.byte	1,5,49,9
-	.half	.L30-.L276
-	.byte	1,5,50,9
-	.half	.L277-.L30
-	.byte	1,5,38,9
-	.half	.L29-.L277
-	.byte	1,5,40,9
-	.half	.L278-.L29
-	.byte	1,5,48,9
-	.half	.L279-.L278
-	.byte	1,5,34,7,9
-	.half	.L152-.L279
-	.byte	3,1,1,5,17,9
-	.half	.L280-.L152
-	.byte	3,1,1,5,29,9
-	.half	.L281-.L280
-	.byte	1,5,27,9
-	.half	.L282-.L281
 	.byte	1,5,17,9
+	.half	.L275-.L274
+	.byte	3,1,1,5,36,9
+	.half	.L151-.L275
+	.byte	3,1,1,5,35,9
+	.half	.L276-.L151
+	.byte	1,5,48,9
+	.half	.L277-.L276
+	.byte	1,5,49,9
+	.half	.L30-.L277
+	.byte	1,5,50,9
+	.half	.L278-.L30
+	.byte	1,5,38,9
+	.half	.L29-.L278
+	.byte	1,5,40,9
+	.half	.L279-.L29
+	.byte	1,5,48,9
+	.half	.L280-.L279
+	.byte	1,5,34,7,9
+	.half	.L152-.L280
+	.byte	3,1,1,5,17,9
+	.half	.L281-.L152
+	.byte	3,1,1,5,29,9
+	.half	.L282-.L281
+	.byte	1,5,27,9
 	.half	.L283-.L282
+	.byte	1,5,17,9
+	.half	.L284-.L283
 	.byte	3,1,1,5,12,9
-	.half	.L22-.L283
-	.byte	3,92,1,5,1,9
+	.half	.L22-.L284
+	.byte	3,93,1,5,1,9
 	.half	.L169-.L22
-	.byte	3,42,1,7,9
+	.byte	3,41,1,7,9
 	.half	.L62-.L169
 	.byte	0,1,1
 .L219:
@@ -18081,7 +18087,7 @@ _999001_i:	.type	object
 	.word	0,0
 	.sdecl	'.debug_frame',debug
 	.sect	'.debug_frame'
-.L284:
+.L285:
 	.word	48
 	.word	-1
 	.byte	3,0,2,1,27,12,26,0,8,26,8,27,8,30,8,29,8,28,8,16,8,17,8,24,8,25,8,31,8,32,8,33,8,34,8,35,8,36,8,37,8,38
@@ -18089,11 +18095,11 @@ _999001_i:	.type	object
 	.sdecl	'.debug_frame',debug,cluster('wait_ms')
 	.sect	'.debug_frame'
 	.word	12
-	.word	.L284,.L32,.L83-.L32
+	.word	.L285,.L32,.L83-.L32
 	.sdecl	'.debug_frame',debug,cluster('welcomeLED0')
 	.sect	'.debug_frame'
 	.word	36
-	.word	.L284,.L34,.L112-.L34
+	.word	.L285,.L34,.L112-.L34
 	.byte	4
 	.word	(.L165-.L34)/2
 	.byte	19,8,22,26,3,19,138,8,4
@@ -18102,7 +18108,7 @@ _999001_i:	.type	object
 	.sdecl	'.debug_frame',debug,cluster('welcomeLED1')
 	.sect	'.debug_frame'
 	.word	36
-	.word	.L284,.L36,.L122-.L36
+	.word	.L285,.L36,.L122-.L36
 	.byte	4
 	.word	(.L167-.L36)/2
 	.byte	19,8,22,26,3,19,138,8,4
@@ -18111,7 +18117,7 @@ _999001_i:	.type	object
 	.sdecl	'.debug_frame',debug,cluster('core0_main')
 	.sect	'.debug_frame'
 	.word	28
-	.word	.L284,.L38,.L131-.L38
+	.word	.L285,.L38,.L131-.L38
 	.byte	4
 	.word	(.L133-.L38)/2
 	.byte	19,8,22,26,3,19,138,8,0,0,0

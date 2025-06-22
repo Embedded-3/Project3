@@ -118,5 +118,7 @@ Flash_Programming.o :	"C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Librari
 "C:\\Users\\haewoong\\AURIX-v1.10.6-workspace\\p3\\Libraries\\Service\\CpuGeneric\\StdIf\IfxStdIf.h" :
 Flash_Programming.o :	..\driver\main.h
 ..\driver\main.h :
+Flash_Programming.o :	..\driver\stm.h
+..\driver\stm.h :
 Flash_Programming.o :	..\driver\start.h
 ..\driver\start.h :

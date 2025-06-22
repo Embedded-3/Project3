@@ -36,9 +36,9 @@ extern volatile uint32 firmware_data[256][8];  // 8KB  [i] : page, [j] : idx in 
 extern volatile int fwPage;
 
 
-extern volatile uint8 hbeamOnOff;
-extern volatile uint8 posr;
-extern volatile uint8 posl;
+// extern volatile uint8 hbeamOnOff;
+// extern volatile uint8 posr;
+// extern volatile uint8 posl;
 
 extern volatile uint32 ota_write_flag;
 
