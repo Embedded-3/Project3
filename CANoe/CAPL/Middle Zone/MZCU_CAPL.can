@@ -542,7 +542,7 @@ on ethernetPacket *
       if (OtaMiddleFrameReceived10ms) break;
       OtaMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaMiddleFrame);
-      write("[RX] [hpc->middle] OTA MIDDLE GOGO");
+      write("[RX] [hpc->middle] OTA MIDDLE GOGO, %d, %d", rxOtaMiddleFrame.ECU_Select, rxOtaMiddleFrame.Data[0]);
       for (i = 0; i < rxOtaMiddleFrame.Total_dword; i++)
       {
         ota_value = 0;
@@ -571,7 +571,6 @@ on ethernetPacket *
           default:
             break;
         }
-        write("%d", ota_value);
       }
       break;
     case MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID:

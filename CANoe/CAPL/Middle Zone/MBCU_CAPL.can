@@ -77,8 +77,7 @@ on message MZCU_OTA_MBCU_MSG
 {
   if(isSleeping == 0)
   {
-    
-    //OTA어디다 저장해?
+    write("MBCU OTA : 0X%x", this.MBCU_OTA);
   }
 }  
 

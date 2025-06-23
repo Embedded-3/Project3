@@ -158,10 +158,10 @@ variables
   
   struct HpcFrontOtaFrontFrame { 
     byte ECU_Select; // FZCU VCU ABS MDPS MFS
-    word Total_Byte;
-    word Start_Byte_Offset;
-    word End_Byte_Offset;
-    byte Data[1400];
+    word Total_dword;
+    word Start_dword_Offset;
+    word End_dword_Offset;
+    dword Data[192];
   };
   
   struct HpcMiddleOtaMiddleFrame { 
@@ -169,15 +169,15 @@ variables
     word Total_dword;
     word Start_dword_Offset;
     word End_dword_Offset;
-    dword Data[1400];
+    dword Data[192];
   };
   
   struct HpcRearOtaRearFrame { 
     byte ECU_Select; // RZCU RBCU USS MCU
-    word Total_Byte;
-    word Start_Byte_Offset;
-    word End_Byte_Offset;
-    byte Data[1400];
+    word Total_dword;
+    word Start_dword_Offset;
+    word End_dword_Offset;
+    dword Data[192];
   };
   
   struct HpcAllWakeUpFrame {

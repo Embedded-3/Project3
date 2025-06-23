@@ -519,19 +519,23 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
   globalEthPkt.udp.destination = RX_PORT_BASE + RX_PORT_ID;
 }
 
-// 1400 byte 보낸다고 가정
+on key 'q'
+{
+  sendLEDOtaMessage();
+}
+
 void sendLEDOtaMessage()
 {
   hpcMiddleOtaMiddleFrame.ECU_Select = 0x6;
-  hpcMiddleOtaMiddleFrame.Total_dword = 48*4;
+  hpcMiddleOtaMiddleFrame.Total_dword = 192;
   hpcMiddleOtaMiddleFrame.Start_dword_Offset = 0;
-  hpcMiddleOtaMiddleFrame.End_dword_Offset = 48*4 - 1;
+  hpcMiddleOtaMiddleFrame.End_dword_Offset = 191;
   for (i = 0; i < hpcMiddleOtaMiddleFrame.End_dword_Offset; i++)
   {
     hpcMiddleOtaMiddleFrame.Data[i] = Ota_Data[i]; 
   }
   i = 0;
-  OtaMiddleMsg.udp.setData(0, hpcFrontOtaFrontFrame);
+  OtaMiddleMsg.udp.setData(0, hpcMiddleOtaMiddleFrame);
   OtaMiddleMsg.CompletePacket();
   output(OtaMiddleMsg);
   write("[TX] [hpc->mid] OtaMiddleMsg sent at %d ms", 20 * counter_20ms); 

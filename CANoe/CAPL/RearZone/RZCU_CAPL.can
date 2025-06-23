@@ -72,9 +72,9 @@ variables
   qword ota_value;
   
   // TX CAN MESSAGE
-  message RZCU_OTA_MCU_MSG rzcu_ota_mcu_msg;
-  message RZCU_OTA_RBCU_MSG rzcu_ota_rbcu_msg;
-  message RZCU_OTA_USS_MSG rzcu_ota_uss_msg;
+  message RZCU_OTA_MCU_MSG ota_mcu_msg;
+  message RZCU_OTA_RBCU_MSG ota_rbcu_msg;
+  message RZCU_OTA_USS_MSG ota_uss_msg;
   
   message RZCU_TurnLight_CTL_MSG rzcu_turnlight_ctl_msg;
   message RZCU_BrakeLight_CTL_MSG rzcu_brakelight_ctl_msg;
@@ -275,7 +275,7 @@ on ethernetPacket *
   
   port_id = (int)(endPointDst.PortNumber - REAR_RX_PORT_BASE);
   allcan_port_id = (int)(endPointDst.PortNumber - ALLCAN_RX_PORT_BASE);
-  write("RZCU allcanport_id : %d", allcan_port_id);
+  //write("RZCU allcanport_id : %d", allcan_port_id);
   switch(allcan_port_id)
   {
     case ALLCAN_ESA_RX_PORT_ID:
@@ -316,32 +316,26 @@ on ethernetPacket *
       this.udp.GetData(0, rxOtaRearFrame);
       write("[RX] [hpc->rear] OTA REAR GOGO");
       
-      for (i = 0; i < rxOtaRearFrame.Total_Byte; i += 8)
+      for (i = 0; i < rxOtaRearFrame.Total_dword; i++)
       {
         ota_value = 0;
-        for (j = 0; j < 8; j++)
-        {
-          if (rxOtaRearFrame.Total_Byte - i < j) break;
-          ota_value |= rxOtaRearFrame.Data[i+j];
-          if (j != 7) ota_value = (ota_value << 8); // Endian 계산 정확한지 모르겠음.
-        }
-            
-        // RZCU	RBCU USS MCU
+        ota_value = rxOtaRearFrame.Data[i];
+        // RZCU RBCU USS MCU
         switch(rxOtaRearFrame.ECU_Select)
         {
-          case (1 << 7): // RZCU
+          case 7: // RZCU
             break;
-          case (1 << 6): // RBCU
-            rzcu_ota_rbcu_msg.RBCU_OTA = ota_value;
-            output(rzcu_ota_rbcu_msg);
+          case 6: // RBCU
+            ota_rbcu_msg.RBCU_OTA = ota_value;
+            output(ota_rbcu_msg);
             break;
-          case (1 << 5): // USS
-            rzcu_ota_uss_msg.USS_OTA = ota_value;
-            output(rzcu_ota_uss_msg);
+          case 5: // USS
+            ota_uss_msg.USS_OTA = ota_value;
+            output(ota_uss_msg);
             break;
-          case (1 << 4): // MCU
-            rzcu_ota_mcu_msg.MCU_OTA = ota_value;
-            output(rzcu_ota_mcu_msg);
+          case 4: // MCU
+            ota_mcu_msg.MCU_OTA = ota_value;
+            output(ota_mcu_msg);
             break;
           default:
             break;
