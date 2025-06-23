@@ -355,7 +355,7 @@ on ethernetPacket *
       write("TESTMSG : LAMPSTATE LEFT %d, RIGHT %d", rzcu_turnlight_ctl_msg.LeftRear_Light, rzcu_turnlight_ctl_msg.RightRear_Light);
       output(rzcu_turnlight_ctl_msg);
       
-      txCanRear_BrakeLight |= (rxHeadLampRearFrame.HeadLamp_Rear_Status & (1 << 5)) >> 5; // ADB로 인한 brake light가 우선이므로 or 처리했음.
+      txCanRear_BrakeLight = (rxHeadLampRearFrame.HeadLamp_Rear_Status & (1 << 5)) >> 5;
       rzcu_brakelight_ctl_msg.Rear_BrakeLight = txCanRear_BrakeLight;
       output(rzcu_brakelight_ctl_msg);
       
