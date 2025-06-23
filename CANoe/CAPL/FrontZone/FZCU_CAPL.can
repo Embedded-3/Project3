@@ -496,7 +496,7 @@ on message MDPS_Steering_INFO_10MSG
 on message MDPS_Switch_STATUS_10MSG
 {
   if(this.Mode_Button){ // 버튼 누르면 ADAS 우선적으로 켜지게 함.
-    frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 160;
+    frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1;
   }else{
     frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 0;
   }

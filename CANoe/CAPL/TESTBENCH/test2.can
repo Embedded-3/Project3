@@ -1,0 +1,59 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  // 필요시 헤더나 외부 파일 include 가능
+}
+
+
+variables {
+  int received;      
+  msTimer myTimer;  // 밀리초 단위 타이머
+  int timeout;
+  
+  message RZCU_WakeUp_CTL_MSG m1;
+}
+
+testcase MainTest() {
+  write("=== Test2 : RBCU_Alive_INFO_20MSG 시작 ===");
+  
+  setTimer(myTimer, 100000); // 100초 후 타이머 이벤트 발생
+  
+
+  // RZCU wakeup 메시지 전송
+  m1.RearZone_WakeUp = 1;
+  output(m1);
+  write("FZCU_WakeUp_CTL_MSG 전송 완료");
+  
+  TestWaitForMessage(RBCU_Alive_INFO_20MSG, 10000);
+  
+  
+  if(received){
+    write("RBCU_Alive_INFO_20MSG received");
+  }
+  else{
+    write("timeout");
+    testCaseFail();
+
+  }
+
+  write("=== RBCU_Alive_INFO_20MSG 종료 ===");
+}
+
+on message * {
+  if (this.id == 0x374)
+  {
+    received = 1;
+    write("수신됨 → ID: 0x%X", this.id);
+  }
+
+}
+
+on timer myTimer {
+  write("myTimer 만료!");
+  timeout = 1;
+  
+  write("timeout");
+  testCaseFail();
+
+  // 필요한 작업 수행
+}

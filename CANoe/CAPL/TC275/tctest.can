@@ -1,0 +1,29 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  message testMSG msg;
+  msTimer test1000ms;
+}
+
+on timer test1000ms
+{
+  msg.testSig = 0xFFFFFFFF;
+  output(msg);
+  setTimer(test1000ms, 1000);
+  write("test msg [%d]", msg.testSig);
+}
+
+on message TCmsg
+{
+  write("TC to CANOE [%d] [%d]", this.MCU_Velocity, this.VCU_RPM);
+}
+
+on start
+{
+  setTimer(test1000ms, 1000); 
+}
