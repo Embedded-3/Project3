@@ -77,7 +77,7 @@ on message MZCU_OTA_MBCU_MSG
 {
   if(isSleeping == 0)
   {
-    write("MBCU OTA : 0X%x", this.MBCU_OTA);
+    write("MBCU OTA : 0X%llx", this.MBCU_OTA);
   }
 }  
 

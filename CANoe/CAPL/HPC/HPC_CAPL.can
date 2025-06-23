@@ -552,13 +552,18 @@ on key 'q'
 
 void sendLEDOtaMessage()
 {
+  qword ota_value;
   hpcMiddleOtaMiddleFrame.ECU_Select = 0x6;
-  hpcMiddleOtaMiddleFrame.Total_dword = 192;
+  hpcMiddleOtaMiddleFrame.Total_dword = 96;
   hpcMiddleOtaMiddleFrame.Start_dword_Offset = 0;
-  hpcMiddleOtaMiddleFrame.End_dword_Offset = 191;
-  for (i = 0; i < hpcMiddleOtaMiddleFrame.End_dword_Offset; i++)
+  hpcMiddleOtaMiddleFrame.End_dword_Offset = 95;
+  for (i = 0; i < 192; i += 2)
   {
-    hpcMiddleOtaMiddleFrame.Data[i] = Ota_Data[i]; 
+    ota_value = 0;
+    ota_value = Ota_Data[i]; 
+    ota_value = (ota_value << 32);
+    ota_value |= Ota_Data[i+1];
+    hpcMiddleOtaMiddleFrame.Data[i / 2] = ota_value;
   }
   i = 0;
   OtaMiddleMsg.udp.setData(0, hpcMiddleOtaMiddleFrame);

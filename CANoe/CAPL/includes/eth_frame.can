@@ -169,7 +169,7 @@ variables
     word Total_dword;
     word Start_dword_Offset;
     word End_dword_Offset;
-    dword Data[192];
+    qword Data[96];
   };
   
   struct HpcRearOtaRearFrame { 
