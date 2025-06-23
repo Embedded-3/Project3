@@ -543,16 +543,10 @@ on ethernetPacket *
       OtaMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaMiddleFrame);
       write("[RX] [hpc->middle] OTA MIDDLE GOGO");
-      for (i = 0; i < rxOtaMiddleFrame.Total_Byte; i += 8)
+      for (i = 0; i < rxOtaMiddleFrame.Total_dword; i++)
       {
         ota_value = 0;
-        for (j = 0; j < 8; j++)
-        {
-          if (rxOtaMiddleFrame.Total_Byte - i < j) break;
-          ota_value |= rxOtaMiddleFrame.Data[i+j];
-          if (j != 7) ota_value = (ota_value << 8); // Endian 계산 정확한지 모르겠음.
-        }
-            
+        ota_value = rxOtaMiddleFrame.Data[i];
         // MZCU MBCU CLU HU HVAC
         switch(rxOtaMiddleFrame.ECU_Select)
         {
@@ -577,6 +571,7 @@ on ethernetPacket *
           default:
             break;
         }
+        write("%d", ota_value);
       }
       break;
     case MIDDLE_HEADLAMP_MIDDLE_RX_PORT_ID:

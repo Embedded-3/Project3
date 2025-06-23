@@ -166,10 +166,10 @@ variables
   
   struct HpcMiddleOtaMiddleFrame { 
     byte ECU_Select; // MZCU MBCU CLU HU HVAC
-    word Total_Byte;
-    word Start_Byte_Offset;
-    word End_Byte_Offset;
-    byte Data[1400];
+    word Total_dword;
+    word Start_dword_Offset;
+    word End_dword_Offset;
+    dword Data[1400];
   };
   
   struct HpcRearOtaRearFrame { 
