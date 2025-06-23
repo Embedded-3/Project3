@@ -231,9 +231,9 @@ on timer loop20ms
   }else{
     @sysvar::ADAS::ADAS_OnOff = 1;
   }
-  @sysvar::ADAS::LKAS_OnOff = ADAS_OnOff_State & (1 << 7);
-  @sysvar::ADAS::ESA_OnOff = ADAS_OnOff_State & (1 << 6);
-  @sysvar::ADAS::ADB_OnOff = ADAS_OnOff_State & (1 << 5);
+  @sysvar::ADAS::LKAS_OnOff = (ADAS_OnOff_State & (1 << 7)) >> 7;
+  @sysvar::ADAS::ESA_OnOff = (ADAS_OnOff_State & (1 << 6)) >> 6;
+  @sysvar::ADAS::ADB_OnOff = (ADAS_OnOff_State & (1 << 5)) >> 5;
   
   
   if(@sysvar::ADAS::Python_OnOff==0){
