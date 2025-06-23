@@ -328,16 +328,20 @@ on ethernetPacket *
       break;
     case ALLCAN_WAKEUP_RX_PORT_ID:
       if(WakeUpReceived) return;
-      wakeupFlag = 1;
+      this.udp.getData(0, rxWakeUpFrame);
+      
+      wakeupFlag = rxWakeUpFrame.WakeUp_ALL_ECU;
       WakeUpReceived = 1;
       WakeUp_CANTX_FLAG = 1;
-      this.udp.getData(0, rxWakeUpFrame);
       write("FZCU : [RX] [hpc->front] Wake up message");
       
       wakeup_ctl_msg.FZCU_Wakeup = rxWakeUpFrame.WakeUp_ALL_ECU;
       output(wakeup_ctl_msg);
       write("FZCU : [CAN][WakeUp] Send Wake up CAN message");
       
+      if(!rxWakeUpFrame.WakeUp_ALL_ECU){
+        WakeUpReceived = 0;
+      }
       break;
     default:
       break;
@@ -436,6 +440,8 @@ on message VCU_VehicleStart_STATUS_100MSG
 // 2. Gear
 on message VCU_Gear_STATUS_100MSG
 {
+  if(wakeupFlag == 0) return;
+  
   frontHpcCarControl10msFrame.Gear_Position = this.Gear_Position;
   frontRearMcuControl10msFrame.transition = this.Gear_Position;
   write("FZCU : CAN RX Gear_Position %d now Gear_Position %d", this.Gear_Position, frontHpcCarControl10msFrame.Gear_Position );
@@ -444,12 +450,16 @@ on message VCU_Gear_STATUS_100MSG
 // 3. Accel
 on message VCU_AccPedal_CTL_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   frontHpcCarControl10msFrame.Accel_Pedal_Pos = this.Accel_Pedal_Pos;
 }
 
 // 4. Brake
 on message VCU_BrakePedal_CTL_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   frontHpcCarControl10msFrame.Brake_Pedal_Pos = this.Brake_Pedal_Pos;
   rxCanBrakePedalPos = this.Brake_Pedal_Pos;
 }
@@ -457,18 +467,24 @@ on message VCU_BrakePedal_CTL_10MSG
 
 on message VCU_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanVCU_OTA = this.VCU_OTAResult << 6;
   OTAResult_TX_FLAG = 1;
 }
 
 on message VCU_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanVCU_Alive = this.VCU_Alive;
 }
 
 // 6. 계산된 RPM값 전송
 on message VCU_MCU_CTL_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   frontRearMcuControl10msFrame.RPM = this.MCU_RPM_CTL;
 }
 
@@ -478,11 +494,15 @@ on message ABS_BrakeOutput_STATUS_10MSG
 
 on message ABS_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanABS_Alive = this.ABS_Alive;
 }
 
 on message ABS_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   //frontHpcOtaResultFrame.ECU_OTA_Result |= this.ABS_OTAResult << 5;
   rxCanABS_OTA = this.ABS_OTAResult;
   OTAResult_TX_FLAG = 1;
@@ -490,11 +510,15 @@ on message ABS_OTAResult_STATUS_MSG
 
 on message MDPS_Steering_INFO_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   frontHpcCarControl10msFrame.User_Steering_Angle = this.Steering_Angle;
 }
 
 on message MDPS_Switch_STATUS_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   if(this.Mode_Button){ // 버튼 누르면 ADAS 우선적으로 켜지게 함.
     frontHpcAdasOnOff10msFrame.ADAS_On_Off_Status = 1;
   }else{
@@ -504,12 +528,16 @@ on message MDPS_Switch_STATUS_10MSG
 
 on message MDPS_HLBeam_CTL_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanHighBeamOnOff = this.HighBeam;
   rxCanLowBeamOnOff = this.LowBeam;
 }
 
 on message MDPS_RLTurnSignal_CTL_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   //frontRearHeadLampRear10msFrame.HeadLamp_Rear_Status = 0;
   rxCanLeftTurnSignal = this.LeftTurnSignal;
   rxCanRightTurnSignal = this.RightTurnSignal;
@@ -518,22 +546,30 @@ on message MDPS_RLTurnSignal_CTL_MSG
 
 on message MDPS_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanMDPS_Alive = this.MDPS_Alive;
 }
 
 on message MDPS_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanMDPS_OTA = this.MDPS_OTAResult;
   OTAResult_TX_FLAG = 1;
 }
 
 on message MFS_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanMFS_Alive = this.MFS_Alive;
 }
 
 on message MFS_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanMFS_OTA= this.MFS_OTAResult;
   OTAResult_TX_FLAG = 1;
 }

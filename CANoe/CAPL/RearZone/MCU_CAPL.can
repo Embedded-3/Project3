@@ -61,13 +61,13 @@ on message RZCU_OTA_MCU_MSG
 // 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 MCU 깨움
 on message RZCU_WakeUp_CTL_MSG
 {
-  if (this.RearZone_WakeUp)
+  if (!engineState && this.RearZone_WakeUp)
   {
     engineState = 1;
     write("MCU: Wake-up triggered by CAN message.");
     // MCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $MCU_Alive = 1; 
-  }else if(!this.RearZone_WakeUp)
+  }else if(engineState && !this.RearZone_WakeUp)
   {
     engineState = 0;
     write("MCU: Sleep triggered by CAN message.");

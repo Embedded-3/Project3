@@ -91,13 +91,15 @@ on timer loop
 // 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 HVAC 깨움
 on message MZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping && this.WakeUpSignal)
   {
     isSleeping = 0;
     write("HVAC: Wake-up triggered by CAN message.");
     // HVAC_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $HVAC_Alive = 1;
-    
+  }else if(!isSleeping && !this.WakeUpSignal){
+    isSleeping = 1;
+    $HVAC_Alive = 0;
   }
 }
 

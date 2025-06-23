@@ -32,7 +32,7 @@ on timer loop
 // 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 ABS 깨움
 on message FZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping&& this.FZCU_Wakeup)
+  if (isSleeping && this.FZCU_Wakeup)
   {
     isSleeping = 0;
     write("ABS: Wake-up triggered by CAN message.");

@@ -150,6 +150,8 @@ on start
 
 on message RBCU_TailLamp_STATUS_100MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanLeftRear_TurnSignal_Status = this.LeftRear_TurnSignal_Status;
   rxCanRightRear_TurnSignal_Status = this.RightRear_TurnSignal_Status;
   rxCanBrake_Light_Status = this.Brake_Light_Status;
@@ -157,27 +159,37 @@ on message RBCU_TailLamp_STATUS_100MSG
 
 on message MCU_RearMotor_STATUS_10MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanVelocity = this.MCU_Velocity;
   rxCanRPM = this.VCU_RPM;
 }
 
 on message RBCU_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanRBCU_Alive = this.RBCU_Alive;
 }
 
 on message USS_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanUSS_Alive = this.USS_Alive;
 }
 
 on message MCU_Alive_INFO_20MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanMCU_Alive = this.MCU_Alive;
 }
 
 on message RBCU_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 6);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
@@ -187,6 +199,8 @@ on message RBCU_OTAResult_STATUS_MSG
 
 on message USS_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 5);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
@@ -196,6 +210,8 @@ on message USS_OTAResult_STATUS_MSG
 
 on message MCU_OTAResult_STATUS_MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rearHpcOtaResultFrame.ECU_OTA_Result = (1 << 4);
   OtaResultUdpMsg.udp.SetData(0, rearHpcOtaResultFrame);
   OtaResultUdpMsg.CompletePacket();
@@ -205,6 +221,8 @@ on message MCU_OTAResult_STATUS_MSG
 
 on message USS_UltraSoundVal_INFO_50MSG
 {
+  if(wakeupFlag == 0) return;
+  
   rxCanLeftRear_UltraSoundVal = this.LeftRear_UltraSoundVal;
   rxCanRightRear_UltraSoundVal = this.RightRear_UltraSoundVal;
 }
@@ -289,20 +307,22 @@ on ethernetPacket *
       if(WakeUpReceived) return;
       WakeUpReceived = 1;
       this.udp.getData(0, rxWakeUpFrame);
-      wakeupFlag = 1;
+      wakeupFlag = rxWakeUpFrame.WakeUp_ALL_ECU;
       write("[RX] [hpc->rear] Wake up message called");
       
       // rear ecu all wake up msg send
-      txCanRearZone_WakeUp = 1;
-      rzcu_wakeup_ctl_msg.RearZone_WakeUp = txCanRearZone_WakeUp;
+      rzcu_wakeup_ctl_msg.RearZone_WakeUp = rxWakeUpFrame.WakeUp_ALL_ECU;
       output(rzcu_wakeup_ctl_msg);
       write("[rzcu -> peripherals] wake up message sent");
       
       //vehicle start can msg send
-      txCanIgnition_Status = 3; // START
-      rzcu_vehiclestart_ctl_msg.Ignition_Status = txCanIgnition_Status;
+      //txCanIgnition_Status = 3; // START
+      rzcu_vehiclestart_ctl_msg.Ignition_Status = rxWakeUpFrame.WakeUp_ALL_ECU;
       output(rzcu_vehiclestart_ctl_msg);
       write("[rzcu -> rearzone] ignition Status = %u", rzcu_vehiclestart_ctl_msg.Ignition_Status);
+      if(!rxWakeUpFrame.WakeUp_ALL_ECU){
+        WakeUpReceived = 0;
+      }
       break;
     default:
       break;

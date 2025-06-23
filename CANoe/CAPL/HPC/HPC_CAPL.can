@@ -504,11 +504,13 @@ on ethernetPacket *
       if (WakeUpCallFrameReceived) break;
       WakeUpCallFrameReceived = 1;
       this.udp.GetData(0, rxWakeUpCallFrame);
-      wakeupFlag = 1;
+      wakeupFlag = rxWakeUpCallFrame.WakeUp_Call;
       write("[RX] [front->hpc] wakeup call frame received");
-      
+      if(!rxWakeUpCallFrame.WakeUp_Call){
+        WakeUpCallFrameReceived = 0;
+      }
       // WakeUp msg 보내기
-      hpcAllWakeUpFrame.WakeUp_ALL_ECU = 1;
+      hpcAllWakeUpFrame.WakeUp_ALL_ECU = rxWakeUpCallFrame.WakeUp_Call;
       WakeUpMsg.udp.SetData(0, hpcAllWakeUpFrame);
       WakeUpMsg.CompletePacket();
       output(WakeUpMsg);

@@ -6,7 +6,9 @@ includes
 
 variables
 {
-  int isSleeping = 1; // 초기 상태는 절전
+  int isSleeping; // 초기 상태는 절전
+  
+  message MFS_OTAResult_STATUS_MSG mfs_otaresult_status_msg;
 }
 
 // 0. 시뮬레이션 시작 시 절전 진입
@@ -37,7 +39,8 @@ on message FZCU_WakeUp_CTL_MSG
 
 on message FZCU_OTA_MFS_MSG
 {
-  message MFS_OTAResult_STATUS_MSG mfs_otaresult_status_msg;
+  if(isSleeping) return;
+  
   mfs_otaresult_status_msg.MFS_OTAResult = 1;
   output(mfs_otaresult_status_msg);
   write("MFS OTA COMPLETED");

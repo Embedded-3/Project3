@@ -17,6 +17,8 @@ variables
   message VCU_VehicleStart_STATUS_100MSG ign_msg; // HPC
   message VCU_Gear_STATUS_100MSG trans_msg; // MZCU::CLU
   message VCU_MCU_CTL_10MSG mcu_msg;  
+  message VCU_OTAResult_STATUS_MSG vcu_otaresult_status_msg;
+  
 }
 
 // 0. 시뮬레이션 시작 시 절전 진입
@@ -100,7 +102,6 @@ on sysvar sysvar::FRONT::VCU::Gear
 }
 on message FZCU_OTA_VCU_MSG
 {
-  message VCU_OTAResult_STATUS_MSG vcu_otaresult_status_msg;
   vcu_otaresult_status_msg.VCU_OTAResult = 1;
   output(vcu_otaresult_status_msg);
   write("VCU OTA COMPLETED");

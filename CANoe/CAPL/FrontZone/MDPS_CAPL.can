@@ -8,6 +8,12 @@ variables
 {
   int isSleeping = 1; // 초기 상태는 절전
   msTimer loop;
+  message MDPS_Steering_INFO_10MSG steering_msg;
+  message MDPS_Switch_STATUS_10MSG switch_msg;
+  message MDPS_RLTurnSignal_CTL_MSG myMsg;
+  message MDPS_HLBeam_CTL_MSG hl_Msg;
+  message MDPS_OTAResult_STATUS_MSG mdps_otaresult_status_msg;
+  
 }
 
 // 0. 시뮬레이션 시작 시 절전 진입
@@ -21,17 +27,13 @@ on start
 // 0. Run 상태에서 보낼 주기 메세지
 on timer loop
 {
-  if(isSleeping == 0)
-  {
-    message MDPS_Steering_INFO_10MSG steering_msg;
-    message MDPS_Switch_STATUS_10MSG switch_msg;
-    steering_msg.Steering_Angle = @sysvar::FRONT::MDPS::SteeringAngle;
-    switch_msg.Mode_Button = @sysvar::FRONT::MDPS::ADAS_Button;
-    write("ADAS TEST : %d", switch_msg.Mode_Button);
-    
-    output(steering_msg);
-    output(switch_msg); 
-  }
+  if(isSleeping) return;
+  
+  steering_msg.Steering_Angle = @sysvar::FRONT::MDPS::SteeringAngle;
+  switch_msg.Mode_Button = @sysvar::FRONT::MDPS::ADAS_Button;
+  write("ADAS TEST : %d", switch_msg.Mode_Button);
+  output(steering_msg);
+  output(switch_msg); 
 }
 
 // 1. FZCU_WakeUp_CTL_MSG 메시지 수신 시 MDPS 깨움
@@ -58,6 +60,8 @@ on message FZCU_WakeUp_CTL_MSG
 // 2. 메세지로 패널의 스티어링 휠 각도 변경
 on message FZCU_Steering_CTL_MSG
 {
+  if(isSleeping) return;
+  
   if(@sysvar::FRONT::MDPS::ADAS_Button){
     @sysvar::FRONT::MDPS::SteeringAngle = this.Steering_Angle;
     write("Control Steering Wheel with HPC : %d", @FRONT::MDPS::SteeringAngle);
@@ -68,7 +72,8 @@ on message FZCU_Steering_CTL_MSG
 // 3. 방향 지시등 버튼 클릭 시 메세지 전송
 on sysvar sysvar::FRONT::MDPS::LightLever
 {
-  message MDPS_RLTurnSignal_CTL_MSG myMsg;
+  if(isSleeping) return;
+  
   if(@this == 0)
   {
     myMsg.LeftTurnSignal = 0;
@@ -108,23 +113,26 @@ on sysvar sysvar::FRONT::MDPS::RightLight
 // 4. 헤드램프 버튼 클릭 시 메세지 전송
 on sysvar sysvar::FRONT::MDPS::HighBeem
 {
-  message MDPS_HLBeam_CTL_MSG myMsg;
-  myMsg.HighBeam = @this;
-  myMsg.LowBeam =@sysvar::FRONT::MDPS::LowBeem;
-  output(myMsg);
+  if(isSleeping) return;
+  
+  hl_Msg.HighBeam = @this;
+  hl_Msg.LowBeam = @FRONT::MDPS::LowBeem;
+  output(hl_Msg);
 }
 
 on sysvar sysvar::FRONT::MDPS::LowBeem
 {
-  message MDPS_HLBeam_CTL_MSG myMsg;
-  myMsg.HighBeam = @sysvar::FRONT::MDPS::HighBeem;
-  myMsg.LowBeam = @this;
-  output(myMsg);
+  if(isSleeping) return;
+
+  hl_Msg.HighBeam = @sysvar::FRONT::MDPS::HighBeem;
+  hl_Msg.LowBeam = @this;
+  output(hl_Msg);
 }
 
 on message FZCU_OTA_MDPS_MSG
 {
-  message MDPS_OTAResult_STATUS_MSG mdps_otaresult_status_msg;
+  if(isSleeping) return;
+  
   mdps_otaresult_status_msg.MDPS_OTAResult = 1;
   output(mdps_otaresult_status_msg);
   write("MDPS OTAR COMPLETED");
@@ -133,6 +141,8 @@ on message FZCU_OTA_MDPS_MSG
 
 on sysvar FRONT::MDPS::SteeringAngle
 {
+  if(isSleeping) return;
+  
   write("Control Steering Wheel with Pannel : %d", @FRONT::MDPS::SteeringAngle);
 }
 

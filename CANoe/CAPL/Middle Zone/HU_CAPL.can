@@ -20,14 +20,16 @@ on start
 // 1. MZCU_WakeUp_CTL_MSG 메시지 수신 시 HU 깨움
 on message MZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping && this.WakeUpSignal)
   {
     isSleeping = 0;
     write("HU: Wake-up triggered by CAN message.");
     // HU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $HU_Alive = 1;
+  }else if(!isSleeping && !this.WakeUpSignal){
+    isSleeping = 1;
+    $HU_Alive = 0;
   }
-  
 }
 
 // 2. OTA 메세지 대응

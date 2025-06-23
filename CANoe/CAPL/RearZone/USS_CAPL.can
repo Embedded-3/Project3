@@ -34,13 +34,17 @@ on timer loop
 // 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 USS 깨움
 on message RZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping && this.RearZone_WakeUp)
   {
     isSleeping = 0;
     write("USS: Wake-up triggered by CAN message.");
     // USS_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
-    $USS_Alive = 1;
-    
+    $USS_Alive = 1; 
+  }else if(!isSleeping && !this.RearZone_WakeUp){
+    isSleeping = 1;
+    write("USS: Wake-up -> Stop.");
+    // USS_Alive 시그널 -> 0 : IL 메시지 전송 정지
+    $USS_Alive = 0;
   }
 }
 

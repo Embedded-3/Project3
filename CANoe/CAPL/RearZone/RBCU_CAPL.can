@@ -37,12 +37,17 @@ on timer loop
 // 1. RZCU_WakeUp_CTL_MSG 메시지 수신 시 RBCU 깨움
 on message RZCU_WakeUp_CTL_MSG
 {
-  if (isSleeping)
+  if (isSleeping && this.RearZone_WakeUp)
   {
     isSleeping = 0;
     write("RBCU: Wake-up triggered by CAN message.");
     // RBCU_Alive 시그널 -> 1 : IL 메시지 전송 시작 (주기적 전송 포함)
     $RBCU_Alive = 1;
+  }else if (!isSleeping && !this.RearZone_WakeUp){
+    isSleeping = 1;
+    write("RBCU: Stop.");
+    // RBCU_Alive 시그널 -> 0
+    $RBCU_Alive = 0;
   }
 }
 

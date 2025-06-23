@@ -514,12 +514,16 @@ on ethernetPacket *
       if(WakeUpReceived) return;
       WakeUpReceived = 1;
       this.udp.getData(0, rxWakeUpFrame);
-      wakeupFlag = 1;
+      wakeupFlag = rxWakeUpFrame.WakeUp_ALL_ECU;
       //write("[RX] [hpc->middle] Wake up message called");
       
       wakeup_ctl_msg.WakeUpSignal = rxWakeUpFrame.WakeUp_ALL_ECU;
       output(wakeup_ctl_msg);
       //write("MZCU : [CAN] MZCU_WakeUp_CTL_MSG");
+      
+      if(!rxWakeUpFrame.WakeUp_ALL_ECU){
+        WakeUpReceived = 0;
+      }
       break;
     default:
       break;
