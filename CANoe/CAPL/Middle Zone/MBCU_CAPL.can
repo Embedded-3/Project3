@@ -159,13 +159,17 @@ on message MZCU_SteeringAngle_CTL_20MSG
   if(@sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status==0){
     return;
   }
-  
-  @sysvar::MIDDLE::MBCU::LampSteering = this.SteeringAngle_CTL; // 패널용
-  
-  // 실제 데이터용
-  if(this.SteeringAngle_CTL<0){
-    @sysvar::MIDDLE::MBCU::HLAMP::LeftHighBeam_Status = this.SteeringAngle_CTL * -1;
-  }else{
-    @sysvar::MIDDLE::MBCU::HLAMP::RightHighBeam_Status = this.SteeringAngle_CTL;
-  }
 } // OK
+
+on message MZCU_ADB_Lamp_CTL_MSG
+{
+  //@sysvar::MIDDLE::MBCU::LampSteering = this.SteeringAngle_CTL; // 패널용
+    // 실제 데이터용
+  
+//  if(this.SteeringAngle_CTL<0){
+//    @sysvar::MIDDLE::MBCU::HLAMP::LeftHighBeam_Status = this.SteeringAngle_CTL * -1;
+//  }else{
+//    @sysvar::MIDDLE::MBCU::HLAMP::RightHighBeam_Status = this.SteeringAngle_CTL;
+//  }
+  
+}

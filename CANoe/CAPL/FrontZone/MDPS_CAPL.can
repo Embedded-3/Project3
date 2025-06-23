@@ -58,8 +58,10 @@ on message FZCU_WakeUp_CTL_MSG
 // 2. 메세지로 패널의 스티어링 휠 각도 변경
 on message FZCU_Steering_CTL_MSG
 {
-  @sysvar::FRONT::MDPS::SteeringAngle = this.Steering_Angle;
-  write("Control Steering Wheel with HPC : %d", @FRONT::MDPS::SteeringAngle);
+  if(@sysvar::FRONT::MDPS::ADAS_Button){
+    @sysvar::FRONT::MDPS::SteeringAngle = this.Steering_Angle;
+    write("Control Steering Wheel with HPC : %d", @FRONT::MDPS::SteeringAngle);
+  }
 }
 
 

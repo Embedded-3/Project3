@@ -231,11 +231,16 @@ on timer loop20ms
   }else{
     @sysvar::ADAS::ADAS_OnOff = 1;
   }
+  @sysvar::ADAS::LKAS_OnOff = ADAS_OnOff_State & (1 << 7);
+  @sysvar::ADAS::ESA_OnOff = ADAS_OnOff_State & (1 << 6);
+  @sysvar::ADAS::ADB_OnOff = ADAS_OnOff_State & (1 << 5);
+  
   
   if(@sysvar::ADAS::Python_OnOff==0){
     write("HPC ADAS [%d]", ADAS_OnOff_State);
     if (ADAS_OnOff_State & (1 << 7)) // LKAS ON
     {
+      write("HPC %d", currentSteeringAngle);
       if (!leftTurnSignal && !rightTurnSignal)
       {
         // Test 시나리오 넣어야함. 일단 반대 방향으로 틀어진값 보정하도록함. 
@@ -298,7 +303,7 @@ on timer loop20ms
       @sysvar::ADAS::USS_Detection = leftRearUltraSoundVal;
       @sysvar::ADAS::USS_Distance = obstacleDetectDistance;
 
-      @sysvar::ADAS::LKAS_OnOff = ADAS_OnOff_State & (1 << 7);
+      
       if(@sysvar::ADAS::LKAS_OnOff==1)
       {
         lkasTxSteeringAngle = @sysvar::ADAS::ADAS_Steering;
@@ -309,7 +314,7 @@ on timer loop20ms
         esaTxAlertSpeakerOutput = @sysvar::ADAS::ESA_Alert;
       }
       
-      @sysvar::ADAS::ADB_OnOff = ADAS_OnOff_State & (1 << 5);
+      
       if(@sysvar::ADAS::ADB_OnOff==1)
       {
         adbTxRightHighBeamCTL = @sysvar::ADAS::ADB_Right;
@@ -321,29 +326,32 @@ on timer loop20ms
     }  
     //================ADAS CALCULATE END================//
  
+  if(@sysvar::ADAS::LKAS_OnOff){
+    hpcFrontLkas20msFrame.LKAS_Steering_Angle = lkasTxSteeringAngle;
+    LkasUdpMsg.udp.setData(0, hpcFrontLkas20msFrame);
+    LkasUdpMsg.CompletePacket();
+    output(LkasUdpMsg);
+    write("[TX] [hpc->front] Lkas packet sent at %d ms", 20 * counter_20ms);
+  }
+  if(@sysvar::ADAS::ESA_OnOff){
+    hpcAllEsa20msFrame.ESA_Steering_Angle  = esaTxSteeringAngle; 
+    hpcAllEsa20msFrame.AlertSpeaker_Output = esaTxAlertSpeakerOutput; 
+    hpcAllEsa20msFrame.BrakeLight_CTL      = esaTxBrakeLightCTL; 
+    EsaUdpMsg.udp.setData(0, hpcAllEsa20msFrame);
+    EsaUdpMsg.CompletePacket();
+    output(EsaUdpMsg);
+    write("[TX] [hpc->All] Esa packet sent at %d ms", 20 * counter_20ms);
+  }
+  if(@sysvar::ADAS::ADB_OnOff){
+    hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = adbTxLeftHighBeamCTL; 
+    hpcMiddleAdb20msFrame.Right_HighBeam_CTL = adbTxRightHighBeamCTL; 
+    hpcMiddleAdb20msFrame.LowBeam_CTL        = adbTxLowBeamCTL;
+    AdbUdpMsg.udp.setData(0, hpcMiddleAdb20msFrame);
+    AdbUdpMsg.CompletePacket();
+    output(AdbUdpMsg);
+    write("[TX] [hpc->mid] Adb packet sent at %d ms", 20 * counter_20ms);
+  }
   
-  hpcFrontLkas20msFrame.LKAS_Steering_Angle = lkasTxSteeringAngle;
-  LkasUdpMsg.udp.setData(0, hpcFrontLkas20msFrame);
-  LkasUdpMsg.CompletePacket();
-  output(LkasUdpMsg);
-  write("[TX] [hpc->front] Lkas packet sent at %d ms", 20 * counter_20ms);
-  
-  hpcAllEsa20msFrame.ESA_Steering_Angle  = esaTxSteeringAngle; 
-  hpcAllEsa20msFrame.AlertSpeaker_Output = esaTxAlertSpeakerOutput; 
-  hpcAllEsa20msFrame.BrakeLight_CTL      = esaTxBrakeLightCTL; 
-  EsaUdpMsg.udp.setData(0, hpcAllEsa20msFrame);
-  EsaUdpMsg.CompletePacket();
-  output(EsaUdpMsg);
-  write("[TX] [hpc->All] Esa packet sent at %d ms", 20 * counter_20ms);
-  
-  hpcMiddleAdb20msFrame.Left_HighBeam_CTL  = adbTxLeftHighBeamCTL; 
-  hpcMiddleAdb20msFrame.Right_HighBeam_CTL = adbTxRightHighBeamCTL; 
-  hpcMiddleAdb20msFrame.LowBeam_CTL        = adbTxLowBeamCTL;
-  AdbUdpMsg.udp.setData(0, hpcMiddleAdb20msFrame);
-  AdbUdpMsg.CompletePacket();
-  output(AdbUdpMsg);
-  write("[TX] [hpc->mid] Adb packet sent at %d ms", 20 * counter_20ms);
-  							
   hpcMiddleRpmInfo20msFrame.VCU_RPM = rxWheelInfoFrame.RPM;
   hpcMiddleRpmInfo20msFrame.MCU_Velocity = rxWheelInfoFrame.Velocity;
   MotorInfoMsg.udp.setData(0, hpcMiddleRpmInfo20msFrame);
