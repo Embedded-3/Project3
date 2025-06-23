@@ -27,6 +27,7 @@ variables
   ethernetPacket MotorInfoMsg;
   ethernetPacket AdasStateMsg;
   ethernetPacket TransmissionMsg;
+  ethernetPacket OtaAlarmMsg;
 
   // TX FRAME
   struct HpcFrontLkasFrame hpcFrontLkas20msFrame;
@@ -39,6 +40,7 @@ variables
   struct HpcMiddleRpmInfoFrame hpcMiddleRpmInfo20msFrame;
   struct HpcMiddleAdasStateFrame hpcMiddleAdasState20msFrame;
   struct HpcMiddleTransmissionStateFrame hpcMiddleTransmissionState20msFrame;
+  struct HpcMiddleOtaAlarmFrame hpcMiddleOtaAlarmFrame;
   
   int port_id;
   // RX FRAME
@@ -125,7 +127,6 @@ on start
   @ADAS::Python_OnOff = 0;
   initVariables();
   initAllUdpPackets();
-  
 }
 
 // front zone 에서 LED 키게 하는 ota 명령
@@ -133,6 +134,22 @@ on start
 on key 'f'
 {
   sendLEDOtaMessage();
+}
+
+on sysvar sysvar::ADAS::Update_Alarm
+{
+  if (@ADAS::Update_Alarm == 1)
+  {
+    hpcMiddleOtaAlarmFrame.FrontZone_ECU_ID = 0;
+    // MZCU MBCU ... -> MBCU 하드코딩
+    hpcMiddleOtaAlarmFrame.MiddleZone_ECU_ID = (1 << 6);
+    hpcMiddleOtaAlarmFrame.RearZone_ECU_ID = 0;
+    hpcMiddleOtaAlarmFrame.Update_Byte_Size = @sysvar::ADAS::Update_Byte_Size;
+    OtaAlarmMsg.SetData(0, hpcMiddleOtaAlarmFrame);
+    OtaAlarmMsg.CompletePacket();
+    output(OtaAlarmMsg);
+    write("[TX] [hpc->mid] Ota Alarm Msg sent");
+  }
 }
 
 on timer loopFlagInit5ms
@@ -454,19 +471,19 @@ void initUdpPacket(char TX_MAC_ADDR[], char RX_MAC_ADDR[],
 // 1400 byte 보낸다고 가정
 void sendLEDOtaMessage()
 {
-  hpcFrontOtaFrontFrame.ECU_Select = 0x10;
-  hpcFrontOtaFrontFrame.Total_Byte = 1400;
+  hpcFrontOtaFrontFrame.ECU_Select = 0x6;
+  hpcFrontOtaFrontFrame.Total_Byte = @sysvar::ADAS::Update_Byte_Size;
   hpcFrontOtaFrontFrame.Start_Byte_Offset = 0;
-  hpcFrontOtaFrontFrame.End_Byte_Offset = 1399;
-  for (i = 0; i < 1400; i++)
+  hpcFrontOtaFrontFrame.End_Byte_Offset = @sysvar::ADAS::Update_Byte_Size - 1;
+  for (i = 0; i < @sysvar::ADAS::Update_Byte_Size; i++)
   {
     hpcFrontOtaFrontFrame.Data[i] = i;
   }
   i = 0;
-  OtaFrontMsg.udp.setData(0, hpcFrontOtaFrontFrame);
-  OtaFrontMsg.CompletePacket();
-  output(OtaFrontMsg);
-  write("OtaFrontMsg sent at %d ms", 20 * counter_20ms); 
+  OtaMiddleMsg.udp.setData(0, hpcFrontOtaFrontFrame);
+  OtaMiddleMsg.CompletePacket();
+  output(OtaMiddleMsg);
+  write("[TX] [hpc->mid] OtaMiddleMsg sent at %d ms", 20 * counter_20ms); 
 }
 
 void initVariables()
@@ -566,4 +583,8 @@ void initAllUdpPackets()
   initUdpPacket(HPC_MAC_ADDR, MZCU_MAC_ADDR, HPC_IP_ADDR, MZCU_IP_ADDR,
                 HPC_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, HPC_TRANSMISSION_STATE_TX_PORT_ID, MIDDLE_TRANSMISSION_STATE_RX_PORT_ID);
   TransmissionMsg = globalEthPkt;
+  
+  initUdpPacket(HPC_MAC_ADDR, MZCU_MAC_ADDR, HPC_IP_ADDR, MZCU_IP_ADDR,
+                HPC_TX_PORT_BASE, MIDDLE_RX_PORT_BASE, HPC_OTA_ALARM_TX_PORT_ID, MIDDLE_OTA_ALARM_RX_PORT_ID);
+  OtaAlarmMsg = globalEthPkt;
 }

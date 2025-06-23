@@ -153,6 +153,7 @@ variables
     byte FrontZone_ECU_ID;   // FZCU VCU ABS MDPS MFS
     byte MiddleZone_ECU_ID;  // MZCU MBCU CLU HU HVAC
     byte RearZone_ECU_ID;    // RZCU RBCU USS MCU
+    byte Update_Byte_Size;
   };
   
   struct HpcFrontOtaFrontFrame { 

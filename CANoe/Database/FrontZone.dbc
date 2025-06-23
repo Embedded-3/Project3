@@ -81,7 +81,7 @@ BO_ 788 MDPS_Switch_STATUS_10MSG: 1 MDPS
 
 BO_ 770 MDPS_Steering_INFO_10MSG: 2 MDPS
  SG_ Steering_Torque : 8|8@1- (1,0) [-128|127] ""  FZCU
- SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] ""  FZCU
+ SG_ Steering_Angle : 0|8@1- (1,0) [-128|127] ""  FZCU
 
 BO_ 532 ABS_BrakeOutput_STATUS_10MSG: 1 ABS
  SG_ Brake_Output : 0|7@1+ (1,0) [0|100] ""  FZCU
@@ -116,7 +116,7 @@ BO_ 49 FZCU_WakeUp_CTL_MSG: 1 FZCU
 
 BO_ 17 FZCU_Steering_CTL_MSG: 2 FZCU
  SG_ Steering_Torque : 8|8@1- (1,0) [-128|127] ""  MDPS
- SG_ Steering_Angle : 0|6@1+ (1,0) [-30|30] ""  MDPS
+ SG_ Steering_Angle : 0|8@1- (1,0) [-128|127] ""  MDPS
 
 
 
@@ -156,8 +156,8 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgCycleTime" BO_ 372 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 628 20;

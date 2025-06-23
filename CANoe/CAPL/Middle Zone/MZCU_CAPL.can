@@ -134,6 +134,7 @@ variables
   byte rxMiddleUpdateID;
   byte rxRearUpdateID;
   byte rxOtaAlarmID;
+  byte rxOtaUpdateByteSize;
   byte rxOtaAssign;
   byte rxGear_Position;
   byte rxLKAS_On_Off;
@@ -463,6 +464,7 @@ on timer loop20ms
         break;
     }
     update_msg.Update_ID = rxOtaAlarmID;
+    update_msg.Update_Byte_Size = rxOtaUpdateByteSize; // update byte size 
     output(update_msg);
     //write("MZCU : [CAN] MZCU_AlertSpeaker_CTL_MSG");
     otaAlarmFlag = 0;
@@ -540,7 +542,7 @@ on ethernetPacket *
       if (OtaMiddleFrameReceived10ms) break;
       OtaMiddleFrameReceived10ms = 1;
       this.udp.GetData(0, rxOtaMiddleFrame);
-      //write("[RX] [hpc->middle] OTA MIDDLE GOGO");
+      write("[RX] [hpc->middle] OTA MIDDLE GOGO");
       for (i = 0; i < rxOtaMiddleFrame.Total_Byte; i += 8)
       {
         ota_value = 0;
@@ -554,21 +556,21 @@ on ethernetPacket *
         // MZCU MBCU CLU HU HVAC
         switch(rxOtaMiddleFrame.ECU_Select)
         {
-          case (1 << 7): // MZCU
+          case 7: // MZCU
             break;
-          case (1 << 6): // MBCU
+          case 6: // MBCU
             ota_mbcu_msg.MBCU_OTA = ota_value;
             output(ota_mbcu_msg);
             break;
-          case (1 << 5): // CLU
+          case 5: // CLU
             ota_clu_msg.CLU_OTA = ota_value;
             output(ota_clu_msg);
             break;
-          case (1 << 4): // HU
+          case 4: // HU
             ota_hu_msg.HU_OTA = ota_value;
             output(ota_hu_msg);
             break;
-          case (1 << 3): // HVAC
+          case 3: // HVAC
             ota_hvac_msg.HVAC_OTA = ota_value;
             output(ota_hvac_msg);
             break;
@@ -618,6 +620,10 @@ on ethernetPacket *
       if(OtaAlarmFrameFecieved20ms) break;
       OtaAlarmFrameFecieved20ms = 1;
       this.udp.GetData(0, rxOtaAlarmFrame);
+      rxFrontUpdateID = rxOtaAlarmFrame.FrontZone_ECU_ID;
+      rxMiddleUpdateID = rxOtaAlarmFrame.MiddleZone_ECU_ID;
+      rxRearUpdateID = rxOtaAlarmFrame.RearZone_ECU_ID;
+      rxOtaUpdateByteSize = rxOtaAlarmFrame.Update_Byte_Size;
       /*write("[RX] [hpc->middle] FrontZone_ECU_ID : %d, MiddleZone_ECU_ID : %d, RearZone_ECU_ID : %d", 
               rxOtaAlarmFrame.FrontZone_ECU_ID, 
               rxOtaAlarmFrame.MiddleZone_ECU_ID,

@@ -114,7 +114,8 @@ BO_ 34 MZCU_MotorRPM_INFO_20MSG: 4 MZCU
  SG_ Velocity : 16|16@1+ (1,0) [0|0] ""  CLU
  SG_ RPM : 0|16@1+ (1,0) [0|0] ""  CLU
 
-BO_ 1026 MZCU_UpdateAlarm_INFO_MSG: 1 MZCU
+BO_ 1026 MZCU_UpdateAlarm_INFO_MSG: 2 MZCU
+ SG_ Update_Byte_Size : 8|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Update_ID : 0|8@1+ (1,0) [0|255] ""  HU
 
 BO_ 850 HVAC_IntHumi_INFO_100MSG: 4 HVAC
@@ -223,8 +224,8 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "DatabaseVersion" "1.1";
 BA_ "BusType" "CAN";
+BA_ "DatabaseVersion" "1.1";
 BA_ "GenMsgCycleTime" BO_ 628 20;
 BA_ "GenMsgCycleTime" BO_ 884 20;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
@@ -261,6 +262,7 @@ BA_ "GenSigSendType" SG_ 82 DoorOpenClose_INFO 7;
 BA_ "GenSigSendType" SG_ 68 Battery_Status 7;
 BA_ "GenSigSendType" SG_ 34 Velocity 7;
 BA_ "GenSigSendType" SG_ 34 RPM 7;
+BA_ "GenSigSendType" SG_ 1026 Update_Byte_Size 7;
 BA_ "GenSigSendType" SG_ 1026 Update_ID 7;
 BA_ "GenSigSendType" SG_ 850 Internal_Humidity 7;
 BA_ "GenSigSendType" SG_ 834 Internal_Temperature 7;
