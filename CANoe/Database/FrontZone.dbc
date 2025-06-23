@@ -39,7 +39,7 @@ VAL_TABLE_ vtbErrorDescription 255 "ERROR" ;
 
 
 BO_ 272 VCU_MCU_CTL_10MSG: 2 VCU
- SG_ MCU_RPM_CTL : 0|16@1- (1,0) [-32768|32767] ""  FZCU
+ SG_ MCU_RPM_CTL : 0|16@1+ (1,0) [0|0] ""  FZCU
 
 BO_ 1124 MFS_OTAResult_STATUS_MSG: 1 MFS
  SG_ MFS_OTAResult : 0|1@1+ (1,0) [0|1] ""  FZCU
@@ -89,7 +89,7 @@ BO_ 532 ABS_BrakeOutput_STATUS_10MSG: 1 ABS
 BO_ 289 VCU_AccPedal_CTL_10MSG: 2 VCU
  SG_ Accel_Pedal_Pos : 0|7@1+ (1,0) [0|100] ""  FZCU
 
-BO_ 308 VCU_Transmission_STATUS_100MSG: 1 VCU
+BO_ 308 VCU_Gear_STATUS_100MSG: 1 VCU
  SG_ Gear_Position : 2|3@1+ (1,0) [0|5] ""  FZCU
  SG_ Drive_Mode : 0|2@1+ (1,0) [0|2] ""  FZCU
 
@@ -156,31 +156,20 @@ BA_DEF_DEF_  "GenMsgCycleTimeFast" 20;
 BA_DEF_DEF_  "GenMsgILSupport" "Yes";
 BA_DEF_DEF_  "GenMsgFastOnStart" 0;
 BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
-BA_ "BusType" "CAN";
 BA_ "DatabaseVersion" "1.1";
-BA_ "GenMsgSendType" BO_ 372 0;
+BA_ "BusType" "CAN";
 BA_ "GenMsgCycleTime" BO_ 372 20;
-BA_ "GenMsgSendType" BO_ 884 0;
 BA_ "GenMsgCycleTime" BO_ 884 20;
-BA_ "GenMsgSendType" BO_ 628 0;
 BA_ "GenMsgCycleTime" BO_ 628 20;
-BA_ "GenMsgSendType" BO_ 1140 0;
 BA_ "GenMsgCycleTime" BO_ 1140 20;
 BA_ "GenMsgCycleTime" BO_ 788 10;
-BA_ "GenMsgSendType" BO_ 788 0;
 BA_ "GenMsgCycleTime" BO_ 770 10;
-BA_ "GenMsgSendType" BO_ 770 0;
 BA_ "GenMsgCycleTime" BO_ 532 10;
-BA_ "GenMsgSendType" BO_ 532 0;
-BA_ "GenMsgSendType" BO_ 289 0;
 BA_ "GenMsgCycleTime" BO_ 289 10;
-BA_ "GenMsgSendType" BO_ 308 0;
 BA_ "GenMsgCycleTime" BO_ 308 100;
-BA_ "GenMsgSendType" BO_ 324 0;
 BA_ "GenMsgCycleTime" BO_ 324 100;
 BA_ "GenMsgCycleTime" BO_ 48 0;
 BA_ "GenMsgCycleTime" BO_ 32 0;
-BA_ "GenMsgSendType" BO_ 33 0;
 BA_ "GenMsgCycleTime" BO_ 33 10;
 BA_ "GenSigSendType" SG_ 272 MCU_RPM_CTL 7;
 BA_ "GenSigSendType" SG_ 1124 MFS_OTAResult 7;
@@ -188,19 +177,27 @@ BA_ "GenSigSendType" SG_ 868 MDPS_OTAResult 7;
 BA_ "GenSigSendType" SG_ 612 ABS_OTAResult 7;
 BA_ "GenSigSendType" SG_ 356 VCU_OTAResult 7;
 BA_ "GenSigSendType" SG_ 273 Brake_Pedal_Pos 7;
-BA_ "GenSigSendType" SG_ 372 VCU_Alive 7;
+BA_ "GenSigSendType" SG_ 372 VCU_Alive 5;
+BA_ "GenSigSendType" SG_ 884 MDPS_Alive 5;
+BA_ "GenSigSendType" SG_ 628 ABS_Alive 5;
+BA_ "GenSigSendType" SG_ 1140 MFS_Alive 5;
 BA_ "GenSigSendType" SG_ 817 RightTurnSignal 7;
 BA_ "GenSigSendType" SG_ 817 LeftTurnSignal 7;
 BA_ "GenSigSendType" SG_ 801 LowBeam 7;
 BA_ "GenSigSendType" SG_ 801 HighBeam 7;
+BA_ "GenSigSendType" SG_ 788 Mode_Button 7;
 BA_ "GenSigSendType" SG_ 770 Steering_Torque 7;
 BA_ "GenSigSendType" SG_ 770 Steering_Angle 7;
-BA_ "GenSigSendType" SG_ 289 Accel_Pedal_Pos 0;
+BA_ "GenSigSendType" SG_ 532 Brake_Output 7;
+BA_ "GenSigSendType" SG_ 289 Accel_Pedal_Pos 7;
+BA_ "GenSigSendType" SG_ 308 Gear_Position 7;
 BA_ "GenSigSendType" SG_ 308 Drive_Mode 7;
+BA_ "GenSigSendType" SG_ 324 Ignition_Status 7;
 BA_ "GenSigSendType" SG_ 68 MFS_OTA 7;
 BA_ "GenSigSendType" SG_ 48 MDPS_OTA 7;
 BA_ "GenSigSendType" SG_ 32 ABS_OTA 7;
 BA_ "GenSigSendType" SG_ 16 VCU_OTA 7;
+BA_ "GenSigSendType" SG_ 33 Brake_Control 7;
 BA_ "GenSigSendType" SG_ 49 FZCU_Wakeup 7;
 BA_ "GenSigSendType" SG_ 17 Steering_Torque 7;
 BA_ "GenSigSendType" SG_ 17 Steering_Angle 7;
