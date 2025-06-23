@@ -27,6 +27,7 @@ on timer loop
     message MDPS_Switch_STATUS_10MSG switch_msg;
     steering_msg.Steering_Angle = @sysvar::FRONT::MDPS::SteeringAngle;
     switch_msg.Mode_Button = @sysvar::FRONT::MDPS::ADAS_Button;
+    write("ADAS TEST : %d", switch_msg.Mode_Button);
     
     output(steering_msg);
     output(switch_msg); 

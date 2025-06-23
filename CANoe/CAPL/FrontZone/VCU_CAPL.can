@@ -15,7 +15,7 @@ variables
   message VCU_AccPedal_CTL_10MSG acc_msg; //X
   message VCU_BrakePedal_CTL_10MSG brk_msg; //X
   message VCU_VehicleStart_STATUS_100MSG ign_msg; // HPC
-  message VCU_Transmission_STATUS_100MSG trans_msg; // MZCU::CLU
+  message VCU_Gear_STATUS_100MSG trans_msg; // MZCU::CLU
   message VCU_MCU_CTL_10MSG mcu_msg;  
 }
 

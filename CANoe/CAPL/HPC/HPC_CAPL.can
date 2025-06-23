@@ -158,9 +158,14 @@ on timer loop20ms
   
   if(wakeupFlag == 0) return;
   counter_20ms++;
+  if(ADAS_OnOff_State == 0){
+    @sysvar::ADAS::ADAS_OnOff = 0;
+  }else{
+    @sysvar::ADAS::ADAS_OnOff = 1;
+  }
   
-  //================ADAS SimulationCALCULATE START==============//
   if(@sysvar::ADAS::Python_OnOff==0){
+    write("HPC ADAS [%d]", ADAS_OnOff_State);
     if (ADAS_OnOff_State & (1 << 7)) // LKAS ON
     {
       if (!leftTurnSignal && !rightTurnSignal)
