@@ -81,9 +81,15 @@ on message RZCU_Wheel_CTL_MSG
 {
   if(engineState)
   {
-    rpm =  this.RPM_CTL;
     transition = this.Transition_Status;
+    if(transition==0||transition==2){
+      velocity=0;
+      rpm = 0;
+    }else{
+      velocity = (rpm * 270) / 4000; 
+      rpm = this.RPM_CTL;
+    }
     // 속도 계산로직 
-    velocity = (rpm * 270) / 4000;
+    
   }
 }
