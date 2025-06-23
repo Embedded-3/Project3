@@ -197,7 +197,7 @@ on start
 
   setTimerCyclic(loopFlagInit5ms, 5);
   setTimerCyclic(loop20ms, 20);
-  setTimerCyclic(loop10ms, 10);
+  setTimerCyclic(loop10ms, 50);
   
   initUdpPacket(MZCU_MAC_ADDR, HPC_MAC_ADDR, MZCU_IP_ADDR, HPC_IP_ADDR,
                 MIDDLE_TX_PORT_BASE, HPC_RX_PORT_BASE, 

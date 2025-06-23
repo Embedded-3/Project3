@@ -562,9 +562,9 @@ void sendLEDOtaMessage()
   for (i = 0; i < 192; i += 2)
   {
     ota_value = 0;
-    ota_value = Ota_Data[i]; 
+    ota_value = Ota_Data[i+1]; 
     ota_value = (ota_value << 32);
-    ota_value |= Ota_Data[i+1];
+    ota_value |= Ota_Data[i];
     hpcMiddleOtaMiddleFrame.Data[i / 2] = ota_value;
   }
   i = 0;
