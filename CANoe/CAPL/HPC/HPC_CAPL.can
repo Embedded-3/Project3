@@ -193,13 +193,13 @@ on sysvar sysvar::ADAS::Update_Alarm
   {
     hpcMiddleOtaAlarmFrame.FrontZone_ECU_ID = 0;
     // MZCU MBCU ... -> MBCU 하드코딩
-    hpcMiddleOtaAlarmFrame.MiddleZone_ECU_ID = (1 << 6);
+    hpcMiddleOtaAlarmFrame.MiddleZone_ECU_ID = 6;
     hpcMiddleOtaAlarmFrame.RearZone_ECU_ID = 0;
-    hpcMiddleOtaAlarmFrame.Update_Byte_Size = @sysvar::ADAS::Update_Byte_Size;
-    OtaAlarmMsg.SetData(0, hpcMiddleOtaAlarmFrame);
+    hpcMiddleOtaAlarmFrame.Update_Byte_Size = 192; // hc
+    OtaAlarmMsg.udp.SetData(0, hpcMiddleOtaAlarmFrame);
     OtaAlarmMsg.CompletePacket();
     output(OtaAlarmMsg);
-    write("[TX] [hpc->mid] Ota Alarm Msg sent");
+    write("[TX] [hpc->mid] Ota Alarm Msg sent : %d", hpcMiddleOtaAlarmFrame.MiddleZone_ECU_ID);
   }
 }
 
