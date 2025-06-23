@@ -467,14 +467,14 @@ on ethernetPacket *
       if (HeadLampStatusFrameReceived20ms) break;
       HeadLampStatusFrameReceived20ms = 1;
       this.udp.GetData(0, rxHeadLampStatusFrame);
-      leftTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 7)) << 7;
-      rightTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 6)) << 6;
+      leftTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 7)) >> 7;
+      rightTurnSignal = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 6)) >> 6;
       
-      currentTurnLeftStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 7)) << 7;
-      currentTurnRightStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 6)) << 6;
-      currentBrakeLightStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 5)) << 5;
-      currentLowBeamOnOffStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 4)) << 4;
-      currentHighBeamOnOffStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 5)) << 5;
+      currentTurnLeftStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 7)) >> 7;
+      currentTurnRightStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 6)) >> 6;
+      currentBrakeLightStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 5)) >> 5;
+      currentLowBeamOnOffStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 4)) >> 4;
+      currentHighBeamOnOffStatus = (rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status & (1 << 5)) >> 5;
       
       write("[RX] [middle->hpc] CarState : %d, LeftHighBeam : %d, RightHighBeam : %d", 
             rxHeadLampStatusFrame.LeftFront_RightFront_BrakeLight_LowBeam_HighBeam_Status,
