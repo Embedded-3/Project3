@@ -61,7 +61,7 @@ int measure_ultrasonic_distance(void)
     float32 highTime = getHighTimeSecond(&g_driverTIM);
     g_distanceCm = (highTime * 34000.0f) / 2.0f;
 
-    print("거리: %d cm\n\r", (int)g_distanceCm);
+    //print("거리: %d cm\n\r", (int)g_distanceCm);
 
     return (int)g_distanceCm;
 }

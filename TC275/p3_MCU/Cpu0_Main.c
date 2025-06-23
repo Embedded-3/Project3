@@ -140,11 +140,30 @@ void AppTask10ms(void)
     2byte : 오른쪽 pwm
     1bit : 오른쪽 방향
     */
-    g_txMsg.id = 0x204;
-    g_txMsg.lengthCode = 4;
-    g_txMsg.data[0] = (uint32)((uint32)g_motor.pwm << 16 | (uint32)g_motor.speed);
-    g_txMsg.data[1] = (uint32)(0x00);
-    g_status = sendCanMessage();  // 메시지 전송
+
+    if(stTestCnt.u32nuCnt10ms % 5 != 0) {
+        g_txMsg.id = 0x204;
+        g_txMsg.lengthCode = 4;
+
+        g_txMsg.data[0] = (uint32)((uint32)g_motor.pwm << 16 | (uint32)(g_motor.speed * 5));
+        g_txMsg.data[1] = (uint32)(0x00);
+        g_status = sendCanMessage();  // 메시지 전송
+
+        // can 오류 : 정지
+        if(g_status == 32) {
+            g_motor.dir = GO_FRONT;
+            g_motor.pwm = 0;
+        }
+    }
+
+
+
+    // g_txMsg.id = 0x204;
+    // g_txMsg.lengthCode = 4;
+
+    // g_txMsg.data[0] = (uint32)((uint32)g_motor.pwm << 16 | (uint32)(g_motor.speed * 5));
+    // g_txMsg.data[1] = (uint32)(0x00);
+    // g_status = sendCanMessage();  // 메시지 전송
     
     static int i=0;
     if(i++ % 100 == 0) {
@@ -156,7 +175,7 @@ void AppTask10ms(void)
 
 
     /*------------------- 초음파 거리 측정 -----------------------*/
-    if(stTestCnt.u32nuCnt10ms % 50 == 0) { // 50ms 주기로 초음파 거리 측정
+    if(stTestCnt.u32nuCnt10ms % 5 == 0) { // 50ms 주기로 초음파 거리 측정
         int distance = measure_ultrasonic_distance();
 
         g_txMsg.id = 0x112;
@@ -166,8 +185,8 @@ void AppTask10ms(void)
         g_status = sendCanMessage();  // 메시지 전송
 
         static int i = 0;
-        if(i++ % 2 == 0) {
-            print("Distance: %d cm\n\r", distance);
+        if(i++ % 20 == 0) {
+            print("Distance: %d cm | can status : %d\n\r", distance, g_status);
         }
 
     }

@@ -35,14 +35,23 @@ RM := rm -rf
 -include Configurations/Debug/subdir.mk
 -include subdir.mk
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(C++M_DEPS)),)
+-include $(C++M_DEPS)
+endif
 ifneq ($(strip $(C++_DEPS)),)
 -include $(C++_DEPS)
+endif
+ifneq ($(strip $(CCM_DEPS)),)
+-include $(CCM_DEPS)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
 endif
 ifneq ($(strip $(CPP_DEPS)),)
 -include $(CPP_DEPS)
+endif
+ifneq ($(strip $(CXXM_DEPS)),)
+-include $(CXXM_DEPS)
 endif
 ifneq ($(strip $(CXX_DEPS)),)
 -include $(CXX_DEPS)
@@ -80,12 +89,17 @@ all: main-build
 main-build: p3_MCU.elf secondary-outputs
 
 # Tool invocations
-p3_MCU.elf: $(OBJS) makefile $(OPTIONAL_TOOL_DEPS)
+p3_MCU.elf: $(OBJS) makefile $(OPTIONAL_TOOL_DEPS) .p3_MCU.elf.opt
 	@echo 'Building target: $@'
 	@echo 'Invoking: TASKING Linker'
-	cctc --lsl-file="../Lcf_Tasking_Tricore_Tc.lsl" -Wl-Oc -Wl-OL -Wl-Ot -Wl-Ox -Wl-Oy -Wl--map-file="p3_MCU.map" -Wl-mc -Wl-mf -Wl-mi -Wl-mk -Wl-ml -Wl-mm -Wl-md -Wl-mr -Wl-mu --no-warnings= -Wl--error-limit=42 --fp-model=3 -lrt --lsl-core=vtc --exceptions --strict --anachronisms --force-c++ -Ctc27xd -o"p3_MCU.elf" -Wl-o"p3_MCU.hex:IHEX" $(OBJS)
+	cctc -f .p3_MCU.elf.opt
 	@echo 'Finished building target: $@'
 	@echo ' '
+
+.p3_MCU.elf.opt:
+	@argfile .p3_MCU.elf.opt --lsl-file="../Lcf_Tasking_Tricore_Tc.lsl" -Wl-Oc -Wl-OL -Wl-Ot -Wl-Ox -Wl-Oy -Wl--map-file="p3_MCU.map" -Wl-mc -Wl-mf -Wl-mi -Wl-mk -Wl-ml -Wl-mm -Wl-md -Wl-mr -Wl-mu --no-warnings= -Wl--error-limit=42 --fp-model=3 -lrt --lsl-core=vtc --exceptions --strict --anachronisms --force-c++ -Ctc27xd -o"p3_MCU.elf" -Wl-o"p3_MCU.hex:IHEX" $(OBJS)
+
+.PHONY: .p3_MCU.elf.opt
 
 p3_MCU.siz: p3_MCU.elf makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Invoking: Print Size'

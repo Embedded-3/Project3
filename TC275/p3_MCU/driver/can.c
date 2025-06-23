@@ -31,7 +31,7 @@ void initCan(void)
 
   nodeConfig.nodeId = IfxMultican_NodeId_0;       // Node0 사용
   nodeConfig.baudrate = 500000; //250000;                   // 250kbps 설정
-  nodeConfig.samplePoint = 8000;                  // 샘플 포인트 80%
+  nodeConfig.samplePoint = 8000; //6250; //8000;                  // 샘플 포인트 80%
   nodeConfig.rxPin = &IfxMultican_RXD0B_P20_7_IN; // RX 핀 (P20.7)
   nodeConfig.txPin = &IfxMultican_TXD0_P20_8_OUT; // TX 핀 (P20.8)
   nodeConfig.rxPinMode = IfxPort_InputMode_pullUp;
@@ -56,8 +56,8 @@ void initCan(void)
   IfxMultican_Can_MsgObj_initConfig(&rxMsgConfig, &g_canNode);
 
   rxMsgConfig.msgObjId = 1;      // 오브젝트 ID 1
-  rxMsgConfig.messageId = 0; // 수신 ID는 의미 없음
-  rxMsgConfig.acceptanceMask = 0; // 0이면 '모든 ID' 허용
+  rxMsgConfig.messageId = 0x11; //0; // 수신 ID는 의미 없음
+  rxMsgConfig.acceptanceMask = 0x7FF; //0; // 0이면 '모든 ID' 허용
   rxMsgConfig.frame = IfxMultican_Frame_receive;
   rxMsgConfig.control.messageLen = IfxMultican_DataLengthCode_8;
 
@@ -98,8 +98,8 @@ void canReceiveLoop()
         // 수신 성공
         if (status & IfxMultican_Status_newData)
         {
-            print("[CAN 수신] -> ID: 0x%X  ---  \n\r", g_rxMsg.id);
-            print("raw data : [0] : 0x%X | [1]: 0x%X\n\r", g_rxMsg.data[0], g_rxMsg.data[1]);
+            //print("[CAN 수신] -> ID: 0x%X  ---  \n\r", g_rxMsg.id);
+            //print("raw data : [0] : 0x%X | [1]: 0x%X\n\r", g_rxMsg.data[0], g_rxMsg.data[1]);
 
             switch(g_rxMsg.id) {
                 // case 0x555:
@@ -110,13 +110,13 @@ void canReceiveLoop()
                 /*----------------------- 모터 제어 수신 -------------------------*/
                 case 0x11: // 모터 제어
                 // 0부터 받나? 1이 나중?
-                    print("raw data : [0] : 0x%X | [1]: 0x%X\n\r", g_rxMsg.data[0], g_rxMsg.data[1]);
+                    //print("raw data : [0] : 0x%X | [1]: 0x%X\n\r", g_rxMsg.data[0], g_rxMsg.data[1]);
 
                     // 모터 pwm
                     g_motor.pwm = (g_rxMsg.data[0] >> 0) & 0xFFFF; // 16 비트
 
                     // 모터 방향 by 기어
-                    switch((g_rxMsg.data[0] >> 16) & 0x3) { // 3bit
+                    switch((g_rxMsg.data[0] >> 16) & 0x7) { // 3bit
                         case 0x0: case 0x2: case 0x3: // 전진 : P, N, D
                             g_motor.dir = GO_FRONT;
                             break;
