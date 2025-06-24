@@ -129,11 +129,19 @@
 
 
 ## CANoe
-![canoe_pannel](img/canoe_pannel.png)
+### panel
+![canoe_panel](img/canoe_panel.png)
 
+###  HPC ~ Zone
 ![canoe_ethernet](img/canoe_ethernet.png)
+
+### Front Zone
 ![canoe_frontzone](img/canoe_frontzone.png)
+
+### Middle Zone
 ![canoe_middlezone](img/canoe_middlezone.png)
+
+### Rear Zone
 ![canoe_rearzone](img/canoe_rearzone.png)
 
 ---
