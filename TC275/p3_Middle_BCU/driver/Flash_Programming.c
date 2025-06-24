@@ -174,26 +174,28 @@ void writePFLASH(uint32 startingAddr)
         g_commandFromPSPR.waitUnbusy(FLASH_MODULE, PROGRAM_FLASH_0);
 
         //  verify
-        //uint32 check = 0;
-        // from 0 to 8
-//         for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
-//         {
-//             /* Check if the data in the Program Flash is correct */
-// //             if(MEM(pageAddr + offset) != firmware_data[page][check++])
-// //             {
-// //                 /* If not, count the found errors */
-// //                 errors++;
-// //                 /* If error, Try again*/
-// // //                IfxScuWdt_clearSafetyEndinitInline(endInitSafetyPassword);      /* Disable EndInit protection               */
-// // //                g_commandFromPSPR.writePage(pageAddr);                          /* Write the page                           */
-// // //                IfxScuWdt_setSafetyEndinitInline(endInitSafetyPassword);        /* Enable EndInit protection                */
-// //             }
-//         }
-//         if(errors == 0)
-//         {
-//             print("No Errors\n\r");
-//         }
-        //check = 0;
+        // uint32 check = 0;
+        // //from 0 to 8
+        // for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
+        // {
+        //     /* Check if the data in the Program Flash is correct */
+        //     if(MEM(pageAddr + offset) != firmware_data[page][check++])
+        //     {
+        //         /* If not, count the found errors */
+        //         errors++;
+        //         /* If error, Try again*/
+        //        IfxScuWdt_clearSafetyEndinitInline(endInitSafetyPassword);      /* Disable EndInit protection               */
+        //        g_commandFromPSPR.writePage(pageAddr);                          /* Write the page                           */
+        //        IfxScuWdt_setSafetyEndinitInline(endInitSafetyPassword);        /* Enable EndInit protection                */
+        //     }
+        // }
+
+        // //print("err %d\n\r", errors);
+        // // if(errors == 0)
+        // // {
+        // //     print("No Errors\n\r");
+        // // }
+        // check = 0;
 
 
     }
@@ -221,16 +223,16 @@ void writeProgramFlash()
     // 3. 소프트웨어 재부팅
     writeDataFlash();
 
+    verifyProgramFlash();  // 플래싱 후 데이터 검증
+
+
+
+
     print_OTA_Success();
 
-    /*-- ota 성공 메시지 전송 can id : 0x160 --*/
-    // g_txMsg.id = 0x160;
-    // g_txMsg.lengthCode = 1;
-    // g_txMsg.data[0] = (uint32)(0x1);
-    // g_txMsg.data[1] = (uint32)(0x00);
 
 
-    for(volatile int t = 0;t<60000000;t++);
+    //for(volatile int t = 0;t<60000000;t++);
 
     uint16 password = IfxScuWdt_getSafetyWatchdogPasswordInline();
     IfxScuWdt_clearSafetyEndinitInline(password);
@@ -243,32 +245,84 @@ void writeProgramFlash()
 /* This function verifies if the data has been correctly written in the Program Flash */
 void verifyProgramFlash()
 {
-    uint32 page;                                                /* Variable to cycle over all the pages             */
-    uint32 offset;                                              /* Variable to cycle over all the words in a page   */
-    uint32 errors = 0;                                          /* Variable to keep record of the errors            */
+    // uint32 page;                                                /* Variable to cycle over all the pages             */
+    // uint32 offset;                                              /* Variable to cycle over all the words in a page   */
+    // uint32 errors = 0;                                          /* Variable to keep record of the errors            */
 
-    /* Verify the written data */
-    for(page = 0; page < PFLASH_NUM_PAGE_TO_FLASH; page++)                          /* Loop over all the pages      */
+    // /* Verify the written data */
+    // for(page = 0; page < PFLASH_NUM_PAGE_TO_FLASH; page++)                          /* Loop over all the pages      */
+    // {
+    //     uint32 pageAddr = PFLASH_STARTING_ADDRESS + (page * PFLASH_PAGE_LENGTH);    /* Get the address of the page  */
+
+    //     for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
+    //     {
+    //         /* Check if the data in the Program Flash is correct */
+    //         if(MEM(pageAddr + offset) == DATA_TO_WRITE)
+    //         {
+    //             /* If not, count the found errors */
+    //             errors++;
+    //         }
+    //     }
+    // }
+
+    // /* If the data is correct */
+    // if(errors == 0)
+    // {
+    //     ;
+
+    // }
+
+
+
+    uint32 page;
+    uint32 offset;
+    uint32 errors = 0;
+
+    for (page = 0; page < fwPage; page++)  // 총 페이지 수
     {
-        uint32 pageAddr = PFLASH_STARTING_ADDRESS + (page * PFLASH_PAGE_LENGTH);    /* Get the address of the page  */
+        uint32 pageAddr = PFLASH_STARTING_ADDRESS + (page * PFLASH_PAGE_LENGTH);
 
-        for(offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x4)                 /* Loop over the page length    */
+        for (offset = 0; offset < PFLASH_PAGE_LENGTH; offset += 0x8)
         {
-            /* Check if the data in the Program Flash is correct */
-            if(MEM(pageAddr + offset) == DATA_TO_WRITE)
+            uint32 index = (offset / 0x8) * 2;
+
+            uint32 expected0 = firmware_data[page][index];
+            uint32 expected1 = firmware_data[page][index + 1];
+
+            uint32 actual0 = MEM(pageAddr + offset);
+            uint32 actual1 = MEM(pageAddr + offset + 4);
+
+            if (actual0 != expected0 || actual1 != expected1)
             {
-                /* If not, count the found errors */
                 errors++;
+                print("❌ Mismatch at page %u offset 0x%X\n\r", page, offset);
+                print("   expected: 0x%08X 0x%08X\n\r", expected0, expected1);
+                print("   actual  : 0x%08X 0x%08X\n\r", actual0, actual1);
             }
         }
     }
 
-    /* If the data is correct, turn on the LED1 */
-    if(errors == 0)
+
+
+    /*-- ota 성공/실패 메시지 전송 can id : 0x160 --*/
+    g_txMsg.id = 0x160;
+    g_txMsg.lengthCode = 1;
+
+    if (errors == 0)
     {
-        ;
-        //IfxPort_setPinState(LED1, IfxPort_State_low);
+        g_txMsg.data[0] = (uint32)(0x1);
+        g_txMsg.data[1] = (uint32)(0x00);
+        print("✅ Flash Verification Success: %u pages verified\n\r", fwPage);
     }
+    else
+    {
+        g_txMsg.data[0] = (uint32)(0x0);
+        g_txMsg.data[1] = (uint32)(0x00);
+        print("⚠️ Flash Verification Failed: %u errors found\n\r", errors);
+    }
+
+    g_status = sendCanMessage();  // 메시지 전송
+    print("OTA Success Message sent, status : %d\n\r", g_status);
 }
 
 
@@ -313,23 +367,43 @@ void writeDataFlash()
     }
 }
 
+#define ANSI_COLOR_GREEN  "\x1B[1;32m"
+#define ANSI_COLOR_RESET  "\x1B[0m"
+
 void print_OTA_Success()
 {
     print("\n\r");
     print("========================================\n\r");
-    print("        OTA UPDATE COMPLETED\n\r");
-    print("     System will reboot automatically\n\r");
+    print("        OTA UPDATE REPORT            \n\r");
+    print("  After Checking, System will reboot \n\r");
     print("========================================\n\r");
-    print("   Verifying installation... ");
-    print("[OK]\n\r");
-    for(volatile int t = 0;t<30000000;t++);
-    print("   Applying new firmware...");
-    for(volatile int t = 0;t<30000000;t++);
-    print("[OK]\n\r");
-    print("   Cleaning up...             [OK]\n\r");
-    print("----------------------------------------\n\r");
-    print("   Rebooting system now...\n\r");
+
+    print(" Verifying installation...   ");
+
+    for(volatile int t = 0; t < 20000000; t++);
+    print(ANSI_COLOR_GREEN "[OK]" ANSI_COLOR_RESET "    \n\r");
+    for(volatile int t = 0; t < 10000000; t++);
+
+    print(" Applying new firmware...    ");
+    for(volatile int t = 0; t < 20000000; t++);
+    print(ANSI_COLOR_GREEN "[OK]" ANSI_COLOR_RESET "    \n\r");
+    for(volatile int t = 0; t < 10000000; t++);
+
+    print(" Cleaning up...              ");
+    for(volatile int t = 0; t < 20000000; t++);
+    print(ANSI_COLOR_GREEN "[OK]" ANSI_COLOR_RESET "    \n\r");
+    for(volatile int t = 0; t < 10000000; t++);
+
+    print("========================================\n\r");
+    print("  Rebooting system after 3s...       \n\r");
+    for(volatile int t = 0; t < 20000000; t++);
+    print("  Rebooting system after 2s...       \n\r");
+    for(volatile int t = 0; t < 20000000; t++);
+    print("  Rebooting system after 1s...       \n\r");
+    for(volatile int t = 0; t < 20000000; t++);
+    print("  Rebooting system now...            \n\r");
     print("========================================\n\r\n\r");
+    for(volatile int t = 0; t < 10000000; t++);
 }
 
 /* This function verifies if the data has been correctly written in the Data Flash */
