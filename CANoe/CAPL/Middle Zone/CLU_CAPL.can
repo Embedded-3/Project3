@@ -29,6 +29,19 @@ on message MZCU_WakeUp_CTL_MSG
   }else if(!isSleeping && !this.WakeUpSignal){
     isSleeping = 1;
     $CLU_Alive = 0;
+    @sysvar::MIDDLE::CLU::ADAS::ADB_Status = 0;
+    @sysvar::MIDDLE::CLU::ADAS::ESA_Status = 0;
+    @sysvar::MIDDLE::CLU::ADAS::LKAS_Status = 0;
+    @sysvar::MIDDLE::CLU::LIGHT::BrakeLight = 0;
+    @sysvar::MIDDLE::CLU::LIGHT::HighBeam_ONOFF = 0;
+    @sysvar::MIDDLE::CLU::LIGHT::LowBeam_ONOFF = 0;
+    @sysvar::MIDDLE::CLU::LIGHT::RightFront_Light = 0;
+    @sysvar::MIDDLE::CLU::LIGHT::LeftFront_Light = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status = 0;
+    @sysvar::MIDDLE::CLU::MOTORRPM::CarSpeed = 0;
+    @sysvar::MIDDLE::CLU::MOTORRPM::Motor_RPM = 0;
+    @sysvar::MIDDLE::CLU::Transmission_Status = 0;
   }
 }
 

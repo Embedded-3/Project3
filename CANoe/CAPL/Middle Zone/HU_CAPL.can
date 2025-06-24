@@ -29,6 +29,9 @@ on message MZCU_WakeUp_CTL_MSG
   }else if(!isSleeping && !this.WakeUpSignal){
     isSleeping = 1;
     $HU_Alive = 0;
+    @sysvar::MIDDLE::HU::OTA_Staus = 0;
+    @sysvar::MIDDLE::HU::HVAC::Aircon_OnOff = 0;
+    @sysvar::MIDDLE::HU::Emergency = 0;
   }
 }
 

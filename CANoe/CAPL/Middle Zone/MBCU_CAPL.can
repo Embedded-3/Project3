@@ -72,6 +72,15 @@ on message MZCU_WakeUp_CTL_MSG
   }else if(!isSleeping && !this.WakeUpSignal){
     isSleeping = 1;
     $MBCU_Alive = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::BrakeLight_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::HighBeam_ONOFF_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftHighBeam_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::LeftTurnLight_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::LowBeam_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::RightHighBeam_Status = 0;
+    @sysvar::MIDDLE::MBCU::HLAMP::RightTurnLight_Status = 0;
+    @sysvar::MIDDLE::MBCU::Alert_Status = 0;
+    @sysvar::MIDDLE::MBCU::LampSteering = 0;
   }
 }
 

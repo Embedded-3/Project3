@@ -48,6 +48,9 @@ on message RZCU_WakeUp_CTL_MSG
     write("RBCU: Stop.");
     // RBCU_Alive 시그널 -> 0
     $RBCU_Alive = 0;
+    @sysvar::REAR::RBCU::BrakeLight = 0;
+    @sysvar::REAR::RBCU::LR_TurnSignalLight = 0;
+    @sysvar::REAR::RBCU::RR_TurnSignalLight = 0;
   }
 }
 
