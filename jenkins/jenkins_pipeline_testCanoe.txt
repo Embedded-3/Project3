@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+        // 경로 및 파일 이름 정의
+        SCRIPT_DIR = 'D:\\'
+        SCRIPT_FILE = 'Test_CANoe.py'   //''test6.py'
+        PYTHON_EXE = 'C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\python.exe' // 또는 'C:/Python311/python.exe' 처럼 절대경로
+    }
+
+    stages {
+        stage('Check Script Exists') {
+            steps {
+                dir("${SCRIPT_DIR}") {
+                    echo "📂 ${SCRIPT_DIR} 내 파일 목록 확인:"
+                    bat 'git config --global --add safe.directory "D:/CANoe_Test"'
+                    bat 'dir'
+
+                    script {
+                        def fileExists = fileExists("${SCRIPT_FILE}")
+                        if (!fileExists) {
+                            error "❌ ${SCRIPT_FILE} 파일이 존재하지 않습니다."
+                        } else {
+                            echo "✅ ${SCRIPT_FILE} 파일 존재 확인됨."
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Run Python Script') {
+            steps {
+                dir("${SCRIPT_DIR}") {
+                    echo "🚀 Python 스크립트 실행 중..."
+                    bat "${PYTHON_EXE} ${SCRIPT_FILE}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "🎉 파이프라인 성공"
+        }
+        failure {
+            echo "⚠️ 파이프라인 실패"
+        }
+    }
+}
