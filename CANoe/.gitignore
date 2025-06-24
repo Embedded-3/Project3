@@ -24,7 +24,7 @@
 *_report.html
 *_report.xml
 *_report/
-*.vtestreport*
+
 Report_*.settings
 
 portlink1.pre
