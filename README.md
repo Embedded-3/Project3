@@ -131,6 +131,7 @@
 ## CANoe
 ![canoe_pannel](img/canoe_pannel.png)
 
+![canoe_ethernet](img/canoe_ethernet.png)
 ![canoe_frontzone](img/canoe_frontzone.png)
 ![canoe_middlezone](img/canoe_middlezone.png)
 ![canoe_rearzone](img/canoe_rearzone.png)
