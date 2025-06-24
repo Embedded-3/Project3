@@ -311,13 +311,13 @@ on ethernetPacket *
       write("[RX] [hpc->rear] Wake up message called");
       
       // rear ecu all wake up msg send
-      rzcu_wakeup_ctl_msg.RearZone_WakeUp = rxWakeUpFrame.WakeUp_ALL_ECU;
+      rzcu_wakeup_ctl_msg.RearZone_WakeUp = wakeupFlag;
       output(rzcu_wakeup_ctl_msg);
       write("[rzcu -> peripherals] wake up message sent");
       
       //vehicle start can msg send
       //txCanIgnition_Status = 3; // START
-      rzcu_vehiclestart_ctl_msg.Ignition_Status = rxWakeUpFrame.WakeUp_ALL_ECU;
+      rzcu_vehiclestart_ctl_msg.Ignition_Status = wakeupFlag;
       output(rzcu_vehiclestart_ctl_msg);
       write("[rzcu -> rearzone] ignition Status = %u", rzcu_vehiclestart_ctl_msg.Ignition_Status);
       if(!rxWakeUpFrame.WakeUp_ALL_ECU){
