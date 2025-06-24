@@ -1,12 +1,66 @@
-# Project3
-ADAS CANoe
+# Zonal Architecture기반 자동 조향 시스템
 
 
+
+## 👥 팀원 소개
+
+| 배정우 | 조현호 | 박주현 | 김호준 | 김서진 | 박해웅 |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| [@jwjungwoo](https://github.com/jwjungwoo) | [@178kg78cm](https://github.com/178kg78cm) | [@ian125](https://github.com/ian125) | [@kimhojun2](https://github.com/kimhojun2) | [@loltochess](https://github.com/loltochess) | [@seabears](https://github.com/seabears) |
+
+---
+
+## 프로젝트 구조
+
+📦 HPC (상위 통합 제어 ECU)  
+
+├── 📂 Front  
+│   ├── Front ZCU (게이트웨이)  
+│   │  
+│   ├── VCU  
+│   │   └── 페달 입력 (가속, 브레이크), 변속기 입력  
+│   │  
+│   ├── ABS  
+│   │   └── 브레이크 제어  
+│   │  
+│   ├── MDPS  
+│   │   └── 스티어링 및 헤드램프 버튼 입력  
+│   │  
+│   └── MFS  
+│       └── 전방 카메라  
+
+├── 📂 Middle  
+│   ├── Middle ZCU (게이트웨이)  
+│   │  
+│   ├── Middle BCU (바디 제어)  
+│   │   ├── 헤드램프 제어  
+│   │   └── 스피커 제어  
+│   │  
+│   ├── CLU  
+│   │   └── 클러스터 (계기판)  
+│   │  
+│   ├── HU  
+│   │   └── 헤드유닛 (오디오/미디어)  
+│   │  
+│   └── HVAC  
+│       └── 공조 시스템  
+
+├── 📂 Rear  
+│   ├── Rear ZCU (게이트웨이)  
+│   │  
+│   ├── Rear BCU  
+│   │   └── 테일 램프 제어  
+│   │  
+│   ├── USS  
+│   │   └── 후방 초음파 센서  
+│   │  
+│   └── MCU 
+│       └── 후륜 모터 제어 및 RPM 측정  
 
 
 ---
 
-## ✅ 시스템 요약
+## 시스템 요약
 
 ### 🔧 Front MDPS
 
@@ -72,3 +126,13 @@ ADAS CANoe
 
 ---
 
+
+
+## CANoe
+![canoe_pannel](img/canoe_pannel.png)
+
+![canoe_frontzone](img/canoe_frontzone.png)
+![canoe_middlezone](img/canoe_middlezone.png)
+![canoe_rearzone](img/canoe_rearzone.png)
+
+---
