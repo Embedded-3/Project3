@@ -433,7 +433,7 @@ on timer loop20ms
   if(steeringFlag){
     steering_ctl_msg.SteeringAngle_CTL = rxSteeringAngle;
     output(steering_ctl_msg);
-    //write("MZCU : [CAN] MZCU_SteeringAngle_CTL_20MSG");
+    write("MZCU : [CAN] MZCU_SteeringAngle_CTL_20MSG");
     steeringFlag = 0;
   }
   // MZCU_AlertSpeaker_CTL_MSG alert_msg : ALLCAN_ESA_RX_PORT_ID

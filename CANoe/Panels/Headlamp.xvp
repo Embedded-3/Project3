@@ -5,7 +5,7 @@
       <Property Name="Name">X8a582a1aea497e4b34e8fe5e8efe827dd621</Property>
       <Property Name="Size">202, 65</Property>
       <Property Name="Location">213, 189</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::MBCU::HLAMP;;;LeftHighBeam_Status;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;SteeringAngle;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\AEB.bmp</Property>
       <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">13</Property>
@@ -22,7 +22,7 @@
       <Property Name="Name">Xfa0745e0e7992e4b81ea8dbe2114f27fda6b</Property>
       <Property Name="Size">202, 65</Property>
       <Property Name="Location">10, 189</Property>
-      <Property Name="SymbolConfiguration">8;16;MIDDLE::MBCU::HLAMP;;;RightHighBeam_Status;1;;;-1;;;Value;;;0</Property>
+      <Property Name="SymbolConfiguration">8;16;FRONT::MDPS;;;SteeringAngle;1;;;-1;;;Value;;;0</Property>
       <Property Name="ImageFile">bmp\AEB.bmp</Property>
       <Property Name="IsProportional">False</Property>
       <Property Name="TabIndex">12</Property>
