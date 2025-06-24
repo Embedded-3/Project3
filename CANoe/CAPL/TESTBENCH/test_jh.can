@@ -1,0 +1,122 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  // 필요시 헤더나 외부 파일 include 가능
+}
+
+
+variables {
+
+  const dword kWAIT_TIMEOUT = 500; 
+  int LoopVar;
+  int WaitResult;
+  
+  message VCU_AccPedal_CTL_10MSG VCU_Accel;
+  message VCU_BrakePedal_CTL_10MSG VCU_Brake;
+
+}
+
+void MainTest() 
+{ 
+  testPreparation();
+  Test1();
+} 
+
+void testPreparation() 
+{ 
+  /* Add Description of Test Module */ 
+  TestModuleDescription("CANoe test cases written in CAPL."); 
+  /* Add Information into Test engineer Information Table */ 
+  TestReportAddEngineerInfo("Company", "Hudai Mobility School Cohort 3 team 3."); 
+  TestReportAddEngineerInfo("Tester name", "Juhyun"); 
+  TestReportAddSetupInfo("CANoe", "Version 19.0"); 
+  TestReportAddSetupInfo("vTestStudio", "Version -.0"); 
+  TestReportAddSUTInfo ("SUT", "OTA ECU"); 
+} 
+
+testfunction PreConditions() 
+{ 
+  testStep("Pre-cond","Start"); 
+  testStep("","Set Ignition to ON"); 
+  // Set Ignition to ON 
+  @sysvar::FRONT::VCU::Ignition = 1;
+  
+  testWaitForTimeout(500); 
+  testStep("Pre-cond","End"); 
+} 
+
+testfunction PostConditions() 
+{ 
+  testStep("Post-cond","Start"); 
+  testStep("","Set Ignition to OFF"); 
+  // Set Ignition to OFF 
+  @sysvar::FRONT::VCU::Ignition = 1;
+  testWaitForTimeout(500); 
+  testStep("Post-cond","End"); 
+}
+
+
+testcase Test1() {
+  TestCaseTitle("Verify System", "Pedals & Light"); 
+  PreConditions(); 
+
+  // 1. 액셀 페달 검증
+  testStep("Test Step 1", "Push Accel Pedal"); 
+  for(LoopVar = 0; LoopVar < 10; LoopVar++) 
+  {
+    testStep("Start","Push Accel Pedal to position %d",LoopVar); 
+    @sysvar::FRONT::VCU::Accel_Pedal = LoopVar;
+    WaitResult = TestWaitForMessage(VCU_AccPedal_CTL_10MSG, kWAIT_TIMEOUT); 
+    switch(WaitResult) 
+    { 
+      case 0: TestStepFail("Message not received"); 
+        break; 
+      case 1: 
+        // Retrieve the message data of “VCU_Accel” 
+        TestGetWaitEventMsgData(VCU_Accel); 
+        // Check if Actual Accel position = Calculated Accel position 
+        if(VCU_Accel.Accel_Pedal_Pos == LoopVar) 
+          TestStepPass("","Accel Pedal Position is to position %d -> %d", LoopVar, VCU_Accel.Accel_Pedal_Pos); 
+        else 
+          TestStepFail("","Accel Pedal Position is to position %d -> %d", LoopVar, VCU_Accel.Accel_Pedal_Pos);
+        break; 
+      default:  
+          TestStepFail("Failed for other reasons"); 
+    } 
+    
+    @sysvar::FRONT::VCU::Accel_Pedal = 0;
+  } 
+  TestReportAddWindowCapture("Trace", "" , "Accel Pedal"); 
+  traceWindowClear("Trace"); 
+  testWaitForTimeout(kWAIT_TIMEOUT);
+  //2. 브레이크 페달 검증
+  testStep("Test Step 2", "Push Brake Pedal"); 
+  for(LoopVar = 0; LoopVar < 10; LoopVar++) 
+  {
+    testStep("Start","Push Brake Pedal to position %d",LoopVar);
+    @sysvar::FRONT::VCU::Brake_Pedal = LoopVar;
+    WaitResult = TestWaitForMessage(VCU_BrakePedal_CTL_10MSG, kWAIT_TIMEOUT); 
+    switch(WaitResult) 
+    { 
+      case 0: TestStepFail("Message not received"); 
+        break; 
+      case 1: 
+        // Retrieve the message data of “VCU_Brake” 
+        TestGetWaitEventMsgData(VCU_Brake); 
+        // Check if Actual Brake position = Calculated Brake position 
+        if(VCU_Brake.Brake_Pedal_Pos == LoopVar) 
+          TestStepPass("","Brake Pedal : %d -> %d", LoopVar, VCU_Brake.Brake_Pedal_Pos); 
+        else 
+          TestStepFail("","Brake Pedal : %d -> %d",LoopVar, VCU_Brake.Brake_Pedal_Pos);
+        break; 
+      default:  
+          TestStepFail("Failed for other reasons"); 
+    } 
+  }
+  TestReportAddWindowCapture("Trace", "" , "Brake Pedal"); 
+  traceWindowClear("Trace"); 
+  testWaitForTimeout(kWAIT_TIMEOUT);
+  PostConditions();
+}
+
+
