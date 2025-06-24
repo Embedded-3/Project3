@@ -289,6 +289,11 @@ on timer loop10ms
     write("FZCU : [CAN][LKAS] SteeringAngle : %d", steering_msg.Steering_Angle);
   }
 
+  if(@sysvar::FRONT::MDPS::ADAS_Button == 0)
+  {
+    steering_msg.Steering_Angle = frontHpcCarControl10msFrame.User_Steering_Angle;
+    output(steering_msg);
+  }
 }
 
 on timer loop20ms
