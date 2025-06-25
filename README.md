@@ -157,3 +157,10 @@
 ### 3. Rear Zone : MCU(모터 제어, 속도 측정)
 ![MDPS](img/MCU.png)
 
+
+
+
+---
+
+## 시연 영상
+[https://www.youtube.com/watch?v=PfmI9DAC4Zo](https://www.youtube.com/watch?v=PfmI9DAC4Zo)
