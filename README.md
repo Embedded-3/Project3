@@ -145,3 +145,15 @@
 ![canoe_rearzone](img/canoe_rearzone.png)
 
 ---
+
+## CANoe와 연결한 HW
+
+### Front Zone : MDPS(조향 제어)
+![MDPS](img/MDPS.png)
+
+### Middle Zone : MBCU(상향등, OTA)
+![MDPS](img/MBCU.png)
+
+### Rear Zone : MCU(모터 제어, 속도 측정)
+![MDPS](img/MCU.png)
+
