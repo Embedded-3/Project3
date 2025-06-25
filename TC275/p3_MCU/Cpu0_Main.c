@@ -176,6 +176,7 @@ void AppTask10ms(void)
 
     /*------------------- 초음파 거리 측정 -----------------------*/
     if(stTestCnt.u32nuCnt10ms % 5 == 0) { // 50ms 주기로 초음파 거리 측정
+        //for(volatile int i=0;i<10000;i++);
         int distance = measure_ultrasonic_distance();
 
         g_txMsg.id = 0x112;
