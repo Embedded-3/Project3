@@ -129,31 +129,31 @@
 
 
 ## CANoe
-### panel
+### 1. panel
 ![canoe_panel](img/canoe_panel.png)
 
-###  HPC ~ Zone
+### 2. HPC ~ Zone
 ![canoe_ethernet](img/canoe_ethernet.png)
 
-### Front Zone
+### 3. Front Zone
 ![canoe_frontzone](img/canoe_frontzone.png)
 
-### Middle Zone
+### 4. Middle Zone
 ![canoe_middlezone](img/canoe_middlezone.png)
 
-### Rear Zone
+### 5. Rear Zone
 ![canoe_rearzone](img/canoe_rearzone.png)
 
 ---
 
 ## CANoe와 연결한 HW
 
-### Front Zone : MDPS(조향 제어)
+### 1. Front Zone : MDPS(조향 제어)
 ![MDPS](img/MDPS.png)
 
-### Middle Zone : MBCU(상향등, OTA)
+### 2. Middle Zone : MBCU(상향등, OTA)
 ![MDPS](img/MBCU.png)
 
-### Rear Zone : MCU(모터 제어, 속도 측정)
+### 3. Rear Zone : MCU(모터 제어, 속도 측정)
 ![MDPS](img/MCU.png)
 
